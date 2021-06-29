@@ -1,0 +1,3 @@
+
+
+declare module 'bootstrap/js/src/collapse' {}

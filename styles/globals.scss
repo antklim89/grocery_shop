@@ -22,7 +22,14 @@ a {
   flex-direction: column;
   height: 100vh;
 
+  > * {
+    flex-shrink: 0;
+  }
   > *:not(footer):not(header) {
     flex-grow: 1;
   }
+}
+
+p {
+  white-space: pre-wrap;
 }

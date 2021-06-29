@@ -62,6 +62,7 @@ module.exports = {
         'no-console': 0,
         'max-len': [1, { code: 120, ignoreComments: true }],
         'no-restricted-syntax': ['error', 'WithStatement'],
+        camelcase: 0,
 
         'jsx-a11y/anchor-is-valid': 0,
     },

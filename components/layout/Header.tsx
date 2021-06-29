@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 import styles from './Header.module.scss';
@@ -8,6 +9,8 @@ export default function Header(): JSX.Element {
     useEffect(() => {
         import('bootstrap/js/src/collapse');
     }, []);
+
+    const { asPath } = useRouter();
 
     return (
         <header className={`navbar navbar-expand-lg navbar-dark bg-dark ${styles.root}`}>
@@ -34,12 +37,12 @@ export default function Header(): JSX.Element {
                     <ul className="navbar-nav m-0">
                         <li className="nav-item">
                             <Link href="/">
-                                <a className="nav-link active">HOME</a>
+                                <a className={`nav-link ${asPath === '/' ? 'active' : ''}`}>HOME</a>
                             </Link>
                         </li>
                         <li className="nav-item">
                             <Link href="/about">
-                                <a className="nav-link">ABOUT</a>
+                                <a className={`nav-link ${asPath === '/about' ? 'active' : ''}`}>ABOUT</a>
                             </Link>
                         </li>
                     </ul>
