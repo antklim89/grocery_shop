@@ -1,0 +1,8 @@
+@use '~/styles/bootstrap' as *;
+
+
+.root {
+    p {
+        color: $color-contrast-light;
+    }
+}

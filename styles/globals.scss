@@ -1,3 +1,5 @@
+@import "./bootstrap.scss";
+
 html,
 body {
   padding: 0;
@@ -13,4 +15,14 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+#__next {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  > *:not(footer):not(header) {
+    flex-grow: 1;
+  }
 }
