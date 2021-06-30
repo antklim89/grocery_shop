@@ -2,6 +2,7 @@ import { GetStaticProps } from 'next';
 
 import AboutUs from '~/components/about/AboutUs';
 import Features from '~/components/about/Features';
+import Seo from '~/components/Seo';
 import { AboutAsProps, IFeature } from '~/types';
 
 
@@ -13,6 +14,7 @@ interface AboutUsPageProps {
 export default function aboutUs({ about, features }: AboutUsPageProps): JSX.Element {
     return (
         <main>
+            <Seo title="AboutUs" />
             <AboutUs {...about} />
             <Features features={features} />
         </main>
@@ -20,10 +22,12 @@ export default function aboutUs({ about, features }: AboutUsPageProps): JSX.Elem
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-    const about: AboutAsProps = await fetch(`${process.env.API_URL}/about-us`).then((d) => d.json());
-    about.image.url = `${process.env.API_URL}${about.image.url}`;
+    const [about, features] = await Promise.all([
+        fetch(`${process.env.API_URL}/about-us`).then<AboutAsProps>((d) => d.json()),
+        fetch(`${process.env.API_URL}/features`).then<IFeature[]>((d) => d.json()),
+    ]);
 
-    const features: IFeature[] = await fetch(`${process.env.API_URL}/features`).then((d) => d.json());
+    about.image.url = `${process.env.API_URL}${about.image.url}`;
     for (const feature of features) {
         feature.image.url = `${process.env.API_URL}${feature.image.url}`;
     }

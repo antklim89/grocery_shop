@@ -1,14 +1,10 @@
-import Head from 'next/head';
+import Seo from '~/components/Seo';
 
 
 export default function Home(): JSX.Element {
     return (
         <>
-            <Head>
-                <title>Grocery shop</title>
-                <meta content="Grocery shop" name="description" />
-                <link href="/favicon.ico" rel="icon" />
-            </Head>
+            <Seo title="Home" />
 
             <main>CONTENT</main>
         </>
