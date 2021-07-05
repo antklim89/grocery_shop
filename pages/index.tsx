@@ -1,7 +1,7 @@
 import { GetStaticProps } from 'next';
 
 import Hero from '~/components/about/Hero';
-import Seo from '~/components/Seo';
+import Seo from '~/components/utils/Seo';
 import { HeroProps } from '~/types';
 
 

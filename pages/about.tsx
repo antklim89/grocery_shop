@@ -2,7 +2,7 @@ import { GetStaticProps } from 'next';
 
 import AboutUs from '~/components/about/AboutUs';
 import Features from '~/components/about/Features';
-import Seo from '~/components/Seo';
+import Seo from '~/components/utils/Seo';
 import { AboutAsProps, IFeature } from '~/types';
 
 

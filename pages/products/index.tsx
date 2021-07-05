@@ -1,7 +1,7 @@
 import { GetStaticProps } from 'next';
 
 import ProductsList from '~/components/products/ProductsList';
-import Seo from '~/components/Seo';
+import Seo from '~/components/utils/Seo';
 import { IProduct } from '~/types';
 
 
