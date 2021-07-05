@@ -30,13 +30,12 @@ export default function ProductCard({
                 <div className="card-body d-flex flex-column justify-content-between">
                     <h2 className="card-title">{name}</h2>
                     <p className="card-text flex-shrink-0">
-                        <Price discount={discount} price={price} />
-                        {' '}
-                        for
-                        {' '}
-                        <big>{unit}</big>
-                        {' '}
-                        {measure}
+                        <Price
+                            discount={discount}
+                            measure={measure}
+                            price={price}
+                            unit={unit}
+                        />
                     </p>
                     <Link href={`/products/${id}`}>
                         <a className="btn btn-outline-primary">View Details</a>

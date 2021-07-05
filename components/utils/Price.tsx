@@ -1,7 +1,26 @@
 import { getPrice } from '~/utils';
 
 
-export function Price({ price, discount }: { price: number; discount: number; }): JSX.Element {
+interface Props {
+    price: number;
+    discount: number;
+    unit: number;
+    measure: string;
+}
+
+export function Price({
+    price, discount, unit, measure,
+}: Props): JSX.Element {
+    const rest = (
+        <>
+            {' '}
+            for
+            {' '}
+            <big>{unit}</big>
+            {' '}
+            {measure}
+        </>
+    );
     return (
         <>
             {discount && discount > 0 ? (
@@ -15,6 +34,7 @@ export function Price({ price, discount }: { price: number; discount: number; })
                         {getPrice(price, discount)}
                         $
                     </big>
+                    {rest}
                 </span>
             ) : (
                 <span>
@@ -22,6 +42,7 @@ export function Price({ price, discount }: { price: number; discount: number; })
                         {price}
                         $
                     </big>
+                    {rest}
                 </span>
             )}
         </>

@@ -17,20 +17,38 @@ export default function ProductCarousel({ images }: PropTypes): JSX.Element {
         <div className="carousel slide" data-bs-ride="carousel" id="images-carousel">
             <div className="carousel-inner">
                 {images.map((img, index) => (
-                    <div className={`carousel-item${index === 1 ? ' active' : ''}`} key={img.id}>
+                    <div className={`carousel-item${index === 0 ? ' active' : ''}`} key={img.id}>
                         <Image
-                            alt={img.alternativeText}
+                            alt={img.alternativeText || `carousel-image-${index + 1}`}
                             blurDataURL={img.formats.thumbnail.url}
-                            className="d-block w-100"
-                            height={500}
-                            layout="fixed"
+                            className="img-fluid"
+                            height={720}
+                            objectPosition="center"
                             placeholder="blur"
                             src={img.url}
-                            width={500}
+                            width={1200}
                         />
                     </div>
                 ))}
             </div>
+            <button
+                className="carousel-control-prev bg-transparent-25"
+                data-bs-slide="prev"
+                data-bs-target="#images-carousel"
+                type="button"
+            >
+                <span aria-hidden className="carousel-control-prev-icon" />
+                <span className="visually-hidden">Previous</span>
+            </button>
+            <button
+                className="carousel-control-next bg-transparent-25"
+                data-bs-slide="next"
+                data-bs-target="#images-carousel"
+                type="button"
+            >
+                <span aria-hidden className="carousel-control-next-icon" />
+                <span className="visually-hidden">Next</span>
+            </button>
         </div>
     );
 }
