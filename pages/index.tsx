@@ -11,11 +11,11 @@ interface IndexPageProps {
 
 export default function Home({ hero }: IndexPageProps): JSX.Element {
     return (
-        <main>
+        <>
             <Seo title="Home" />
             <Hero {...hero} />
             <section>CONTENT</section>
-        </main>
+        </>
     );
 }
 

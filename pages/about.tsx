@@ -13,11 +13,11 @@ interface AboutUsPageProps {
 
 export default function aboutUs({ about, features }: AboutUsPageProps): JSX.Element {
     return (
-        <main>
+        <>
             <Seo title="AboutUs" />
             <AboutUs {...about} />
             <Features features={features} />
-        </main>
+        </>
     );
 }
 

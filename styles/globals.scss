@@ -22,10 +22,11 @@ a {
   flex-direction: column;
   height: 100vh;
 
-  > * {
+  > footer, > header {
     flex-shrink: 0;
   }
-  > *:not(footer):not(header) {
+
+  > main {
     flex-grow: 1;
   }
 }
