@@ -1,14 +1,15 @@
 import { GetStaticProps } from 'next';
 
+import ProductsList from '~/components/products/ProductsList';
+import Seo from '~/components/Seo';
 import { Product } from '~/types';
 
 
-export default function Catalog({ products }: {products: Product[]}): JSX.Element {
+export default function Products({ products }: {products: Product[]}): JSX.Element {
     return (
         <>
-            {products.map((product) => (
-                <p key={product.id}>{product.name}</p>
-            ))}
+            <Seo title="Cataolog" />
+            <ProductsList products={products} />
         </>
     );
 }

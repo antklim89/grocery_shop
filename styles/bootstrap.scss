@@ -1,12 +1,13 @@
 
-$primary: #009d00;
-$secondary: lightgrey;
+$primary: #00af00;
+$secondary: white;
 // $success: $green;
 // $info: $cyan;
 // $warning: $yellow;
 // $danger: $red;
 $light: lighten($primary, 10);
 $dark: darken($primary, 2);
+
 
 // @import "../node_modules/bootstrap/scss/bootstrap.scss";
 // Configuration
@@ -53,3 +54,19 @@ $dark: darken($primary, 2);
 // // Utilities
 @import "../node_modules/bootstrap/scss/utilities/api";
 
+
+.btn-primary,
+.btn-secondary {
+    color: $color-contrast-light;
+
+    &:hover {
+        color: $color-contrast-light;
+    }
+}
+
+.btn-outline-primary,
+.btn-outline-secondary {
+    &:hover {
+        color: $color-contrast-light;
+    }
+}

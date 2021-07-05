@@ -39,8 +39,8 @@ export default function Header(): JSX.Element {
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link href="/catalog">
-                                <a className={`nav-link ${asPath === '/catalog' ? 'active' : ''}`}>CATALOG</a>
+                            <Link href="/products">
+                                <a className={`nav-link ${asPath === '/products' ? 'active' : ''}`}>PRODUCTS</a>
                             </Link>
                         </li>
                         <li className="nav-item">

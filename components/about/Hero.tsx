@@ -19,7 +19,7 @@ export default function Hero({ image, title, text }: HeroProps): JSX.Element {
                 <div className="container">
                     <h1 className="text-center fs-1 text-light">{title}</h1>
                     <p className="text-center d-none d-md-block fs-1 text-light">{text}</p>
-                    <Link passHref href="/catalog">
+                    <Link passHref href="/products">
                         <button className="btn btn-outline-light btn-lg d-block mx-auto" type="button">
                             Get Catalog
                         </button>
