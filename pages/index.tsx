@@ -1,12 +1,31 @@
+import { GetStaticProps } from 'next';
+
+import Hero from '~/components/about/Hero';
 import Seo from '~/components/Seo';
+import { HeroProps } from '~/types';
 
 
-export default function Home(): JSX.Element {
+interface IndexPageProps {
+    hero: HeroProps
+}
+
+export default function Home({ hero }: IndexPageProps): JSX.Element {
     return (
-        <>
+        <main>
             <Seo title="Home" />
-
-            <main>CONTENT</main>
-        </>
+            <Hero {...hero} />
+            <section>CONTENT</section>
+        </main>
     );
 }
+
+export const getStaticProps: GetStaticProps = async () => {
+    const [hero] = await Promise.all([
+        fetch(`${process.env.API_URL}/hero`).then<HeroProps>((d) => d.json()),
+    ]);
+    hero.image.url = `${process.env.API_URL}${hero.image.url}`;
+
+    return {
+        props: { hero },
+    };
+};
