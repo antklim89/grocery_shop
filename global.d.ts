@@ -1,3 +1,3 @@
 
 
-declare module 'bootstrap/js/src/collapse' {}
+declare module 'bootstrap/js/src/*' {}

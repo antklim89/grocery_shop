@@ -1,10 +1,10 @@
 import ProductCard from './ProductCard';
 
-import { Product } from '~/types';
+import { IProduct } from '~/types';
 
 
 interface PropTypes {
-    products: Product[]
+    products: IProduct[]
 }
 
 export default function ProductsList({ products }: PropTypes): JSX.Element {

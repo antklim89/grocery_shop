@@ -1,12 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { Product } from '~/types';
+import { IProduct } from '~/types';
 
 
 export default function ProductCard({
-    name, price, country, id, type,
-}: Product): JSX.Element {
+    name, price, country, id, type, mainImage,
+}: IProduct): JSX.Element {
     return (
         <div className="col-3">
             <article className="card">
@@ -19,9 +19,11 @@ export default function ProductCard({
                 </span>
                 <Image
                     alt={name}
+                    blurDataURL={mainImage.formats.thumbnail.url}
                     className="card-img-top"
                     height={272}
-                    src="/a.jpg"
+                    placeholder="blur"
+                    src={mainImage.url}
                     width={400}
                 />
                 <div className="card-body">
@@ -30,7 +32,7 @@ export default function ProductCard({
                         Price: $
                         {price}
                     </p>
-                    <Link href={`/product/${id}`}>
+                    <Link href={`/products/${id}`}>
                         <a className="btn btn-outline-primary">View Details</a>
                     </Link>
                 </div>

@@ -1,7 +1,7 @@
 import { StrapiImage } from '~/types';
 
 
-export interface Product {
+export interface IProduct {
     id: number;
     name: string;
     description: string;
@@ -14,4 +14,6 @@ export interface Product {
     updated_at: string;
     mainImage: StrapiImage;
     images: StrapiImage[];
+    unit: number;
+    measure: string;
 }
