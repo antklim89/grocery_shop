@@ -2,8 +2,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
-import styles from './Header.module.scss';
-
 
 export default function Header(): JSX.Element {
     useEffect(() => {
@@ -13,7 +11,7 @@ export default function Header(): JSX.Element {
     const { asPath } = useRouter();
 
     return (
-        <header className={`navbar navbar-expand-lg navbar-dark bg-dark ${styles.root}`}>
+        <header className="navbar navbar-expand-lg navbar-dark bg-dark shadow">
             <div className="container">
                 <Link href="/">
                     <a className="navbar-brand" href="/">
@@ -38,6 +36,11 @@ export default function Header(): JSX.Element {
                         <li className="nav-item">
                             <Link href="/">
                                 <a className={`nav-link ${asPath === '/' ? 'active' : ''}`}>HOME</a>
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link href="/catalog">
+                                <a className={`nav-link ${asPath === '/catalog' ? 'active' : ''}`}>CATALOG</a>
                             </Link>
                         </li>
                         <li className="nav-item">
