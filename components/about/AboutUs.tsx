@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import ReactMarkdown from 'react-markdown';
 
 import { AboutAsProps } from '~/types';
 
@@ -18,7 +19,7 @@ export default function AboutUs({ title, image, body }: AboutAsProps): JSX.Eleme
                     />
                 </div>
                 <div className="col-lg">
-                    <p>{body}</p>
+                    <ReactMarkdown>{body}</ReactMarkdown>
                 </div>
             </div>
         </section>
