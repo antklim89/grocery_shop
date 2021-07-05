@@ -17,7 +17,7 @@ export default function Features({ features }: {features: IFeature[]}): JSX.Elem
                                 height={272}
                                 objectFit="cover"
                                 src={feature.image.url}
-                                width={100}
+                                width={400}
                             />
                             <div>
                                 <h3 className="card-title text-center text-uppercase">{feature.title}</h3>
