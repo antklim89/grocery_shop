@@ -14,7 +14,7 @@ export default function Header(): JSX.Element {
         <header className="navbar navbar-expand-lg navbar-dark bg-dark shadow">
             <div className="container">
                 <Link href="/">
-                    <a className="navbar-brand" href="/">
+                    <a className="navbar-brand">
                         GROCERY SHOP
                     </a>
                 </Link>
