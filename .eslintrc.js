@@ -45,6 +45,7 @@ module.exports = {
         'react/jsx-filename-extension': [1, { extensions: ['.tsx', '.jsx'] }],
         'react/jsx-no-duplicate-props': [2, { ignoreCase: false }],
         'react/react-in-jsx-scope': 0,
+        'react/require-default-props': 0,
 
         '@typescript-eslint/no-shadow': 2,
         '@typescript-eslint/no-unused-vars': [1, { argsIgnorePattern: '^_' }],

@@ -9,16 +9,19 @@ export default function Hero({ image, title, text }: HeroProps): JSX.Element {
         <section className="position-relative">
             <Image
                 alt="hero"
-                height="60vh"
+                blurDataURL={`/_next/image?url=${image.url}&w=640&q=10`}
+                className="img-fluid d-block mx-auto"
+                height={500}
                 layout="responsive"
                 objectFit="cover"
+                placeholder="blur"
                 src={image.url}
-                width="100%"
+                width={1280}
             />
             <div className="mx-auto position-absolute top-50 translate-middle-y w-100">
-                <div className="container">
+                <div className="w-50 mx-auto">
                     <h1 className="text-center fs-1 text-light">{title}</h1>
-                    <p className="text-center d-none d-md-block fs-1 text-light">{text}</p>
+                    <p className="text-center d-none d-lg-block fs-1 text-light">{text}</p>
                     <Link passHref href="/products">
                         <button className="btn btn-outline-light btn-lg d-block mx-auto" type="button">
                             Get Catalog

@@ -15,9 +15,11 @@ export default function Features({ features }: {features: IFeature[]}): JSX.Elem
                             <section className="card bg-white text-dark h-100">
                                 <Image
                                     alt={feature.title}
+                                    blurDataURL={`/_next/image?url=${feature.image.url}&w=640&q=10`}
                                     className="card-img-top"
                                     height={198}
                                     objectFit="cover"
+                                    placeholder="blur"
                                     src={feature.image.url}
                                     width={400}
                                 />

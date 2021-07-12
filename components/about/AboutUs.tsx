@@ -12,8 +12,10 @@ export default function AboutUs({ title, image, body }: AboutAsProps): JSX.Eleme
                 <div className="col-lg">
                     <Image
                         alt="about"
+                        blurDataURL={`/_next/image?url=${image.url}&w=640&q=10`}
                         height={600}
                         objectFit="cover"
+                        placeholder="blur"
                         src={image.url}
                         width={1000}
                     />

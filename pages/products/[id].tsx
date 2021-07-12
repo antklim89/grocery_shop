@@ -38,15 +38,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps<ProductPageProps, {id: string}> = async ({ params }) => {
     const product = await fetch(`${process.env.API_URL}/products/${params?.id}`).then<IProduct>((d) => d.json());
 
-    product.mainImage.url = `${process.env.API_URL}${product.mainImage.url}`;
-    product.mainImage.formats.thumbnail.url = `${process.env.API_URL}${product.mainImage.formats.thumbnail.url}`;
-
-    for (const image of product.images) {
-        image.url = `${process.env.API_URL}${image.url}`;
-        image.formats.thumbnail.url = `${process.env.API_URL}${image.formats.thumbnail.url}`;
-    }
-
-
     return {
         props: {
             product,

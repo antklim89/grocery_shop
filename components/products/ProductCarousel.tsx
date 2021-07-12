@@ -20,7 +20,7 @@ export default function ProductCarousel({ images }: PropTypes): JSX.Element {
                     <div className={`carousel-item${index === 0 ? ' active' : ''}`} key={img.id}>
                         <Image
                             alt={img.alternativeText || `carousel-image-${index + 1}`}
-                            blurDataURL={img.formats.thumbnail.url}
+                            blurDataURL={`/_next/image?url=${img.url}&w=640&q=10`}
                             className="img-fluid"
                             height={720}
                             objectPosition="center"

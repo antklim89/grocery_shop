@@ -20,7 +20,7 @@ export default function ProductCard({
                 </span>
                 <Image
                     alt={name}
-                    blurDataURL={mainImage.formats.thumbnail.url}
+                    blurDataURL={`/_next/image?url=${mainImage.url}&w=640&q=10`}
                     className="card-img-top"
                     height={272}
                     placeholder="blur"

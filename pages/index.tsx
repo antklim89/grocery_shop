@@ -23,7 +23,6 @@ export const getStaticProps: GetStaticProps = async () => {
     const [hero] = await Promise.all([
         fetch(`${process.env.API_URL}/hero`).then<HeroProps>((d) => d.json()),
     ]);
-    hero.image.url = `${process.env.API_URL}${hero.image.url}`;
 
     return {
         props: { hero },

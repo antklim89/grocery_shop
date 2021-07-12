@@ -27,10 +27,6 @@ export const getStaticProps: GetStaticProps = async () => {
         fetch(`${process.env.API_URL}/features`).then<IFeature[]>((d) => d.json()),
     ]);
 
-    about.image.url = `${process.env.API_URL}${about.image.url}`;
-    for (const feature of features) {
-        feature.image.url = `${process.env.API_URL}${feature.image.url}`;
-    }
 
     return {
         props: {
