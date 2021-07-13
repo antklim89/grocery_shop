@@ -8,7 +8,6 @@ export default function Features({ features }: {features: IFeature[]}): JSX.Elem
     return (
         <section className="mb-5 py-2 bg-dark text-white">
             <div className="container">
-                <h1 className="text-center">Features</h1>
                 <div className="row g-2">
                     {features.map((feature) => (
                         <div className="col-xl-3 col-md-6 col-xs-12 align-items-stretch" key={feature.id}>

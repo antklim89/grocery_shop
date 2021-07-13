@@ -5,7 +5,11 @@ import Seo from '~/components/utils/Seo';
 import { IProduct } from '~/types';
 
 
-export default function ProductsPage({ products }: {products: IProduct[]}): JSX.Element {
+interface Props {
+    products: IProduct[];
+}
+
+export default function ProductsPage({ products }: Props): JSX.Element {
     return (
         <>
             <Seo title="Products" />
