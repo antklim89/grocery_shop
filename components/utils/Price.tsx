@@ -26,7 +26,7 @@ export function Price({
             {discount && discount > 0 ? (
                 <span>
                     <del>
-                        {price}
+                        {price.toFixed(2)}
                         $
                     </del>
                     {' '}
@@ -39,7 +39,7 @@ export function Price({
             ) : (
                 <span>
                     <big>
-                        {price}
+                        {price.toFixed(2)}
                         $
                     </big>
                     {rest}

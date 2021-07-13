@@ -46,6 +46,8 @@ module.exports = {
         'react/jsx-no-duplicate-props': [2, { ignoreCase: false }],
         'react/react-in-jsx-scope': 0,
         'react/require-default-props': 0,
+        'react/destructuring-assignment': 0,
+        'react-hooks/exhaustive-deps': 0,
 
         '@typescript-eslint/no-shadow': 2,
         '@typescript-eslint/no-unused-vars': [1, { argsIgnorePattern: '^_' }],
