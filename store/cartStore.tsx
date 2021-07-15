@@ -1,4 +1,4 @@
-import { cartItemStore } from './cartItemStore';
+import { createCartItemStore } from './cartItemStore';
 
 import { CartStore } from '~/types';
 
@@ -33,7 +33,7 @@ export const cartStore: CartStore = {
     },
 
     setCurrentProduct(product) {
-        const currentProduct = this.products?.find((i) => i.id === product.id) || cartItemStore(product);
+        const currentProduct = this.products?.find((i) => i.id === product.id) || createCartItemStore(product);
         this.currentProduct = currentProduct;
         return this.currentProduct;
     },
