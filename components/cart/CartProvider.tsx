@@ -1,51 +1,41 @@
-import {
-    createContext, useState, useEffect, ReactChild,
-} from 'react';
+import { useLocalObservable, observer } from 'mobx-react-lite';
+import { createContext, ReactChild, useEffect } from 'react';
 
-import { CartItem, CartContext } from '~/types';
-
-
-export const Context = createContext({} as CartContext);
+import { cartItemStore } from '~/store/cartItemStore';
+import { cartStore } from '~/store/cartStore';
 
 
 const isBrowser = typeof window !== 'undefined';
 
-export default function CartProvider({ children }: { children: ReactChild[]}): JSX.Element {
-    const [products, setPoducts] = useState<CartItem[]>([]);
-    const [productsLoaded, setProductsLoaded] = useState(false);
+
+export const Context = createContext(cartStore);
+
+function CartProvider({ children }: { children: ReactChild[]}): JSX.Element {
+    const cart = useLocalObservable(() => cartStore);
 
     useEffect(() => {
-        if (isBrowser) {
-            const data = localStorage.getItem('grocery-shop-cart');
-            if (data) setPoducts(JSON.parse(data));
-            setProductsLoaded(true);
+        if (!isBrowser) return;
+        const dataStr = localStorage.getItem('STOOOOOOOOORE');
+        if (!dataStr) return;
+        const dataParsed = JSON.parse(dataStr);
+        if (dataParsed) {
+            const dataCart = dataParsed.map(cartItemStore);
+            cart.replace(dataCart);
+        } else {
+            cart.replace([]);
         }
     }, []);
 
+
     useEffect(() => {
-        if (isBrowser) localStorage.setItem('grocery-shop-cart', JSON.stringify(products));
-    }, [products]);
-
-    const toggle = (product: CartItem) => {
-        setPoducts((prev) => {
-            const isProductInCart = prev.find((p) => p.id === product.id);
-            if (isProductInCart) return prev.filter((i) => i !== product);
-            return [...prev, product];
-        });
-    };
-
-    const update = (itemToUpdate: CartItem) => {
-        setPoducts((prev) => prev.map((i) => (i.id === itemToUpdate.id ? itemToUpdate : i)));
-    };
+        if (isBrowser) localStorage.setItem('STOOOOOOOOORE', JSON.stringify(cart.products));
+    }, [JSON.stringify(cart.products)]);
 
     return (
-        <Context.Provider value={{
-            products, toggle, update, productsLoaded,
-        }}
-        >
+        <Context.Provider value={cart}>
             {children}
         </Context.Provider>
     );
 }
 
-
+export default observer(CartProvider);

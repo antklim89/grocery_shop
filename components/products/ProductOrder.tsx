@@ -1,9 +1,8 @@
-import {
-    useState, ChangeEvent, FormEvent, useEffect,
-} from 'react';
+import { Observer } from 'mobx-react-lite';
+import { ChangeEvent, FormEvent } from 'react';
 
 import { Price } from '~/components/utils/Price';
-import { IProduct, CartItem } from '~/types';
+import { IProduct } from '~/types';
 import { useCart } from '~/utils/useCart';
 
 
@@ -14,22 +13,12 @@ export default function ProductOrder(product: IProduct): JSX.Element {
 
     const cart = useCart();
 
-    const [cartItem, setCartItem] = useState<CartItem | null>(null);
+    const cartItem = cart.setCurrentProduct({ id, product, qty: unit });
 
-    useEffect(() => {
-        if (cartItem) cart.update(cartItem);
-    }, [cartItem]);
-
-    useEffect(() => {
-        const item = cart.products.find((i) => i.id === id);
-        setCartItem(item || { id, product, qty: unit });
-    }, [cart.productsLoaded]);
-
-    const isProductInCart = cart.products && cart.products.find((p) => p.id === id);
 
     const handleQteChange = (e: ChangeEvent<HTMLInputElement>): void => {
         const qty = Number(e.target.value);
-        if (cartItem) setCartItem({ ...cartItem, qty });
+        cartItem.changeQty(qty);
     };
 
     const handleOrder = (e: FormEvent<HTMLFormElement>) => {
@@ -75,24 +64,33 @@ export default function ProductOrder(product: IProduct): JSX.Element {
                 <p><big className="text-uppercase">{country}</big></p>
             </div>
 
-            <form className="d-flex flex-column justify-content-end flex-column flex-grow-1" onSubmit={handleOrder}>
+            <form
+                className="d-flex flex-column justify-content-end flex-column flex-grow-1"
+                onSubmit={handleOrder}
+            >
                 <label className="form-label my-2" htmlFor="qte">
                     Quantity: (
                     {measure}
                     )
-                    <input
-                        className="form-control"
-                        id="qte"
-                        type="number"
-                        value={cartItem.qty}
-                        onChange={handleQteChange}
-                    />
+                    <Observer>
+                        {() => (
+                            <input
+                                className="form-control"
+                                id="qte"
+                                type="number"
+                                value={cartItem.qty}
+                                onChange={handleQteChange}
+                            />
+                        )}
+                    </Observer>
                 </label>
-                {isProductInCart ? (
-                    <input className="btn btn-primary my-2" type="submit" value="Remove from Cart" />
-                ) : (
-                    <input className="btn btn-primary my-2" type="submit" value="Place to Cart" />
-                )}
+                <Observer>
+                    {() => (cart.exists(id) ? (
+                        <input className="btn btn-primary my-2" type="submit" value="Remove from Cart" />
+                    ) : (
+                        <input className="btn btn-primary my-2" type="submit" value="Place to Cart" />
+                    ))}
+                </Observer>
             </form>
         </div>
     );
