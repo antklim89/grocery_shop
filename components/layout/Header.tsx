@@ -48,6 +48,16 @@ export default function Header(): JSX.Element {
                                 <a className={`nav-link ${asPath === '/about' ? 'active' : ''}`}>ABOUT</a>
                             </Link>
                         </li>
+                        <li className="nav-item">
+                            <Link href="/signin">
+                                <a className={`nav-link ${asPath === '/signin' ? 'active' : ''}`}>Sign In</a>
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link href="/login">
+                                <a className={`nav-link ${asPath === '/login' ? 'active' : ''}`}>Log In</a>
+                            </Link>
+                        </li>
                     </ul>
                 </nav>
             </div>
