@@ -10,7 +10,7 @@ export default function Hero({ image, title, text }: HeroProps): JSX.Element {
         <section className="position-relative">
             <Image
                 alt="hero"
-                blurDataURL={`/_next/image?url=${image.url}&w=640&q=10`}
+                blurDataURL={`/_next/image?url=${image.url}&w=16&q=1`}
                 className="img-fluid d-block mx-auto"
                 height={500}
                 layout="responsive"

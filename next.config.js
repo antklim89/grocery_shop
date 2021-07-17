@@ -1,17 +1,17 @@
 module.exports = {
     reactStrictMode: true,
     images: {
-        domains: ['localhost', '192.168.90.19'],
+        domains: [process.env.NEXT_PUBLIC_API_URL],
     },
     async rewrites() {
         return [
             {
                 source: '/uploads/:path*',
-                destination: `${process.env.API_URL}/uploads/:path*`,
+                destination: `${process.env.NEXT_PUBLIC_API_URL}/uploads/:path*`,
             },
             {
                 source: '/api/:path*',
-                destination: `${process.env.API_URL}/api/:path*`,
+                destination: `${process.env.NEXT_PUBLIC_API_URL}/api/:path*`,
             },
         ];
     },
