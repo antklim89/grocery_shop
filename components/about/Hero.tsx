@@ -6,17 +6,18 @@ import { HeroProps } from '~/types';
 
 
 export default function Hero({ image, title, text }: HeroProps): JSX.Element {
+    console.debug('||image: \n', image);
     return (
         <section className="position-relative">
             <Image
                 alt="hero"
-                blurDataURL={`/_next/image?url=${image.url}&w=16&q=1`}
+                blurDataURL={`${process.env.NEXT_PUBLIC_API_URL}${image.formats.thumbnail.url}`}
                 className="img-fluid d-block mx-auto"
                 height={500}
                 layout="responsive"
                 objectFit="cover"
                 placeholder="blur"
-                src={image.url}
+                src={`${process.env.NEXT_PUBLIC_API_URL}${image.url}`}
                 width={1280}
             />
             <div className={`${style.text} p-2 mx-auto position-absolute top-50 translate-middle-y w-100`}>
