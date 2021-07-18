@@ -9,22 +9,24 @@ export default function Features({ features }: {features: IFeature[]}): JSX.Elem
         <section className="mb-5 py-2 bg-dark text-white">
             <div className="container">
                 <div className="row g-2">
-                    {features.map((feature) => (
-                        <div className="col-xl-3 col-md-6 col-xs-12 align-items-stretch" key={feature.id}>
+                    {features.map(({
+                        feature, image, title, id,
+                    }) => (
+                        <div className="col-xl-3 col-md-6 col-xs-12 align-items-stretch" key={id}>
                             <section className="card bg-white text-dark h-100">
                                 <Image
-                                    alt={feature.title}
-                                    blurDataURL={`/_next/image?url=${feature.image.url}&w=640&q=10`}
+                                    alt={title}
+                                    blurDataURL={`${process.env.NEXT_PUBLIC_API_URL}${image.formats.thumbnail.url}`}
                                     className="card-img-top"
                                     height={198}
                                     objectFit="cover"
                                     placeholder="blur"
-                                    src={feature.image.url}
+                                    src={`${process.env.NEXT_PUBLIC_API_URL}${image.url}`}
                                     width={400}
                                 />
                                 <div className="card-body">
-                                    <h3 className="card-title text-center text-uppercase">{feature.title}</h3>
-                                    <ReactMarkdown className="card-text">{feature.feature}</ReactMarkdown>
+                                    <h3 className="card-title text-center text-uppercase">{title}</h3>
+                                    <ReactMarkdown className="card-text">{feature}</ReactMarkdown>
                                 </div>
                             </section>
                         </div>

@@ -16,16 +16,16 @@ export default function ProductCarousel({ images }: PropTypes): JSX.Element {
     return (
         <div className="carousel slide" data-bs-ride="carousel" id="images-carousel">
             <div className="carousel-inner">
-                {images.map((img, index) => (
-                    <div className={`carousel-item${index === 0 ? ' active' : ''}`} key={img.id}>
+                {images.map((image, index) => (
+                    <div className={`carousel-item${index === 0 ? ' active' : ''}`} key={image.id}>
                         <Image
-                            alt={img.alternativeText || `carousel-image-${index + 1}`}
-                            blurDataURL={`/_next/image?url=${img.url}&w=640&q=10`}
+                            alt={image.alternativeText || `carousel-image-${index + 1}`}
+                            blurDataURL={`${process.env.NEXT_PUBLIC_API_URL}${image.formats.thumbnail.url}`}
                             className="img-fluid"
                             height={720}
                             objectPosition="center"
                             placeholder="blur"
-                            src={img.url}
+                            src={`${process.env.NEXT_PUBLIC_API_URL}${image.url}`}
                             width={1200}
                         />
                     </div>

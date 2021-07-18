@@ -6,7 +6,6 @@ import { HeroProps } from '~/types';
 
 
 export default function Hero({ image, title, text }: HeroProps): JSX.Element {
-    console.debug('||image: \n', image);
     return (
         <section className="position-relative">
             <Image

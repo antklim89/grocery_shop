@@ -20,11 +20,11 @@ export default function ProductCard({
                 </span>
                 <Image
                     alt={name}
-                    blurDataURL={`/_next/image?url=${mainImage.url}&w=640&q=10`}
+                    blurDataURL={`${process.env.NEXT_PUBLIC_API_URL}${mainImage.formats.thumbnail.url}`}
                     className="card-img-top"
                     height={272}
                     placeholder="blur"
-                    src={mainImage.url}
+                    src={`${process.env.NEXT_PUBLIC_API_URL}${mainImage.url}`}
                     width={400}
                 />
                 <div className="card-body d-flex flex-column justify-content-between">

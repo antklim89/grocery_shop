@@ -21,7 +21,7 @@ export default function Signin(): JSX.Element {
 
     return (
         <div className="container">
-            <h1 className="text-center text-primary">Log In</h1>
+            <h1 className="text-center text-primary">Sign In</h1>
             <form className={`p-5 border ${styles.form}`} onSubmit={handleLogin}>
                 <div className="mb-3">
                     <input

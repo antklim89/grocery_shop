@@ -1,5 +1,6 @@
 import '~/styles/globals.scss';
 import type { AppProps } from 'next/app';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 import CartProvider from '~/components/cart/CartProvider';
 import Footer from '~/components/layout/Footer';

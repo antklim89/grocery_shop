@@ -41,14 +41,18 @@ export default function ProductOrder(product: IProduct): JSX.Element {
                         unit={unit}
                     />
                 </p>
-                <p>
-                    <Price
-                        discount={discount}
-                        measure={measure}
-                        price={(price / unit) * cartItem.qty}
-                        unit={cartItem.qty}
-                    />
-                </p>
+                <Observer>
+                    {() => (
+                        <p>
+                            <Price
+                                discount={discount}
+                                measure={measure}
+                                price={(price / unit) * cartItem.qty}
+                                unit={cartItem.qty}
+                            />
+                        </p>
+                    )}
+                </Observer>
                 {discount > 0 ? (
                     <p>
                         Discount:
