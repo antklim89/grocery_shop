@@ -1,9 +1,12 @@
+import CartList from '~/components/cart/CartList';
+import Seo from '~/components/utils/Seo';
 
 
 export default function cart(): JSX.Element {
     return (
-        <div>
-            cart
-        </div>
+        <>
+            <Seo title="Cart" />
+            <CartList />
+        </>
     );
 }

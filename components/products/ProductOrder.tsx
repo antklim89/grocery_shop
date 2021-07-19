@@ -15,12 +15,6 @@ export default function ProductOrder(product: IProduct): JSX.Element {
 
     const cartItem = cart.setCurrentProduct({ id, product, qty: unit });
 
-
-    const handleQteChange = (e: ChangeEvent<HTMLInputElement>): void => {
-        const qty = Number(e.target.value);
-        cartItem.changeQty(qty);
-    };
-
     const handleOrder = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (cartItem) cart.toggle(cartItem);
@@ -83,7 +77,7 @@ export default function ProductOrder(product: IProduct): JSX.Element {
                                 id="qte"
                                 type="number"
                                 value={cartItem.qty}
-                                onChange={handleQteChange}
+                                onChange={(e) => cartItem.changeQty(e.target.value)}
                             />
                         )}
                     </Observer>

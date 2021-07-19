@@ -8,5 +8,5 @@ export interface CartItem {
 }
 
 export interface CartItemStore extends CartItem {
-    changeQty(numb: number): void;
+    changeQty(numb: number|string): void;
 }
