@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { Price } from '~/components/utils/Price';
+import { getPrice } from '~/utils';
 import { useCart } from '~/utils/useCart';
 
 
@@ -12,6 +13,18 @@ function imagePath(url: string) {
 
 function CartList(): JSX.Element {
     const cart = useCart();
+
+    if (!cart.products || cart.products.length === 0) {
+        return (
+            <p className="h1 text-center text-uppercase">Cart is Empty</p>
+        );
+    }
+
+    const totalPrice = cart.products.reduce((total, {
+        qty, product: { price, discount, unit },
+    }) => (
+        total + Number(getPrice(price * unit * qty, discount))
+    ), 0);
 
     return (
         <div className="container">
@@ -65,6 +78,18 @@ function CartList(): JSX.Element {
                         </div>
                     </section>
                 ))}
+            </div>
+            <div className="my-2 d-flex flex-column">
+                <div className="my-5 align-self-end">
+                    <p className="h3">
+                        Total Price:
+                        <br />
+                        {totalPrice}
+                    </p>
+                </div>
+                <button className="btn btn-primary btn-lg align-self-center" type="button">
+                    Order
+                </button>
             </div>
         </div>
     );

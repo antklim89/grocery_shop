@@ -2,19 +2,32 @@ import axios from 'axios';
 import { FormEvent, useState } from 'react';
 
 import styles from '~/styles/Auth.module.scss';
+import { User } from '~/types';
+import { useAuth } from '~/utils';
 
 
 export default function Login(): JSX.Element {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setloading] = useState(false);
+
+    const auth = useAuth();
 
     const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const { data } = await axios.post('http://192.168.90.19:1337/auth/local', {
-            identifier: email,
-            password,
-        });
-        localStorage.setItem('token', data.jwt);
+        setloading(true);
+        try {
+            const { data } = await axios.post<{jwt: string, user: User}>(
+                `${process.env.NEXT_PUBLIC_API_URL}/auth/local`, {
+                    identifier: email,
+                    password,
+                },
+            );
+            localStorage.setItem('token', data.jwt);
+            auth.setUser(data.user);
+        } finally {
+            setloading(false);
+        }
     };
 
     return (
@@ -24,6 +37,7 @@ export default function Login(): JSX.Element {
                 <div className="mb-3">
                     <input
                         required
+                        autoComplete="username"
                         className="form-control"
                         id="email"
                         placeholder="E-mail"
@@ -35,6 +49,7 @@ export default function Login(): JSX.Element {
                 <div className="mb-3">
                     <input
                         required
+                        autoComplete="current-password"
                         className="form-control"
                         id="password"
                         placeholder="Password"
@@ -45,6 +60,11 @@ export default function Login(): JSX.Element {
                 </div>
                 <button className="btn btn-primary" type="submit">
                     Log In
+                    {loading && (
+                        <div className="spinner-border spinner-border-sm" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                    )}
                 </button>
             </form>
         </div>

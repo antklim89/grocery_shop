@@ -1,13 +1,17 @@
+import { Observer } from 'mobx-react-lite';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 
 import CartButton from '~/components/cart/CartButton';
+import { useAuth } from '~/utils';
 
 
 export default function Header(): JSX.Element {
     const collapseRef = useRef<HTMLDivElement>(null);
     const [collapse, setCollapse] = useState<bootstrap.Collapse>();
+
+    const auth = useAuth();
 
     useEffect(() => {
         import('bootstrap/js/src/collapse')
@@ -18,15 +22,12 @@ export default function Header(): JSX.Element {
             });
     }, []);
 
-    // useEffect(() => {
-    //     const listener = () => {
-    //         setTimeout(() => collapse?.hide(), 100);
-    //     };
-    //     window.addEventListener('click', listener);
-    //     return () => window.removeEventListener('click', listener);
-    // }, [collapse]);
     const handleClose = () => {
         collapse?.hide();
+    };
+
+    const handleLogout = () => {
+        auth.logout();
     };
 
     const { asPath } = useRouter();
@@ -56,59 +57,82 @@ export default function Header(): JSX.Element {
                     <ul className="navbar-nav m-0 w-100">
                         <li className="nav-item">
                             <Link passHref href="/">
-                                <button
-                                    className={`nav-link btn btn-link ${asPath === '/' ? 'active' : ''}`}
-                                    type="button"
+                                <a
+                                    className={`nav-link ${asPath === '/' ? 'active' : ''}`}
+                                    role="none"
                                     onClick={handleClose}
                                 >
                                     HOME
-                                </button>
+                                </a>
                             </Link>
                         </li>
                         <li className="nav-item">
                             <Link passHref href="/products">
-                                <button
-                                    className={`nav-link btn btn-link ${asPath === '/products' ? 'active' : ''}`}
-                                    type="button"
+                                <a
+                                    className={`nav-link ${asPath === '/products' ? 'active' : ''}`}
+                                    role="none"
                                     onClick={handleClose}
                                 >
                                     PRODUCTS
-                                </button>
+                                </a>
                             </Link>
                         </li>
                         <li className="nav-item me-auto">
                             <Link passHref href="/about">
-                                <button
-                                    className={`nav-link btn btn-link ${asPath === '/about' ? 'active' : ''}`}
-                                    type="button"
+                                <a
+                                    className={`nav-link ${asPath === '/about' ? 'active' : ''}`}
+                                    role="none"
                                     onClick={handleClose}
                                 >
                                     ABOUT
-                                </button>
+                                </a>
                             </Link>
                         </li>
-                        <li className="nav-item">
-                            <Link passHref href="/signin">
-                                <button
-                                    className={`nav-link btn btn-link ${asPath === '/signin' ? 'active' : ''}`}
-                                    type="button"
-                                    onClick={handleClose}
-                                >
-                                    Sign In
-                                </button>
-                            </Link>
-                        </li>
-                        <li className="nav-item me-5">
-                            <Link passHref href="/login">
-                                <button
-                                    className={`nav-link btn btn-link ${asPath === '/login' ? 'active' : ''}`}
-                                    type="button"
-                                    onClick={handleClose}
-                                >
-                                    Log In
-                                </button>
-                            </Link>
-                        </li>
+                        <Observer>
+                            {() => (auth.user ? (
+                                <>
+                                    <li className="nav-item me-5">
+                                        <button className="nav-link" type="button">
+                                            {auth.user.username}
+                                        </button>
+                                    </li>
+                                    <li className="nav-item me-5">
+                                        <a
+                                            className="nav-link"
+                                            role="none"
+                                            onClick={handleLogout}
+                                        >
+                                            Log Out
+                                        </a>
+                                    </li>
+                                </>
+                            ) : (
+                                <>
+                                    <li className="nav-item">
+                                        <Link passHref href="/signin">
+                                            <a
+                                                className={`nav-link ${asPath === '/signin' ? 'active' : ''}`}
+                                                role="none"
+                                                onClick={handleClose}
+                                            >
+                                                Sign In
+                                            </a>
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item me-5">
+                                        <Link passHref href="/login">
+                                            <a
+                                                className={`nav-link ${asPath === '/login' ? 'active' : ''}`}
+                                                role="none"
+                                                onClick={handleClose}
+                                            >
+                                                Log In
+                                            </a>
+                                        </Link>
+                                    </li>
+                                </>
+                            ))}
+                        </Observer>
                         <CartButton onClick={handleClose} />
                     </ul>
                 </nav>
