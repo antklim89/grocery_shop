@@ -2,6 +2,8 @@ import { observer } from 'mobx-react-lite';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import CartFormModal from './CartFormModal';
+
 import { Price } from '~/components/utils/Price';
 import { getPrice } from '~/utils';
 import { useCart } from '~/utils/useCart';
@@ -87,9 +89,7 @@ function CartList(): JSX.Element {
                         {totalPrice}
                     </p>
                 </div>
-                <button className="btn btn-primary btn-lg align-self-center" type="button">
-                    Order
-                </button>
+                <CartFormModal />
             </div>
         </div>
     );
