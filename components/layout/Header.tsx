@@ -1,39 +1,26 @@
 import { Observer } from 'mobx-react-lite';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
 
+import LogoutButton from '~/components/auth/LogoutButton';
 import CartButton from '~/components/cart/CartButton';
 import { useAuth } from '~/utils';
+import { useBootstrap } from '~/utils/useBootstrap';
 
 
 export default function Header(): JSX.Element {
-    const collapseRef = useRef<HTMLDivElement>(null);
-    const [collapse, setCollapse] = useState<bootstrap.Collapse>();
-
     const auth = useAuth();
 
-    useEffect(() => {
-        import('bootstrap/js/src/collapse')
-            .then(({ default: Collapse }) => {
-                if (collapseRef.current) {
-                    setCollapse(new Collapse(collapseRef.current, { toggle: false }));
-                }
-            });
-    }, []);
+    const [collapse, collapseRef] = useBootstrap('Collapse');
 
     const handleClose = () => {
         collapse?.hide();
     };
 
-    const handleLogout = () => {
-        auth.logout();
-    };
-
     const { asPath } = useRouter();
 
     return (
-        <header className="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+        <header className="navbar navbar-expand-lg navbar-dark bg-dark shadow mb-4">
             <div className="container">
                 <Link passHref href="/">
                     <a className="navbar-brand">
@@ -91,31 +78,28 @@ export default function Header(): JSX.Element {
                         <Observer>
                             {() => (auth.user ? (
                                 <>
-                                    <li className="nav-item me-5">
-                                        <button className="nav-link" type="button">
+                                    <li className="nav-item me-1">
+                                        <button className="nav-link btn btn-link" type="button">
                                             {auth.user.username}
                                         </button>
                                     </li>
                                     <li className="nav-item me-5">
-                                        <a
+                                        <LogoutButton
                                             className="nav-link"
-                                            role="none"
-                                            onClick={handleLogout}
-                                        >
-                                            Log Out
-                                        </a>
+                                            onConfirm={handleClose}
+                                        />
                                     </li>
                                 </>
                             ) : (
                                 <>
                                     <li className="nav-item">
-                                        <Link passHref href="/signin">
+                                        <Link passHref href="/signup">
                                             <a
-                                                className={`nav-link ${asPath === '/signin' ? 'active' : ''}`}
+                                                className={`nav-link ${asPath === '/signup' ? 'active' : ''}`}
                                                 role="none"
                                                 onClick={handleClose}
                                             >
-                                                Sign In
+                                                Sign Up
                                             </a>
                                         </Link>
                                     </li>

@@ -1,12 +1,12 @@
-import Signin from '~/components/auth/Signin';
+import Auth from '~/components/auth/Auth';
 import Seo from '~/components/utils/Seo';
 
 
-export default function signin(): JSX.Element {
+export default function SignupPage(): JSX.Element {
     return (
         <>
             <Seo title="Sign In" />
-            <Signin />
+            <Auth isSignup />
         </>
     );
 }
