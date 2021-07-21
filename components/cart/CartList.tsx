@@ -47,7 +47,7 @@ function CartList(): JSX.Element {
                             <Link passHref href="/">
                                 <a><h2 className="mb-1">{cartItem.product.name}</h2></a>
                             </Link>
-                            <p className="mb-1">{cartItem.product.country}</p>
+                            <p className="mb-1">{cartItem.product.country.name}</p>
                             <small>
                                 <Price
                                     discount={cartItem.product.discount}

@@ -9,7 +9,7 @@ interface PropTypes {
 
 export default function ProductsList({ products }: PropTypes): JSX.Element {
     return (
-        <div className="container  my-5">
+        <div className="container  my-3">
             <div className="row g-2">
                 {products.map((product) => (
                     <ProductCard {...product} key={product.id} />

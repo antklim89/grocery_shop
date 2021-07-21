@@ -1,5 +1,5 @@
 import { Observer } from 'mobx-react-lite';
-import { ChangeEvent, FormEvent } from 'react';
+import { FormEvent } from 'react';
 
 import { Price } from '~/components/utils/Price';
 import { IProduct } from '~/types';
@@ -8,7 +8,7 @@ import { useCart } from '~/utils/useCart';
 
 export default function ProductOrder(product: IProduct): JSX.Element {
     const {
-        name, country, type, discount, price, unit, measure, id,
+        name, country, category, discount, price, unit, measure, id,
     } = product;
 
     const cart = useCart();
@@ -58,8 +58,8 @@ export default function ProductOrder(product: IProduct): JSX.Element {
             </div>
 
             <div className="py-2  border-bottom">
-                <p><big className="text-capitalize">{type}</big></p>
-                <p><big className="text-uppercase">{country}</big></p>
+                <p><big className="text-capitalize">{category.name}</big></p>
+                <p><big className="text-uppercase">{country.name}</big></p>
             </div>
 
             <form

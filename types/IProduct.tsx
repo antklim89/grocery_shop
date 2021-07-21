@@ -6,8 +6,14 @@ export interface IProduct {
     name: string;
     description: string;
     price: number;
-    type: string;
-    country: string;
+    category: {
+        id: number;
+        name: string;
+    };
+    country: {
+        id: number;
+        name: string;
+    };
     discount: number;
     published_at: string;
     created_at: string;
