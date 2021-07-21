@@ -6,8 +6,8 @@ import { AboutAsProps } from '~/types';
 
 export default function AboutUs({ title, image, body }: AboutAsProps): JSX.Element {
     return (
-        <section className="my-5">
-            <h1 className="text-center">{title}</h1>
+        <section className="container mb-5">
+            <h1 className="text-center text-primary">{title}</h1>
             <div className="row">
                 <div className="col-lg">
                     <Image

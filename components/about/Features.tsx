@@ -12,7 +12,7 @@ export default function Features({ features }: {features: IFeature[]}): JSX.Elem
                     {features.map(({
                         feature, image, title, id,
                     }) => (
-                        <div className="col-xl-3 col-md-6 col-xs-12 align-items-stretch" key={id}>
+                        <div className="col-12 col-sm-6 col-lg-3 align-items-stretch" key={id}>
                             <section className="card bg-white text-dark h-100">
                                 <Image
                                     alt={title}

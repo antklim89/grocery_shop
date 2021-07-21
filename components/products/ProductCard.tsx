@@ -9,7 +9,7 @@ export default function ProductCard({
     name, price, country, id, type, mainImage, unit, measure, discount,
 }: IProduct): JSX.Element {
     return (
-        <div className="col-sm-12 col-md-6 col-lg-3">
+        <div className="col-12 col-sm-6 col-lg-3 align-items-stretch">
             <article className="card shadow-sm h-100">
                 <span className="card-footer bg-primary text-white m-0 text-uppercase">
                     {type}

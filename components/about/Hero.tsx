@@ -7,7 +7,7 @@ import { HeroProps } from '~/types';
 
 export default function Hero({ image, title, text }: HeroProps): JSX.Element {
     return (
-        <section className="position-relative">
+        <section className={style.section}>
             <Image
                 alt="hero"
                 blurDataURL={`${process.env.NEXT_PUBLIC_API_URL}${image.formats.thumbnail.url}`}
@@ -19,8 +19,8 @@ export default function Hero({ image, title, text }: HeroProps): JSX.Element {
                 src={`${process.env.NEXT_PUBLIC_API_URL}${image.url}`}
                 width={1280}
             />
-            <div className={`${style.text} p-2 mx-auto position-absolute top-50 translate-middle-y w-100`}>
-                <div className="w-50 mx-auto">
+            <div className={style.text}>
+                <div className="m-auto">
                     <h1 className="text-center fs-1">{title}</h1>
                     <p className="text-center d-none d-lg-block fs-1">{text}</p>
                     <Link passHref href="/products">
