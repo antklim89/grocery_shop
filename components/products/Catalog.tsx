@@ -10,7 +10,7 @@ export default function Catalog(): JSX.Element {
     const [catecories, setCatecories] = useState<string[]>([]);
     const [countries, setCountries] = useState<string[]>([]);
 
-    const { asPath, route } = useRouter();
+    const { route, query } = useRouter();
 
     useEffect(() => {
         axios.get('/categories/enumerate')
@@ -31,7 +31,7 @@ export default function Catalog(): JSX.Element {
                         className={cls(
                             'list-group-item',
                             'list-group-item-action',
-                            asPath === route && 'active',
+                            (!query['category.name'] && !query['country.name']) && 'active',
                         )}
                         role="listitem"
                     >
@@ -41,47 +41,39 @@ export default function Catalog(): JSX.Element {
             </ul>
             <ul className="list-group mb-4">
                 <h5>Category</h5>
-                {catecories.map((category) => {
-                    const path = `${route}?category.name=${category}`;
-
-                    return (
-                        <Link href={path} key={category}>
-                            <a
-                                className={cls(
-                                    'list-group-item',
-                                    'list-group-item-action',
-                                    asPath === path && 'active',
-                                )}
-                                data-bs-dismiss="offcanvas"
-                                role="listitem"
-                            >
-                                {category}
-                            </a>
-                        </Link>
-                    );
-                })}
+                {catecories.map((category) => (
+                    <Link href={`${route}?category.name=${category}`} key={category}>
+                        <a
+                            className={cls(
+                                'list-group-item',
+                                'list-group-item-action',
+                                query['category.name'] === category && 'active',
+                            )}
+                            data-bs-dismiss="offcanvas"
+                            role="listitem"
+                        >
+                            {category}
+                        </a>
+                    </Link>
+                ))}
             </ul>
             <ul className="list-group mb-4">
                 <h5>Countries</h5>
-                {countries.map((country) => {
-                    const path = `${route}?country.name=${country}`;
-
-                    return (
-                        <Link href={path} key={country}>
-                            <a
-                                className={cls(
-                                    'list-group-item',
-                                    'list-group-item-action',
-                                    asPath === path && 'active',
-                                )}
-                                data-bs-dismiss="offcanvas"
-                                role="listitem"
-                            >
-                                {country}
-                            </a>
-                        </Link>
-                    );
-                })}
+                {countries.map((country) => (
+                    <Link href={`${route}?country.name=${country}`} key={country}>
+                        <a
+                            className={cls(
+                                'list-group-item',
+                                'list-group-item-action',
+                                query['country.name'] === country && 'active',
+                            )}
+                            data-bs-dismiss="offcanvas"
+                            role="listitem"
+                        >
+                            {country}
+                        </a>
+                    </Link>
+                ))}
             </ul>
         </nav>
     );

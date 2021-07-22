@@ -17,7 +17,7 @@ export default function Header(): JSX.Element {
         collapse?.hide();
     };
 
-    const { asPath } = useRouter();
+    const { route } = useRouter();
 
     return (
         <header className="navbar navbar-expand-lg navbar-dark bg-dark shadow mb-4">
@@ -45,7 +45,7 @@ export default function Header(): JSX.Element {
                         <li className="nav-item">
                             <Link passHref href="/">
                                 <a
-                                    className={`nav-link ${asPath === '/' ? 'active' : ''}`}
+                                    className={`nav-link ${route === '/' ? 'active' : ''}`}
                                     role="none"
                                     onClick={handleClose}
                                 >
@@ -56,7 +56,7 @@ export default function Header(): JSX.Element {
                         <li className="nav-item">
                             <Link passHref href="/products">
                                 <a
-                                    className={`nav-link ${asPath === '/products' ? 'active' : ''}`}
+                                    className={`nav-link ${route === '/products' ? 'active' : ''}`}
                                     role="none"
                                     onClick={handleClose}
                                 >
@@ -67,7 +67,7 @@ export default function Header(): JSX.Element {
                         <li className="nav-item me-auto">
                             <Link passHref href="/about">
                                 <a
-                                    className={`nav-link ${asPath === '/about' ? 'active' : ''}`}
+                                    className={`nav-link ${route === '/about' ? 'active' : ''}`}
                                     role="none"
                                     onClick={handleClose}
                                 >
@@ -95,7 +95,7 @@ export default function Header(): JSX.Element {
                                     <li className="nav-item">
                                         <Link passHref href="/signup">
                                             <a
-                                                className={`nav-link ${asPath === '/signup' ? 'active' : ''}`}
+                                                className={`nav-link ${route === '/signup' ? 'active' : ''}`}
                                                 role="none"
                                                 onClick={handleClose}
                                             >
@@ -106,7 +106,7 @@ export default function Header(): JSX.Element {
                                     <li className="nav-item me-5">
                                         <Link passHref href="/login">
                                             <a
-                                                className={`nav-link ${asPath === '/login' ? 'active' : ''}`}
+                                                className={`nav-link ${route === '/login' ? 'active' : ''}`}
                                                 role="none"
                                                 onClick={handleClose}
                                             >
