@@ -1,14 +1,14 @@
 import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
-import { DetailedHTMLProps, ButtonHTMLAttributes } from 'react';
+import { ButtonHTMLAttributes } from 'react';
 
 import { useCart } from '~/utils/useCart';
 
 
-function CartButton(props: DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>): JSX.Element {
+function CartButton(props: ButtonHTMLAttributes<HTMLButtonElement>): JSX.Element {
     const cart = useCart();
     return (
-        <button className="btn btn-primary position-relative align-self-end" type="button" {...props}>
+        <button type="button" {...props}>
             <Link passHref href="/cart">
                 <i className="bi bi-cart" />
             </Link>

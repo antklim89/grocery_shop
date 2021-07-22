@@ -4,16 +4,11 @@ import { useAuth } from '~/utils';
 import { useBootstrap } from '~/utils/useBootstrap';
 
 
-type Props = HTMLAttributes<HTMLAnchorElement> & {
-    onConfirm: () => void
-};
-
-export default function LogoutButton({ onConfirm, ...props }: Props): JSX.Element {
+export default function LogoutButton(props: HTMLAttributes<HTMLAnchorElement>): JSX.Element {
     const auth = useAuth();
     const [modal, ref] = useBootstrap('Modal');
 
     const handleLogout = () => {
-        onConfirm();
         auth.logout();
         modal?.hide();
     };
@@ -24,7 +19,6 @@ export default function LogoutButton({ onConfirm, ...props }: Props): JSX.Elemen
                 {...props}
                 data-bs-target="#order-form"
                 data-bs-toggle="modal"
-                role="none"
             >
                 Logout
             </a>
