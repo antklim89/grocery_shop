@@ -25,16 +25,22 @@ export default function Catalog(): JSX.Element {
 
     return (
         <nav className="container">
-            <ul className="list-group">
-                <h5>Category</h5>
+            <ul className="list-group mb-4">
                 <Link href="/products">
                     <a
-                        className={`list-group-item list-group-item-action${asPath === route ? ' active' : ''}`}
+                        className={cls(
+                            'list-group-item',
+                            'list-group-item-action',
+                            asPath === route && 'active',
+                        )}
                         role="listitem"
                     >
                         <b>All</b>
                     </a>
                 </Link>
+            </ul>
+            <ul className="list-group mb-4">
+                <h5>Category</h5>
                 {catecories.map((category) => {
                     const path = `${route}?category.name=${category}`;
 
@@ -46,6 +52,7 @@ export default function Catalog(): JSX.Element {
                                     'list-group-item-action',
                                     asPath === path && 'active',
                                 )}
+                                data-bs-dismiss="offcanvas"
                                 role="listitem"
                             >
                                 {category}
@@ -54,14 +61,27 @@ export default function Catalog(): JSX.Element {
                     );
                 })}
             </ul>
-            <ul>
-                {countries.map((country) => (
-                    <li key={country}>
-                        <Link href={`?country.name=${country}`}>
-                            <a>{country}</a>
+            <ul className="list-group mb-4">
+                <h5>Countries</h5>
+                {countries.map((country) => {
+                    const path = `${route}?country.name=${country}`;
+
+                    return (
+                        <Link href={path} key={country}>
+                            <a
+                                className={cls(
+                                    'list-group-item',
+                                    'list-group-item-action',
+                                    asPath === path && 'active',
+                                )}
+                                data-bs-dismiss="offcanvas"
+                                role="listitem"
+                            >
+                                {country}
+                            </a>
                         </Link>
-                    </li>
-                ))}
+                    );
+                })}
             </ul>
         </nav>
     );

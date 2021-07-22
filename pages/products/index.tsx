@@ -4,19 +4,19 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import Catalog from '~/components/products/Catalog';
+import ProductsBlock from '~/components/products/ProductsBlock';
 import ProductsList from '~/components/products/ProductsList';
 import Seo from '~/components/utils/Seo';
 import { IProduct } from '~/types';
+import { useBootstrap } from '~/utils/useBootstrap';
 
-
-// interface Props {
-//     products: IProduct[];
-// }
 
 export default function ProductsPage(): JSX.Element {
     const [products, setProducts] = useState<IProduct[]>([]);
     const router = useRouter();
     const query = router.asPath.replace('/products', '');
+
+    useBootstrap('Offcanvas');
 
     useEffect(() => {
         axios.get<IProduct[]>(`/products${query}`)
@@ -28,14 +28,10 @@ export default function ProductsPage(): JSX.Element {
     return (
         <>
             <Seo title="Products" />
-            <div className="row">
-                <div className="col-12 col-xl-4">
-                    <Catalog />
-                </div>
-                <div className="col-12 col-xl-8">
-                    <ProductsList products={products} />
-                </div>
-            </div>
+            <ProductsBlock
+                catalog={<Catalog />}
+                productsList={<ProductsList products={products} />}
+            />
         </>
     );
 }
