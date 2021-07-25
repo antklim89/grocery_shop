@@ -1,0 +1,11 @@
+#import "./StrapiImageFragment.gql"
+
+
+fragment FeaturesFragment on Features {
+    id
+    title
+    feature
+    image {
+        ...StrapiImageFragment
+    }
+}

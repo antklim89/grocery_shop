@@ -1,0 +1,12 @@
+#import "./FeaturesFragment.gql"
+#import "./AboutUsFragment.gql"
+
+
+query AboutUsPageQuery {    
+    features {
+        ...FeaturesFragment
+    }
+    aboutUs {
+        ...AboutUsFragment
+    }
+}

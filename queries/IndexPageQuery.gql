@@ -1,0 +1,18 @@
+#import "./HeroFragment.gql"
+#import "./ProductsFragment.gql"
+#import "./FeaturesFragment.gql"
+
+
+query IndexPageQuery {
+    hero {
+        ...HeroFragment
+    }
+
+    newProducts: products {
+        ...ProductsFragment
+    }
+    
+    features {
+        ...FeaturesFragment
+    }
+}

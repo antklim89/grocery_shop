@@ -5,7 +5,9 @@ import Hero from '~/components/about/Hero';
 import ProductsList from '~/components/products/ProductsList';
 import ShowMoreProductsButton from '~/components/products/ShowMoreProductsButton';
 import Seo from '~/components/utils/Seo';
+import IndexPageQuery from '~/queries/IndexPageQuery.gql';
 import { HeroProps, IFeature, IProduct } from '~/types';
+import client from '~/utils/graphql-request';
 
 
 interface Props {
@@ -26,14 +28,8 @@ export default function Home({ hero, features, newProducts }: Props): JSX.Elemen
     );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-    const [hero, features, newProducts] = await Promise.all([
-        fetch(`${process.env.API_URL}/hero`).then<HeroProps>((d) => d.json()),
-        fetch(`${process.env.API_URL}/features`).then<IFeature[]>((d) => d.json()),
-        fetch(`${process.env.API_URL}/products?_limit=8&_sort=id:DESC`).then<IProduct[]>((d) => d.json()),
-    ]);
+export const getStaticProps: GetStaticProps<Props> = async () => {
+    const props = await client.request<Props>(IndexPageQuery, {});
 
-    return {
-        props: { hero, features, newProducts },
-    };
+    return { props };
 };

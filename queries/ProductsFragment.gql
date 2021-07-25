@@ -1,0 +1,28 @@
+#import "./StrapiImageFragment.gql"
+
+fragment ProductsFragment on Products {
+    id
+    name
+    description
+    price
+    category {
+        id
+        name
+    }
+    country {
+        id
+        name
+    }
+    discount
+    published_at
+    created_at
+    updated_at
+    mainImage {
+        ...StrapiImageFragment
+    }
+    images {
+        ...StrapiImageFragment
+    }
+    unit
+    measure
+}

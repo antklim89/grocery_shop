@@ -1,0 +1,14 @@
+#import "./StrapiImageFragment.gql"
+
+
+fragment AboutUsFragment on AboutUs {
+    body
+    created_at
+    id
+    image {
+        ...StrapiImageFragment
+    }
+    published_at
+    title
+    updated_at
+}

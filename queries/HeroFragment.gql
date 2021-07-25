@@ -1,0 +1,10 @@
+#import "./StrapiImageFragment.gql"
+
+
+fragment HeroFragment on Hero {
+    title
+    text
+    image {
+      ...StrapiImageFragment
+    }
+}
