@@ -1,0 +1,9 @@
+#import "./StrapiImageFragment.gql"
+#import "./BaseProductFragment.gql"
+
+fragment ProductPreviewFragment on Products {
+    ...BaseProductFragment
+    mainImage {
+        ...StrapiImageFragment
+    }
+}

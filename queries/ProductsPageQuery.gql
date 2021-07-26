@@ -1,0 +1,11 @@
+#import "./ProductPreviewFragment.gql"
+
+
+query ProductsPageQuery($country: String, $category: String) {
+    products(where: {
+        category: { name: $category }
+        country: { name: $country }
+    }) {
+        ...ProductPreviewFragment
+    }
+}

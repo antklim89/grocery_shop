@@ -2,12 +2,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { Price } from '~/components/utils/Price';
-import { IProduct } from '~/types';
+import { IProductPreview } from '~/types';
 
 
 export default function ProductCard({
     name, price, country, id, category, mainImage, unit, measure, discount,
-}: IProduct): JSX.Element {
+}: IProductPreview): JSX.Element {
     return (
         <div className="col-12 col-sm-6 col-lg-3 align-items-stretch">
             <article className="card shadow-sm h-100">

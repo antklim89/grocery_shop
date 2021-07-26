@@ -1,5 +1,5 @@
 #import "./HeroFragment.gql"
-#import "./ProductsFragment.gql"
+#import "./ProductPreviewFragment.gql"
 #import "./FeaturesFragment.gql"
 
 
@@ -9,7 +9,7 @@ query IndexPageQuery {
     }
 
     newProducts: products {
-        ...ProductsFragment
+        ...ProductPreviewFragment
     }
     
     features {

@@ -7,3 +7,4 @@ export * from './CartItemStore';
 export * from './CartStore';
 export * from './AuthStore';
 export * from './User';
+export * from './IProductPreview';

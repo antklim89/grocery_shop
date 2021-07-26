@@ -1,4 +1,5 @@
 fragment StrapiImageFragment on UploadFile {
+  id
   url
   formats
   alternativeText

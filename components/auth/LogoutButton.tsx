@@ -4,7 +4,7 @@ import { useAuth } from '~/utils';
 import { useBootstrap } from '~/utils/useBootstrap';
 
 
-export default function LogoutButton(props: HTMLAttributes<HTMLAnchorElement>): JSX.Element {
+export default function LogoutButton(props: HTMLAttributes<HTMLButtonElement>): JSX.Element {
     const auth = useAuth();
     const [modal, ref] = useBootstrap('Modal');
 
@@ -15,13 +15,15 @@ export default function LogoutButton(props: HTMLAttributes<HTMLAnchorElement>): 
 
     return (
         <>
-            <a
+            <button
                 {...props}
+                className="btn btn-link nav-link"
                 data-bs-target="#order-form"
                 data-bs-toggle="modal"
+                type="button"
             >
                 Logout
-            </a>
+            </button>
 
             <div
                 aria-hidden

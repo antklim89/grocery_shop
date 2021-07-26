@@ -1,0 +1,10 @@
+
+
+query CatalogQuery {
+    categories {
+        name
+    }
+    countries {
+        name
+    }
+}

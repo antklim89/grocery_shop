@@ -1,26 +1,24 @@
-import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
+import CatalogQuery from '~/queries/CatalogQuery.gql';
 import { cls } from '~/utils';
+import client from '~/utils/graphql-request';
 
 
 export default function Catalog(): JSX.Element {
-    const [catecories, setCatecories] = useState<string[]>([]);
+    const [categories, setCatecories] = useState<string[]>([]);
     const [countries, setCountries] = useState<string[]>([]);
 
     const { route, query } = useRouter();
 
     useEffect(() => {
-        axios.get('/categories/enumerate')
-            .then(({ data }) => {
-                setCatecories(data);
-            });
-        axios.get('/countries/enumerate')
-            .then(({ data }) => {
-                setCountries(data);
-            });
+        (async () => {
+            const data = await client.request<Record<string, {name: string}[]>>(CatalogQuery);
+            setCatecories(data.categories.map((i) => i.name));
+            setCountries(data.countries.map((i) => i.name));
+        })();
     }, []);
 
     return (
@@ -41,7 +39,7 @@ export default function Catalog(): JSX.Element {
             </ul>
             <ul className="list-group mb-4">
                 <h5>Category</h5>
-                {catecories.map((category) => (
+                {categories.map((category) => (
                     <Link href={`${route}?category.name=${category}`} key={category}>
                         <a
                             className={cls(

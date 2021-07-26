@@ -1,0 +1,11 @@
+#import "./UserFragment.gql"
+
+
+mutation SingUpMutation($username: String!, $email: String!, $password: String!) {
+    data: register(input: { username: $username, email: $email, password: $password }) {
+        jwt
+        user {
+            ...UserFragment
+        }
+    }
+}

@@ -1,11 +1,20 @@
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
 
+import LogInMutation from '~/queries/LogInMutation.gql';
+import SingUpMutation from '~/queries/SingUpMutation.gql';
 import styles from '~/styles/Auth.module.scss';
 import { User } from '~/types';
 import { useAuth } from '~/utils';
+import client from '~/utils/graphql-request';
 
+
+interface AuthResponse {
+    data: {
+        jwt: string;
+        user: User;
+    };
+}
 
 export default function Auth({ isSignup }: {isSignup?: boolean}): JSX.Element {
     const [email, setEmail] = useState('');
@@ -22,24 +31,13 @@ export default function Auth({ isSignup }: {isSignup?: boolean}): JSX.Element {
         setloading(true);
 
         try {
-            const credentials = isSignup ? {
-                email,
-                username,
-                password,
-            } : {
-                identifier: email,
-                password,
-            };
+            const { data } = isSignup
+                ? await client.request<AuthResponse>(SingUpMutation, { email, username, password })
+                : await client.request<AuthResponse>(LogInMutation, { identifier: email, password });
 
-            const { data } = await axios.post<{jwt: string, user: User}>(
-                `${process.env.NEXT_PUBLIC_API_URL}/auth/local${isSignup ? '/register' : ''}`,
-                credentials,
-            );
-
-            localStorage.setItem('token', data.jwt);
             setloading(false);
             await router.replace('/');
-            auth.setUser(data.user);
+            auth.setUser(data.user, data.jwt);
         } catch (err) {
             console.error(err);
             setloading(false);

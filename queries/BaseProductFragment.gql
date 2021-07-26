@@ -1,9 +1,8 @@
-#import "./StrapiImageFragment.gql"
 
-fragment ProductsFragment on Products {
+
+fragment BaseProductFragment on Products {
     id
     name
-    description
     price
     category {
         id
@@ -17,12 +16,6 @@ fragment ProductsFragment on Products {
     published_at
     created_at
     updated_at
-    mainImage {
-        ...StrapiImageFragment
-    }
-    images {
-        ...StrapiImageFragment
-    }
     unit
     measure
 }
