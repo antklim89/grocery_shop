@@ -1,10 +1,41 @@
+import { observer } from 'mobx-react-lite';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+
 import OrderForm from './OrderForm';
 
+import CreateOrderMutation from '~/queries/CreateOrderMutation.gql';
+import { CartItemStore } from '~/types';
+import { CART_LOCAL_STORAGE_NAME, useAuth } from '~/utils';
+import client from '~/utils/graphql-request';
 import { useBootstrap } from '~/utils/useBootstrap';
 
 
 function CartFormModal(): JSX.Element {
-    useBootstrap('Modal');
+    const [modal, ref] = useBootstrap('Modal');
+
+    const auth = useAuth();
+    const router = useRouter();
+
+    const [email, setEmail] = useState(() => auth.user?.email || '');
+    const [name, setName] = useState('');
+    const [surname, setSurname] = useState('');
+    const [address, setAddress] = useState('');
+    const [phone, setPhone] = useState('');
+
+    const handleConfirm = async () => {
+        const dataString = localStorage.getItem(CART_LOCAL_STORAGE_NAME);
+        if (!dataString) return;
+        const cartItemStore: CartItemStore[] = JSON.parse(dataString);
+        const products = cartItemStore.map((p) => p.id);
+
+        const data = await client.request(CreateOrderMutation, {
+            email, name, surname, address, phone, products,
+        });
+
+        modal?.hide();
+        router.push(`/order/${data.createOrder.order.id}`);
+    };
 
     return (
         <>
@@ -22,6 +53,7 @@ function CartFormModal(): JSX.Element {
                 aria-labelledby="orderFormLabel"
                 className="modal fade"
                 id="order-form"
+                ref={ref}
                 tabIndex={-1}
             >
                 <div className="modal-dialog">
@@ -37,13 +69,21 @@ function CartFormModal(): JSX.Element {
                         </div>
 
                         <div className="modal-body">
-                            <OrderForm />
+                            <OrderForm
+                                setValues={{
+                                    setEmail, setName, setSurname, setAddress, setPhone,
+                                }}
+                                values={{
+                                    email, name, surname, address, phone,
+                                }}
+                            />
                         </div>
 
                         <div className="modal-footer">
                             <button
                                 className="btn btn-primary"
                                 type="button"
+                                onClick={handleConfirm}
                             >
                                 Confirm
                             </button>
@@ -62,4 +102,4 @@ function CartFormModal(): JSX.Element {
     );
 }
 
-export default CartFormModal;
+export default observer(CartFormModal);

@@ -3,6 +3,7 @@ import { createContext, ReactChild, useEffect } from 'react';
 
 import { createCartItemStore } from '~/store/cartItemStore';
 import { cartStore } from '~/store/cartStore';
+import { CART_LOCAL_STORAGE_NAME } from '~/utils';
 
 
 const isBrowser = typeof window !== 'undefined';
@@ -10,14 +11,13 @@ const isBrowser = typeof window !== 'undefined';
 
 export const Context = createContext(cartStore);
 
-const STORE_NAME = 'grocery_shop_cart';
 
 function CartProvider({ children }: { children: ReactChild[]}): JSX.Element {
     const cart = useLocalObservable(() => cartStore);
 
     useEffect(() => {
         if (!isBrowser) return;
-        const dataStr = localStorage.getItem(STORE_NAME);
+        const dataStr = localStorage.getItem(CART_LOCAL_STORAGE_NAME);
         if (!dataStr) return;
         const dataParsed = JSON.parse(dataStr);
         if (dataParsed) {
@@ -30,7 +30,7 @@ function CartProvider({ children }: { children: ReactChild[]}): JSX.Element {
 
 
     useEffect(() => {
-        if (isBrowser) localStorage.setItem(STORE_NAME, JSON.stringify(cart.products));
+        if (isBrowser) localStorage.setItem(CART_LOCAL_STORAGE_NAME, JSON.stringify(cart.products));
     }, [JSON.stringify(cart.products)]);
 
     return (

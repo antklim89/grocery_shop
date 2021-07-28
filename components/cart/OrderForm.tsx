@@ -1,18 +1,24 @@
-import { useState } from 'react';
-
-import { useAuth } from '~/utils';
+import { Dispatch, SetStateAction } from 'react';
 
 
-export default function OrderForm(): JSX.Element {
-    const auth = useAuth();
+interface Props {
+    values: {
+        email: string
+        name: string
+        surname: string
+        address: string
+        phone: string
+    }
+    setValues: {
+        setEmail: Dispatch<SetStateAction<string>>
+        setName: Dispatch<SetStateAction<string>>
+        setSurname: Dispatch<SetStateAction<string>>
+        setAddress: Dispatch<SetStateAction<string>>
+        setPhone: Dispatch<SetStateAction<string>>
+    }
+}
 
-    const [email, setEmail] = useState(() => auth.user?.email || '');
-    const [name, setName] = useState('');
-    const [surname, setSurname] = useState('');
-    const [address, setAddress] = useState('');
-    const [phone, setPhone] = useState('');
-
-
+export default function OrderForm({ values, setValues }: Props): JSX.Element {
     return (
         <form className="row">
             <div className="mb-3 col-sm-6 col-12">
@@ -24,8 +30,8 @@ export default function OrderForm(): JSX.Element {
                         className="form-control"
                         id="name"
                         type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        value={values.name}
+                        onChange={(e) => setValues.setName(e.target.value)}
                     />
                 </label>
             </div>
@@ -38,8 +44,8 @@ export default function OrderForm(): JSX.Element {
                         className="form-control"
                         id="surname"
                         type="text"
-                        value={surname}
-                        onChange={(e) => setSurname(e.target.value)}
+                        value={values.surname}
+                        onChange={(e) => setValues.setSurname(e.target.value)}
                     />
                 </label>
             </div>
@@ -52,8 +58,8 @@ export default function OrderForm(): JSX.Element {
                         className="form-control"
                         id="email"
                         type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={values.email}
+                        onChange={(e) => setValues.setEmail(e.target.value)}
                     />
                 </label>
             </div>
@@ -66,8 +72,8 @@ export default function OrderForm(): JSX.Element {
                         className="form-control"
                         id="address"
                         type="text"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
+                        value={values.address}
+                        onChange={(e) => setValues.setAddress(e.target.value)}
                     />
                 </label>
             </div>
@@ -80,8 +86,8 @@ export default function OrderForm(): JSX.Element {
                         className="form-control"
                         id="phone"
                         type="tel"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
+                        value={values.phone}
+                        onChange={(e) => setValues.setPhone(e.target.value)}
                     />
                 </label>
             </div>

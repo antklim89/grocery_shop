@@ -40,9 +40,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 
 export const getStaticProps: GetStaticProps<Props, {id: string}> = async ({ params }) => {
-    // const product = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${params?.id}`)
-    //     .then<IProduct>((d) => d.json());
-
     const props = await client.request<Props>(
         ProductPageQuery,
         { id: params?.id },

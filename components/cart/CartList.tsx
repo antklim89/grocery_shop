@@ -5,7 +5,7 @@ import Link from 'next/link';
 import CartFormModal from './CartFormModal';
 
 import { Price } from '~/components/utils/Price';
-import { getPrice } from '~/utils';
+import { getPrice, useAuth } from '~/utils';
 import { useCart } from '~/utils/useCart';
 
 
@@ -15,6 +15,7 @@ function imagePath(url: string) {
 
 function CartList(): JSX.Element {
     const cart = useCart();
+    const auth = useAuth();
 
     if (!cart.products || cart.products.length === 0) {
         return (
@@ -36,10 +37,10 @@ function CartList(): JSX.Element {
                         <div className="col-lg-2 col-4">
                             <Image
                                 alt={cartItem.product.name}
-                                blurDataURL={imagePath(cartItem.product.mainImage.formats.thumbnail.url)}
+                                blurDataURL={imagePath(cartItem.product.images[0].formats.thumbnail.url)}
                                 height={120}
                                 placeholder="blur"
-                                src={imagePath(cartItem.product.mainImage.url)}
+                                src={imagePath(cartItem.product.images[0].url)}
                                 width={100}
                             />
                         </div>
@@ -89,7 +90,17 @@ function CartList(): JSX.Element {
                         {totalPrice}
                     </p>
                 </div>
-                <CartFormModal />
+                {
+                    auth.isAuth ? (
+                        <CartFormModal />
+                    ) : (
+                        <Link href="/login">
+                            <a className="btn btn-primary btn-lg align-self-center">
+                                Login to confirm order...
+                            </a>
+                        </Link>
+                    )
+                }
             </div>
         </div>
     );

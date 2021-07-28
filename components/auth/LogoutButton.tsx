@@ -18,7 +18,7 @@ export default function LogoutButton(props: HTMLAttributes<HTMLButtonElement>): 
             <button
                 {...props}
                 className="btn btn-link nav-link"
-                data-bs-target="#order-form"
+                data-bs-target="#logout-button"
                 data-bs-toggle="modal"
                 type="button"
             >
@@ -29,7 +29,7 @@ export default function LogoutButton(props: HTMLAttributes<HTMLButtonElement>): 
                 aria-hidden
                 aria-labelledby="orderFormLabel"
                 className="modal fade"
-                id="order-form"
+                id="logout-button"
                 ref={ref}
                 tabIndex={-1}
             >

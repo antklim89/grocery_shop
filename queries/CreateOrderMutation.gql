@@ -1,0 +1,25 @@
+            
+            
+mutation CreateOrderMutation(
+    $email: String!, 
+    $name: String!, 
+    $surname: String!, 
+    $address: String!, 
+    $phone: String!
+    $products: [ID!]!
+) {
+    createOrder(input: {
+        data: {
+            products: $products
+            email: $email
+            name: $name
+            surname: $surname
+            address: $address
+            phone: $phone
+        }
+    }) {
+        order {
+            id
+        }
+    }
+}

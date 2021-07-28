@@ -36,7 +36,7 @@ export default function Auth({ isSignup }: {isSignup?: boolean}): JSX.Element {
                 : await client.request<AuthResponse>(LogInMutation, { identifier: email, password });
 
             setloading(false);
-            await router.replace('/');
+            await router.back();
             auth.setUser(data.user, data.jwt);
         } catch (err) {
             console.error(err);
