@@ -32,7 +32,9 @@ export default function Auth({ isSignup }: {isSignup?: boolean}): JSX.Element {
 
         try {
             const { data } = isSignup
-                ? await client.request<AuthResponse>(SingUpMutation, { email, username, password })
+                ? await client.request<AuthResponse>(SingUpMutation, {
+                    email, username, password, cart: [{ qty: 1, products: 1 }],
+                })
                 : await client.request<AuthResponse>(LogInMutation, { identifier: email, password });
 
             setloading(false);

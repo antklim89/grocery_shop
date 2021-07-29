@@ -1,0 +1,19 @@
+
+
+
+mutation CreateCartMutation(
+    $qty: Float!
+    $product: ID!
+) {
+    createCart(input: {
+        data: {
+            product: $product
+            qty: $qty
+        }
+    }) {
+        cart {
+            id
+            qty
+        }
+    }
+}

@@ -23,7 +23,10 @@ function CartFormModal(): JSX.Element {
     const [address, setAddress] = useState('');
     const [phone, setPhone] = useState('');
 
+    const [loading, setLoading] = useState(false);
+
     const handleConfirm = async () => {
+        setLoading(true);
         const dataString = localStorage.getItem(CART_LOCAL_STORAGE_NAME);
         if (!dataString) return;
         const cartItemStore: CartItemStore[] = JSON.parse(dataString);
@@ -33,9 +36,11 @@ function CartFormModal(): JSX.Element {
             const data = await client.request(CreateOrderMutation, {
                 email, name, surname, address, phone, products,
             });
+            setLoading(false);
             modal?.hide();
             router.push(`/order/${data.createOrder.order.id}`);
         } catch (error) {
+            setLoading(false);
             console.error('Create Order Error: \n', error);
         }
     };
@@ -89,6 +94,11 @@ function CartFormModal(): JSX.Element {
                                 onClick={handleConfirm}
                             >
                                 Confirm
+                                {loading && (
+                                    <div className="spinner-border spinner-border-sm ms-1" role="status">
+                                        <span className="visually-hidden">Loading...</span>
+                                    </div>
+                                )}
                             </button>
                             <button
                                 className="btn btn-danger"

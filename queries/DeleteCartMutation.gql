@@ -1,0 +1,12 @@
+
+
+
+mutation DeleteCartMutation($id: ID!) {
+    deleteCart(input: {
+        where: { id: $id }
+    }) {
+        cart {
+            id
+        }
+    }
+}

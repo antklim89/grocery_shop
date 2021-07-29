@@ -20,17 +20,17 @@ function ConfirmOrder(): JSX.Element {
     useEffect(() => {
         (async () => {
             setError(null);
-            if (!router.query.uid) return;
+            if (!router.query.id) return;
             if (!auth.tokenExists) return;
             try {
-                const data = await client.request<{order: Order}>(OrderQuery, { id: router.query.uid });
+                const data = await client.request<{order: Order}>(OrderQuery, { id: router.query.id });
                 setOrder(data.order);
             } catch (err) {
                 console.error(err);
                 setError('Unexpected server error.');
             }
         })();
-    }, [router.query.uid]);
+    }, [router.query.id]);
 
     if (error) {
         return (

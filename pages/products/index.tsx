@@ -20,11 +20,15 @@ export default function ProductsPage(): JSX.Element {
 
     useEffect(() => {
         (async () => {
-            const data = await client.request<{products: IProductPreview[]}>(
-                ProductsPageQuery,
-                { country: 'Egypt' },
-            );
-            setProducts(data.products);
+            try {
+                const data = await client.request<{products: IProductPreview[]}>(
+                    ProductsPageQuery,
+                    // { country: 'Egypt' },
+                );
+                setProducts(data.products);
+            } catch (error) {
+                console.error(error);
+            }
         })();
     }, [query]);
 
