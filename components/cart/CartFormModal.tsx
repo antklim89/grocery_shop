@@ -29,12 +29,15 @@ function CartFormModal(): JSX.Element {
         const cartItemStore: CartItemStore[] = JSON.parse(dataString);
         const products = cartItemStore.map((p) => p.id);
 
-        const data = await client.request(CreateOrderMutation, {
-            email, name, surname, address, phone, products,
-        });
-
-        modal?.hide();
-        router.push(`/order/${data.createOrder.order.id}`);
+        try {
+            const data = await client.request(CreateOrderMutation, {
+                email, name, surname, address, phone, products,
+            });
+            modal?.hide();
+            router.push(`/order/${data.createOrder.order.id}`);
+        } catch (error) {
+            console.error('Create Order Error: \n', error);
+        }
     };
 
     return (

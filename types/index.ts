@@ -8,3 +8,4 @@ export * from './CartStore';
 export * from './AuthStore';
 export * from './User';
 export * from './IProductPreview';
+export * from './Order';

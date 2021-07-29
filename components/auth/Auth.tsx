@@ -106,7 +106,7 @@ export default function Auth({ isSignup }: {isSignup?: boolean}): JSX.Element {
                 <button className="btn btn-primary" type="submit">
                     {isSignup ? 'Sign up' : 'Log In'}
                     {loading && (
-                        <div className="spinner-border spinner-border-sm" role="status">
+                        <div className="spinner-border spinner-border-sm ms-1" role="status">
                             <span className="visually-hidden">Loading...</span>
                         </div>
                     )}

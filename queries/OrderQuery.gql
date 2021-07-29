@@ -1,0 +1,24 @@
+#import "./ProductPreviewFragment.gql"
+##import "./UserFragment.gql"
+
+
+query OrderQuery($id: ID!) {
+    order( id: $id ) {
+        id
+        uid
+        status
+        email
+        name
+        surname
+        address
+        phone
+        products {
+            ...ProductPreviewFragment
+        }
+        user {
+            id
+            username
+            email
+        }
+    }
+}
