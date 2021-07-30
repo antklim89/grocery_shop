@@ -8,18 +8,28 @@ import { useCart } from '~/utils/useCart';
 
 function ProductOrder(product: IProduct): JSX.Element {
     const {
-        name, country, category, discount, price, unit, measure, id,
+        name, country, category, discount, price, unit, measure,
     } = product;
 
     const cart = useCart();
 
-    const cartItem = cart.setCurrentProduct({ productId: id, product, qty: unit });
+    const cartItem = cart.setCurrentProduct({ product, qty: unit });
 
     const handleOrder = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (cartItem) cart.toggle(cartItem);
     };
 
+    if (!cart.isCartFetched) {
+        return (
+            <div className="border h-100 shadow p-2 d-flex flex-column">
+                <h1 className="text-center py-2 text-dark border-bottom">{name}</h1>
+                <div className="spinner-border m-auto" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="border h-100 shadow p-2 d-flex flex-column">
@@ -83,12 +93,16 @@ function ProductOrder(product: IProduct): JSX.Element {
                 <Observer>
                     {() => (cart.exists(cartItem) ? (
                         <input
-                            className="btn btn-primary my-2" disabled={cart.loading} type="submit"
+                            className="btn btn-primary my-2"
+                            disabled={cart.loading}
+                            type="submit"
                             value="Remove from Cart"
                         />
                     ) : (
                         <input
-                            className="btn btn-primary my-2" disabled={cart.loading} type="submit"
+                            className="btn btn-primary my-2"
+                            disabled={cart.loading}
+                            type="submit"
                             value="Place to Cart"
                         />
                     ))}

@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import Image from 'next/image';
 import Link from 'next/link';
 
+
 import CartFormModal from './CartFormModal';
 
 import { Price } from '~/components/utils/Price';
@@ -33,7 +34,7 @@ function CartList(): JSX.Element {
         <div className="container">
             <div className="list-group mt-5">
                 {cart.cartItems.map((cartItem) => (
-                    <section className="row list-group-item d-flex" key={cartItem.productId}>
+                    <section className="row list-group-item d-flex" key={cartItem.product.id}>
                         <div className="col-lg-2 col-4">
                             <Image
                                 alt={cartItem.product.name}
@@ -59,13 +60,13 @@ function CartList(): JSX.Element {
                             </small>
                         </div>
                         <div className="col-lg-2 col-12 d-flex flex-lg-column justify-content-between">
-                            <label className="form-label my-2" htmlFor={`qte-${cartItem.productId}`}>
+                            <label className="form-label my-2" htmlFor={`qte-${cartItem.product.id}`}>
                                 Quantity: (
                                 {cartItem.product.measure}
                                 )
                                 <input
                                     className="form-control"
-                                    id={`qte-${cartItem.productId}`}
+                                    id={`qte-${cartItem.product.id}`}
                                     type="number"
                                     value={cartItem.qty}
                                     onChange={(e) => cartItem.changeQty(Number(e.target.value))}

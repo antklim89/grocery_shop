@@ -4,10 +4,10 @@ import { CartItemStore, CartItemStoreArgs } from './CartItemStore';
 
 import CreateCartMutation from '~/queries/CreateCartMutation.gql';
 import DeleteCartMutation from '~/queries/DeleteCartMutation.gql';
-import { client, TOKEN_NAME } from '~/utils';
+import { client, AUTH_TOKEN_NAME } from '~/utils';
 
 
-const isAuth = typeof window === 'undefined' ? false : !!localStorage.getItem(TOKEN_NAME);
+const isAuth = typeof window === 'undefined' ? false : !!localStorage.getItem(AUTH_TOKEN_NAME);
 
 export class CartStore {
     constructor() {
@@ -20,15 +20,17 @@ export class CartStore {
 
     loading = false
 
+    isCartFetched = false
+
     async toggle(cartItem: CartItemStore): Promise<void> {
         try {
-            console.debug(cartItem.cartId);
+            console.debug(cartItem.id);
             if (this.exists(cartItem)) {
                 if (isAuth && !this.loading) {
                     ria(() => { this.loading = true; });
                     await client.request(
                         DeleteCartMutation,
-                        { id: cartItem.cartId },
+                        { id: cartItem.id },
                     );
                 }
                 ria(() => this.cartItems.remove(cartItem));
@@ -37,7 +39,7 @@ export class CartStore {
                     ria(() => { this.loading = true; });
                     const { createCart: { cart } } = await client.request(
                         CreateCartMutation,
-                        { qty: cartItem.qty, product: cartItem.productId },
+                        { qty: cartItem.qty, product: cartItem.product.id },
                     );
                     console.debug(cart.id);
                     ria(() => Object.assign(cartItem, { cartId: cart.id }));
@@ -56,19 +58,25 @@ export class CartStore {
     }
 
     getById(id: number): CartItemStore | undefined {
-        return this.cartItems.find((i) => i.productId === id);
+        return this.cartItems.find((i) => i.product.id === id);
     }
 
     exists(cartItem: CartItemStore): boolean {
-        return !!this.cartItems.find((p) => p.productId === cartItem.productId);
+        return !!this.cartItems.find((p) => p.product.id === cartItem.product.id);
     }
 
     setCurrentProduct(product: CartItemStoreArgs): CartItemStore {
         const oldOrNewCartItem = (
-            this.cartItems.find((i) => Number(i.productId) === Number(product.productId)) || new CartItemStore(product)
+            this.cartItems.find((i) => Number(i.product.id) === Number(product.product.id))
+            || new CartItemStore(product)
         );
+
         this.currentCartItem = oldOrNewCartItem;
         return oldOrNewCartItem;
+    }
+
+    setCartFedched(): void {
+        this.isCartFetched = true;
     }
 }
 
