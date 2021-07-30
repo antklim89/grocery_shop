@@ -5,7 +5,7 @@ import { CartItemStore, CartItemStoreArgs } from '~/store/CartItemStore';
 
 const isBrowser = typeof window !== 'undefined';
 
-export const getTokenLocalStorage = (): CartItemStore[] | null => {
+const getTokenLocalStorage = (): CartItemStore[] | null => {
     if (!isBrowser) return null;
     const dataStr = localStorage.getItem(CART_LOCAL_STORAGE_NAME);
 
@@ -17,3 +17,5 @@ export const getTokenLocalStorage = (): CartItemStore[] | null => {
 
     return dataCart;
 };
+
+export default getTokenLocalStorage;

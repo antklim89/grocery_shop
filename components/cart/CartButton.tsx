@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
 import { ButtonHTMLAttributes } from 'react';
 
-import { useCart } from '~/utils/useCart';
+import { useCart } from '~/components/cart/CartProvider';
 
 
 function CartButton(props: ButtonHTMLAttributes<HTMLAnchorElement>): JSX.Element {

@@ -4,7 +4,8 @@ import { CartItemStore, CartItemStoreArgs } from './CartItemStore';
 
 import CreateCartMutation from '~/queries/CreateCartMutation.gql';
 import DeleteCartMutation from '~/queries/DeleteCartMutation.gql';
-import { client, AUTH_TOKEN_NAME } from '~/utils';
+import { AUTH_TOKEN_NAME } from '~/utils/constants';
+import client from '~/utils/graphql-request';
 
 
 const isAuth = typeof window === 'undefined' ? false : !!localStorage.getItem(AUTH_TOKEN_NAME);

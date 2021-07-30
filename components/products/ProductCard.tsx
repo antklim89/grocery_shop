@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { Price } from '~/components/utils/Price';
+import Price from '~/components/utils/Price';
 import { IProductPreview } from '~/types';
 
 

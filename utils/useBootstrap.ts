@@ -17,7 +17,7 @@ type Return<T extends Modules> = [
 
 type Options = Record<string, boolean | number | string>;
 
-export const useBootstrap = <T extends Modules>(moduleName: T, opt: Options = {}): Return<T> => {
+const useBootstrap = <T extends Modules>(moduleName: T, opt: Options = {}): Return<T> => {
     const [module, setModule] = useState<BootstrapInstance<T>>(null);
     const ref = useRef<HTMLDivElement>(null);
 
@@ -32,3 +32,5 @@ export const useBootstrap = <T extends Modules>(moduleName: T, opt: Options = {}
 
     return [module, ref];
 };
+
+export default useBootstrap;

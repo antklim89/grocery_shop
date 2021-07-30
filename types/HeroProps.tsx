@@ -1,4 +1,4 @@
-import { StrapiImage } from '~/types';
+import type { StrapiImage } from '~/types';
 
 
 export interface HeroProps {

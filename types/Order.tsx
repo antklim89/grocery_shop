@@ -1,4 +1,4 @@
-import { IProductPreview } from '~/types';
+import type { IProductPreview } from '~/types';
 
 
 export interface Order {

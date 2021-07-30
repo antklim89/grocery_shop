@@ -1,4 +1,4 @@
-import { getPrice } from '~/utils';
+import getPrice from '~/utils/getPrice';
 
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
     measure: string;
 }
 
-export function Price({
+export default function Price({
     price, discount, unit, measure,
 }: Props): JSX.Element {
     const rest = (

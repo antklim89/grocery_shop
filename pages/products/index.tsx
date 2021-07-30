@@ -8,7 +8,7 @@ import Seo from '~/components/utils/Seo';
 import ProductsPageQuery from '~/queries/ProductsPageQuery.gql';
 import { IProductPreview } from '~/types';
 import client from '~/utils/graphql-request';
-import { useBootstrap } from '~/utils/useBootstrap';
+import useBootstrap from '~/utils/useBootstrap';
 
 
 export default function ProductsPage(): JSX.Element {

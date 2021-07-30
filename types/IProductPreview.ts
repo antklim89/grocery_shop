@@ -1,6 +1,6 @@
-import { IBaseProduct } from './IBaseProduct';
+import type { IBaseProduct } from './IBaseProduct';
 
-import { StrapiImage } from '~/types';
+import type { StrapiImage } from '~/types';
 
 
 export interface IProductPreview extends IBaseProduct {

@@ -2,13 +2,15 @@ import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
+import { useAuth } from '../auth/AuthProvider';
+
 import OrderForm from './OrderForm';
 
 import CreateOrderMutation from '~/queries/CreateOrderMutation.gql';
-import { CartItemStore } from '~/types';
-import { CART_LOCAL_STORAGE_NAME, useAuth } from '~/utils';
+import { CartItemStore } from '~/store/CartItemStore';
+import { CART_LOCAL_STORAGE_NAME } from '~/utils/constants';
 import client from '~/utils/graphql-request';
-import { useBootstrap } from '~/utils/useBootstrap';
+import useBootstrap from '~/utils/useBootstrap';
 
 
 function CartFormModal(): JSX.Element {

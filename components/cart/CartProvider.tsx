@@ -1,13 +1,13 @@
 import { reaction } from 'mobx';
 import {
-    createContext, ReactChild, useEffect, useMemo,
+    createContext, ReactChild, useContext, useEffect, useMemo,
 } from 'react';
 
 import CartQuery from '~/queries/CartQuery.gql';
-import { CartItemStore } from '~/store/CartItemStore';
 import { CartStore } from '~/store/CartStore';
-import { CART_LOCAL_STORAGE_NAME, client, AUTH_TOKEN_NAME } from '~/utils';
-import { getTokenLocalStorage } from '~/utils/getLocalStorage';
+import { CART_LOCAL_STORAGE_NAME, AUTH_TOKEN_NAME } from '~/utils/constants';
+import getTokenLocalStorage from '~/utils/getLocalStorage';
+import client from '~/utils/graphql-request';
 
 
 export const Context = createContext({} as CartStore);
@@ -42,3 +42,5 @@ function CartProvider({ children }: { children: ReactChild[]}): JSX.Element {
 }
 
 export default CartProvider;
+
+export const useCart = (): CartStore => useContext(Context);

@@ -5,9 +5,10 @@ import Link from 'next/link';
 
 import CartFormModal from './CartFormModal';
 
-import { Price } from '~/components/utils/Price';
-import { getPrice, useAuth } from '~/utils';
-import { useCart } from '~/utils/useCart';
+import { useAuth } from '~/components/auth/AuthProvider';
+import { useCart } from '~/components/cart/CartProvider';
+import Price from '~/components/utils/Price';
+import getPrice from '~/utils/getPrice';
 
 
 function imagePath(url: string) {

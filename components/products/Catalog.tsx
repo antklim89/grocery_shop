@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import CatalogQuery from '~/queries/CatalogQuery.gql';
-import { cls } from '~/utils';
+import cls from '~/utils/cls';
 import client from '~/utils/graphql-request';
 
 

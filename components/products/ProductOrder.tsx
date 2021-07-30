@@ -1,9 +1,9 @@
 import { observer, Observer } from 'mobx-react-lite';
 import { FormEvent } from 'react';
 
-import { Price } from '~/components/utils/Price';
+import { useCart } from '~/components/cart/CartProvider';
+import Price from '~/components/utils/Price';
 import { IProduct } from '~/types';
-import { useCart } from '~/utils/useCart';
 
 
 function ProductOrder(product: IProduct): JSX.Element {

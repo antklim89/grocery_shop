@@ -1,5 +1,7 @@
 import { useLocalObservable } from 'mobx-react-lite';
-import { useEffect, ReactChild, createContext } from 'react';
+import {
+    useEffect, ReactChild, createContext, useContext,
+} from 'react';
 
 import MeQuery from '~/queries/MeQuery.gql';
 import { authStore } from '~/store/authStore';
@@ -32,3 +34,5 @@ export default function AuthProvider({ children }: { children: ReactChild}): JSX
         </Context.Provider>
     );
 }
+
+export const useAuth = (): AuthStore => useContext(Context);

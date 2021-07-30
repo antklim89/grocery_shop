@@ -6,14 +6,14 @@ import ProductsList from '~/components/products/ProductsList';
 import ShowMoreProductsButton from '~/components/products/ShowMoreProductsButton';
 import Seo from '~/components/utils/Seo';
 import IndexPageQuery from '~/queries/IndexPageQuery.gql';
-import { HeroProps, IFeature, IProduct } from '~/types';
+import { HeroProps, IFeature, IProductPreview } from '~/types';
 import client from '~/utils/graphql-request';
 
 
 interface Props {
     hero: HeroProps
     features: IFeature[]
-    newProducts: IProduct[]
+    newProducts: IProductPreview[]
 }
 
 export default function Home({ hero, features, newProducts }: Props): JSX.Element {

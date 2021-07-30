@@ -1,4 +1,4 @@
-import { StrapiImage } from './StrapiImage';
+import type { StrapiImage } from './StrapiImage';
 
 
 export interface AboutAsProps {

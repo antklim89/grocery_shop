@@ -1,12 +1,14 @@
 import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { Price } from '../utils/Price';
 
+import { useAuth } from '~/components/auth/AuthProvider';
+import Price from '~/components/utils/Price';
 import OrderQuery from '~/queries/OrderQuery.gql';
 import { Order } from '~/types';
-import { useAuth, client, getPrice } from '~/utils';
+import getPrice from '~/utils/getPrice';
+import client from '~/utils/graphql-request';
 
 
 function ConfirmOrder(): JSX.Element {

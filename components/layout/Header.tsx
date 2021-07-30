@@ -2,10 +2,10 @@ import { Observer } from 'mobx-react-lite';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
+import { useAuth } from '~/components/auth/AuthProvider';
 import LogoutButton from '~/components/auth/LogoutButton';
 import CartButton from '~/components/cart/CartButton';
-import { useAuth } from '~/utils';
-import { useBootstrap } from '~/utils/useBootstrap';
+import useBootstrap from '~/utils/useBootstrap';
 
 
 export default function Header(): JSX.Element {

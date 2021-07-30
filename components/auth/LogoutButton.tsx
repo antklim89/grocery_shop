@@ -1,7 +1,7 @@
 import { HTMLAttributes } from 'react';
 
-import { useAuth } from '~/utils';
-import { useBootstrap } from '~/utils/useBootstrap';
+import { useAuth } from '~/components/auth/AuthProvider';
+import useBootstrap from '~/utils/useBootstrap';
 
 
 export default function LogoutButton(props: HTMLAttributes<HTMLButtonElement>): JSX.Element {

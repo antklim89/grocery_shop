@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
 
+import { useAuth } from '~/components/auth/AuthProvider';
 import LogInMutation from '~/queries/LogInMutation.gql';
 import SingUpMutation from '~/queries/SingUpMutation.gql';
 import styles from '~/styles/Auth.module.scss';
 import { User } from '~/types';
-import { useAuth } from '~/utils';
 import client from '~/utils/graphql-request';
 
 
