@@ -1,37 +1,30 @@
-import { useLocalObservable, observer } from 'mobx-react-lite';
-import { createContext, ReactChild, useEffect } from 'react';
+import { reaction } from 'mobx';
+import {
+    createContext, ReactChild, useEffect, useMemo,
+} from 'react';
 
-import { createCartItemStore } from '~/store/cartItemStore';
-import { cartStore } from '~/store/cartStore';
+import { CartStore } from '~/store/CartStore';
 import { CART_LOCAL_STORAGE_NAME } from '~/utils';
+import { getTokenLocalStorage } from '~/utils/getLocalStorage';
 
 
-const isBrowser = typeof window !== 'undefined';
-
-
-export const Context = createContext(cartStore);
+export const Context = createContext({} as CartStore);
 
 
 function CartProvider({ children }: { children: ReactChild[]}): JSX.Element {
-    const cart = useLocalObservable(() => cartStore);
+    const cart = useMemo(() => new CartStore(), []);
 
     useEffect(() => {
-        if (!isBrowser) return;
-        const dataStr = localStorage.getItem(CART_LOCAL_STORAGE_NAME);
-        if (!dataStr) return;
-        const dataParsed = JSON.parse(dataStr);
-        if (dataParsed) {
-            const dataCart = dataParsed.map(createCartItemStore);
+        const dataCart = getTokenLocalStorage();
+        if (dataCart) {
             cart.replace(dataCart);
-        } else {
-            cart.replace([]);
         }
     }, []);
 
-
-    useEffect(() => {
-        if (isBrowser) localStorage.setItem(CART_LOCAL_STORAGE_NAME, JSON.stringify(cart.products));
-    }, [JSON.stringify(cart.products)]);
+    useEffect(() => reaction(
+        () => JSON.stringify(cart.cartItems),
+        (json) => localStorage.setItem(CART_LOCAL_STORAGE_NAME, json),
+    ), []);
 
     return (
         <Context.Provider value={cart}>
@@ -40,4 +33,4 @@ function CartProvider({ children }: { children: ReactChild[]}): JSX.Element {
     );
 }
 
-export default observer(CartProvider);
+export default CartProvider;

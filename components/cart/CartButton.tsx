@@ -11,9 +11,9 @@ function CartButton(props: ButtonHTMLAttributes<HTMLAnchorElement>): JSX.Element
         <Link href="/cart">
             <a {...props}>
                 <i className="bi bi-cart " />
-                {cart.products?.length ? (
+                {cart.cartItems?.length ? (
                     <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        {cart.products?.length || 0}
+                        {cart.cartItems?.length || 0}
                         <span className="visually-hidden">unread messages</span>
                     </span>
                 ) : null}

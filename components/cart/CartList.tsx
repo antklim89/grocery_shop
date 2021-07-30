@@ -17,13 +17,13 @@ function CartList(): JSX.Element {
     const cart = useCart();
     const auth = useAuth();
 
-    if (!cart.products || cart.products.length === 0) {
+    if (!cart.cartItems || cart.cartItems.length === 0) {
         return (
             <p className="h1 text-center text-uppercase">Cart is Empty</p>
         );
     }
 
-    const totalPrice = cart.products.reduce((total, {
+    const totalPrice = cart.cartItems.reduce((total, {
         qty, product: { price, discount, unit },
     }) => (
         total + Number(getPrice(price * unit * qty, discount))
@@ -32,8 +32,8 @@ function CartList(): JSX.Element {
     return (
         <div className="container">
             <div className="list-group mt-5">
-                {cart.products?.map((cartItem) => (
-                    <section className="row list-group-item d-flex" key={cartItem.id}>
+                {cart.cartItems.map((cartItem) => (
+                    <section className="row list-group-item d-flex" key={cartItem.productId}>
                         <div className="col-lg-2 col-4">
                             <Image
                                 alt={cartItem.product.name}
@@ -59,13 +59,13 @@ function CartList(): JSX.Element {
                             </small>
                         </div>
                         <div className="col-lg-2 col-12 d-flex flex-lg-column justify-content-between">
-                            <label className="form-label my-2" htmlFor={`qte-${cartItem.id}`}>
+                            <label className="form-label my-2" htmlFor={`qte-${cartItem.productId}`}>
                                 Quantity: (
                                 {cartItem.product.measure}
                                 )
                                 <input
                                     className="form-control"
-                                    id={`qte-${cartItem.id}`}
+                                    id={`qte-${cartItem.productId}`}
                                     type="number"
                                     value={cartItem.qty}
                                     onChange={(e) => cartItem.changeQty(Number(e.target.value))}

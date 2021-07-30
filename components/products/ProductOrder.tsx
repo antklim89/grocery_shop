@@ -1,4 +1,4 @@
-import { Observer } from 'mobx-react-lite';
+import { observer, Observer } from 'mobx-react-lite';
 import { FormEvent } from 'react';
 
 import { Price } from '~/components/utils/Price';
@@ -6,14 +6,14 @@ import { IProduct } from '~/types';
 import { useCart } from '~/utils/useCart';
 
 
-export default function ProductOrder(product: IProduct): JSX.Element {
+function ProductOrder(product: IProduct): JSX.Element {
     const {
         name, country, category, discount, price, unit, measure, id,
     } = product;
 
     const cart = useCart();
 
-    const cartItem = cart.setCurrentProduct({ id, product, qty: unit });
+    const cartItem = cart.setCurrentProduct({ productId: id, product, qty: unit });
 
     const handleOrder = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -21,7 +21,6 @@ export default function ProductOrder(product: IProduct): JSX.Element {
     };
 
 
-    if (!cartItem) return <p>Loading</p>;
     return (
         <div className="border h-100 shadow p-2 d-flex flex-column">
             <h1 className="text-center py-2 text-dark border-bottom">{name}</h1>
@@ -70,26 +69,33 @@ export default function ProductOrder(product: IProduct): JSX.Element {
                     Quantity: (
                     {measure}
                     )
-                    <Observer>
-                        {() => (
-                            <input
-                                className="form-control"
-                                id="qte"
-                                type="number"
-                                value={cartItem.qty}
-                                onChange={(e) => cartItem.changeQty(e.target.value)}
-                            />
-                        )}
-                    </Observer>
+                    <Observer render={() => (
+                        <input
+                            className="form-control"
+                            id="qte"
+                            type="number"
+                            value={cartItem.qty}
+                            onChange={(e) => cartItem.changeQty(e.target.value)}
+                        />
+                    )}
+                    />
                 </label>
                 <Observer>
-                    {() => (cart.exists(id) ? (
-                        <input className="btn btn-primary my-2" type="submit" value="Remove from Cart" />
+                    {() => (cart.exists(cartItem) ? (
+                        <input
+                            className="btn btn-primary my-2" disabled={cart.loading} type="submit"
+                            value="Remove from Cart"
+                        />
                     ) : (
-                        <input className="btn btn-primary my-2" type="submit" value="Place to Cart" />
+                        <input
+                            className="btn btn-primary my-2" disabled={cart.loading} type="submit"
+                            value="Place to Cart"
+                        />
                     ))}
                 </Observer>
             </form>
         </div>
     );
 }
+
+export default observer(ProductOrder);
