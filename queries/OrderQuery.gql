@@ -12,8 +12,12 @@ query OrderQuery($id: ID!) {
         surname
         address
         phone
-        products {
-            ...ProductPreviewFragment
+        carts {
+            id
+            qty
+            product {
+                ...ProductPreviewFragment
+            }
         }
         user {
             id

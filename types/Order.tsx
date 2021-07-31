@@ -7,7 +7,11 @@ export interface Order {
     surname: string;
     address: string;
     phone: string;
-    products: IProductPreview[];
+    carts: Array<{
+        id: number
+        qty: number
+        product: IProductPreview;
+    }>
     user: {
         id: string;
         username: string;

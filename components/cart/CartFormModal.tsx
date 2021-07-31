@@ -32,11 +32,11 @@ function CartFormModal(): JSX.Element {
         const dataString = localStorage.getItem(CART_LOCAL_STORAGE_NAME);
         if (!dataString) return;
         const cartItemStore: CartItemStore[] = JSON.parse(dataString);
-        const products = cartItemStore.map((p) => p.id);
+        const carts = cartItemStore.map((p) => p.id);
 
         try {
             const data = await client.request(CreateOrderMutation, {
-                email, name, surname, address, phone, products,
+                email, name, surname, address, phone, carts,
             });
             setLoading(false);
             modal?.hide();

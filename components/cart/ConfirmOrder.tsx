@@ -26,6 +26,7 @@ function ConfirmOrder(): JSX.Element {
             if (!auth.tokenExists) return;
             try {
                 const data = await client.request<{order: Order}>(OrderQuery, { id: router.query.id });
+                console.debug(data);
                 setOrder(data.order);
             } catch (err) {
                 console.error(err);
@@ -51,10 +52,10 @@ function ConfirmOrder(): JSX.Element {
         );
     }
 
-    const totalPrice = order.products.reduce((total, {
-        price, discount, unit,
+    const totalPrice = order.carts.reduce((total, {
+        qty, product: { price, discount, unit },
     }) => (
-        total + Number(getPrice(price * unit * 1, discount))
+        total + Number(getPrice(price * unit * qty, discount))
     ), 0);
 
     return (
@@ -62,15 +63,36 @@ function ConfirmOrder(): JSX.Element {
             <h1 className="text-center text-primary mb-5">
                 Order
             </h1>
-            <div className="row mb-5">
-                <div className="col-12 col-md-6 col-lg-3 border">{order.name}</div>
-                <div className="col-12 col-md-6 col-lg-3 border">{order.surname}</div>
-                <div className="col-12 col-md-6 col-lg-3 border">{order.email}</div>
-                <div className="col-12 col-md-6 col-lg-3 border">{order.phone}</div>
-                <div className="col-12 border">{order.address}</div>
+            <div className="list-group mb-5">
+                <p className="list-group-item">
+                    <span className="h5">Name:&nbsp;</span>
+                    <span>
+                        {order.name}
+                        &nbsp;
+                        {order.surname}
+                    </span>
+                </p>
+                <p className="list-group-item">
+                    <span className="h5">E-mail:&nbsp;</span>
+                    <span>
+                        {order.email}
+                    </span>
+                </p>
+                <p className="list-group-item">
+                    <span className="h5">Phone number:&nbsp;</span>
+                    <span>
+                        {order.phone}
+                    </span>
+                </p>
+                <p className="list-group-item">
+                    <span className="h5">Address:&nbsp;</span>
+                    <span>
+                        {order.address}
+                    </span>
+                </p>
             </div>
             <ul className="list-group mb-5">
-                {order.products.map((product) => (
+                {order.carts.map(({ qty, product }) => (
                     <li className="list-group-item" key={product.id}>
                         <div className="row">
                             <div className="col-8">
@@ -87,8 +109,8 @@ function ConfirmOrder(): JSX.Element {
                                 <Price
                                     discount={product.discount}
                                     measure={product.measure}
-                                    price={(product.price / product.unit) * 1}
-                                    unit={1}
+                                    price={(product.price / product.unit) * qty}
+                                    unit={qty}
                                 />
                             </div>
                         </div>
