@@ -8,8 +8,6 @@ import { AUTH_TOKEN_NAME } from '~/utils/constants';
 import client from '~/utils/graphql-request';
 
 
-const isAuth = typeof window === 'undefined' ? false : !!localStorage.getItem(AUTH_TOKEN_NAME);
-
 export class CartStore {
     constructor() {
         makeAutoObservable(this, {}, { autoBind: true });
@@ -24,10 +22,12 @@ export class CartStore {
     isCartFetched = false
 
     async toggle(cartItem: CartItemStore): Promise<void> {
+        const isAuth = !!localStorage.getItem(AUTH_TOKEN_NAME);
+
         try {
             console.debug(cartItem.id);
             if (this.exists(cartItem)) {
-                if (isAuth && !this.loading) {
+                if (isAuth) {
                     ria(() => { this.loading = true; });
                     await client.request(
                         DeleteCartMutation,
@@ -36,13 +36,12 @@ export class CartStore {
                 }
                 ria(() => this.cartItems.remove(cartItem));
             } else {
-                if (isAuth && !this.loading) {
+                if (isAuth) {
                     ria(() => { this.loading = true; });
                     const { createCart: { cart } } = await client.request(
                         CreateCartMutation,
                         { qty: cartItem.qty, product: cartItem.product.id },
                     );
-                    console.debug(cart.id);
                     ria(() => Object.assign(cartItem, { cartId: cart.id }));
                 }
                 ria(() => this.cartItems.push(cartItem));
@@ -54,8 +53,8 @@ export class CartStore {
         }
     }
 
-    replace(newCartItems: CartItemStore[]): void {
-        this.cartItems.replace(newCartItems);
+    replace(newCartItems: CartItemStoreArgs[]): void {
+        this.cartItems.replace(newCartItems.map((i) => new CartItemStore(i)));
     }
 
     getById(id: number): CartItemStore | undefined {

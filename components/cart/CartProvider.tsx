@@ -3,11 +3,11 @@ import {
     createContext, ReactChild, useContext, useEffect, useMemo,
 } from 'react';
 
-import CartQuery from '~/queries/CartQuery.gql';
+import { CartItemStoreArgs } from '~/store/CartItemStore';
 import { CartStore } from '~/store/CartStore';
+import { getCartStoreItems } from '~/utils/cartStorage';
 import { CART_LOCAL_STORAGE_NAME, AUTH_TOKEN_NAME } from '~/utils/constants';
-import getTokenLocalStorage from '~/utils/getLocalStorage';
-import client from '~/utils/graphql-request';
+import fetcher from '~/utils/fetcher';
 
 
 export const Context = createContext({} as CartStore);
@@ -18,12 +18,10 @@ function CartProvider({ children }: { children: ReactChild[]}): JSX.Element {
 
     useEffect(() => {
         if (localStorage.getItem(AUTH_TOKEN_NAME)) {
-            client.request(CartQuery)
-                .then(({ carts }): void => {
-                    cart.replace(carts);
-                });
+            fetcher<CartItemStoreArgs[]>('/carts/refresh', { method: 'post', body: [] })
+                .then((data) => cart.replace(data));
         } else {
-            const dataCart = getTokenLocalStorage();
+            const dataCart = getCartStoreItems();
             if (dataCart) cart.replace(dataCart);
         }
         cart.setCartFedched();

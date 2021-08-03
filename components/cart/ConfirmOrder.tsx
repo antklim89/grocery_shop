@@ -17,7 +17,8 @@ function ConfirmOrder(): JSX.Element {
 
     const [order, setOrder] = useState<Order|null>(null);
     const [error, setError] = useState<string|null>(null);
-
+    const [loading, setLoading] = useState(false);
+    const [status, setStatus] = useState<null|'success'|'error'>(null);
 
     useEffect(() => {
         (async () => {
@@ -34,6 +35,22 @@ function ConfirmOrder(): JSX.Element {
             }
         })();
     }, [router.query.id]);
+
+    const handleConfirm = async () => {
+        setLoading(true);
+        const token = localStorage.getItem('token');
+        if (!token) return;
+        const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/confirm/${router.query.id}`, {
+            method: 'post',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        const isOk = await data.json();
+        if (isOk) setStatus('success');
+        else setStatus('error');
+        setLoading(false);
+    };
 
     if (error) {
         return (
@@ -63,6 +80,12 @@ function ConfirmOrder(): JSX.Element {
             <h1 className="text-center text-primary mb-5">
                 Order
             </h1>
+            {status === 'error' && (
+                <p className="h1">Order failed. Try again later.</p>
+            )}
+            {status === 'success' && (
+                <p className="h1">Order successfully confirmed.</p>
+            )}
             <div className="list-group mb-5">
                 <p className="list-group-item">
                     <span className="h5">Name:&nbsp;</span>
@@ -117,7 +140,8 @@ function ConfirmOrder(): JSX.Element {
                     </li>
                 ))}
             </ul>
-            <div>
+
+            <div className="mb-5">
                 <p className="text-end h2">
                     Total Price:
                     {' '}
@@ -125,6 +149,16 @@ function ConfirmOrder(): JSX.Element {
                     $
                 </p>
             </div>
+            {(status === 'error' || status === null) && (
+                <button className="btn btn-primary" type="submit" onClick={handleConfirm}>
+                    Confirm
+                    {loading && (
+                        <div className="spinner-border spinner-border-sm ms-1" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                    )}
+                </button>
+            )}
         </div>
     );
 }
