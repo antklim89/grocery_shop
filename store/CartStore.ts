@@ -25,9 +25,8 @@ export class CartStore {
         const isAuth = !!localStorage.getItem(AUTH_TOKEN_NAME);
 
         try {
-            console.debug(cartItem.id);
             if (this.exists(cartItem)) {
-                if (isAuth) {
+                if (isAuth && !this.loading) {
                     ria(() => { this.loading = true; });
                     await client.request(
                         DeleteCartMutation,
@@ -36,7 +35,7 @@ export class CartStore {
                 }
                 ria(() => this.cartItems.remove(cartItem));
             } else {
-                if (isAuth) {
+                if (isAuth && !this.loading) {
                     ria(() => { this.loading = true; });
                     const { createCart: { cart } } = await client.request(
                         CreateCartMutation,
@@ -54,7 +53,7 @@ export class CartStore {
     }
 
     replace(newCartItems: CartItemStoreArgs[]): void {
-        this.cartItems.replace(newCartItems.map((i) => new CartItemStore(i)));
+        this.cartItems.replace(newCartItems.map((i) => new CartItemStore(i, this)));
     }
 
     getById(id: number): CartItemStore | undefined {
@@ -68,7 +67,7 @@ export class CartStore {
     setCurrentProduct(product: CartItemStoreArgs): CartItemStore {
         const oldOrNewCartItem = (
             this.cartItems.find((i) => Number(i.product.id) === Number(product.product.id))
-            || new CartItemStore(product)
+            || new CartItemStore(product, this)
         );
 
         this.currentCartItem = oldOrNewCartItem;

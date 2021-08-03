@@ -5,7 +5,7 @@ import {
 
 import { CartItemStoreArgs } from '~/store/CartItemStore';
 import { CartStore } from '~/store/CartStore';
-import { getCartStoreItems } from '~/utils/cartStorage';
+import { getCartItems } from '~/utils/cartStorage';
 import { CART_LOCAL_STORAGE_NAME, AUTH_TOKEN_NAME } from '~/utils/constants';
 import fetcher from '~/utils/fetcher';
 
@@ -21,7 +21,7 @@ function CartProvider({ children }: { children: ReactChild[]}): JSX.Element {
             fetcher<CartItemStoreArgs[]>('/carts/refresh', { method: 'post', body: [] })
                 .then((data) => cart.replace(data));
         } else {
-            const dataCart = getCartStoreItems();
+            const dataCart = getCartItems();
             if (dataCart) cart.replace(dataCart);
         }
         cart.setCartFedched();

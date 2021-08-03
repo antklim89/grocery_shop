@@ -1,0 +1,16 @@
+
+
+
+mutation UpdateCartMutation(
+    $qty: Float!
+    $id: ID!
+) {
+    updateCart(input: {
+        data: { qty: $qty }
+        where: { id: $id }
+    }) {
+        cart {
+            id
+        }
+    }
+}
