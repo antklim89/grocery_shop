@@ -18,7 +18,7 @@ function CartProvider({ children }: { children: ReactChild[]}): JSX.Element {
 
     useEffect(() => {
         if (localStorage.getItem(AUTH_TOKEN_NAME)) {
-            fetcher<CartItemStoreArgs[]>('/carts/refresh', { method: 'post', body: [] })
+            fetcher<CartItemStoreArgs[]>('/carts/refresh', [], { method: 'post' })
                 .then((data) => {
                     cart.replace(data);
                 });

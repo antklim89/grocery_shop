@@ -11,8 +11,8 @@ import fetcher from '~/utils/fetcher';
 
 
 const Auth: FC<{isSignup?: boolean}> = ({ isSignup }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('anton@mail.ru');
+    const [password, setPassword] = useState('123');
     const [confirm, setConfirm] = useState('');
     const [username, setUsername] = useState('');
 
@@ -22,24 +22,20 @@ const Auth: FC<{isSignup?: boolean}> = ({ isSignup }) => {
     const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        try {
-            if (isSignup) {
-                await auth.signup({ email, username, password });
-            } else {
-                await auth.login({ email, password });
-            }
-
-            const cartItems = getCartItems()?.map((i) => ({ qty: i.qty, product: i.product.id }));
-            const newCartItems = await fetcher<CartItemStoreArgs[]>('/carts/refresh', {
-                method: 'post',
-                body: cartItems || [],
-            });
-
-            cart.replace(newCartItems);
-        } catch (err) {
-            console.error(err.message);
-            // console.debug('err.name: \n', err.response.errors[0].extensions.exception.data.message[0].messages[0].message);
+        if (isSignup) {
+            await auth.signup({ email, username, password });
+        } else {
+            await auth.login({ email, password });
         }
+
+        const cartItems = getCartItems()?.map((i) => ({ qty: i.qty, product: i.product.id }));
+        const newCartItems = await fetcher<CartItemStoreArgs[]>(
+            '/carts/refresh',
+            cartItems || [],
+            { method: 'post' },
+        );
+
+        cart.replace(newCartItems);
     };
 
 

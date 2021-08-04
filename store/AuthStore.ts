@@ -4,6 +4,7 @@ import LogInMutation from '~/queries/LogInMutation.gql';
 import MeQuery from '~/queries/MeQuery.gql';
 import SingUpMutation from '~/queries/SingUpMutation.gql';
 import { AuthResponse, User } from '~/types';
+import fetcher from '~/utils/fetcher';
 import client from '~/utils/graphql-request';
 
 
@@ -41,13 +42,13 @@ export default class AuthStore {
     }
 
     async signup({ email, username, password }: {email: string, username: string, password: string}): Promise<void> {
-        await this.loginOrSignup(() => client.request<AuthResponse>(SingUpMutation, {
+        await this.loginOrSignup(() => fetcher<AuthResponse>(SingUpMutation, {
             email, username, password,
         }));
     }
 
     async login({ email, password }: {email: string, password: string}): Promise<void> {
-        await this.loginOrSignup(() => client.request<AuthResponse>(LogInMutation, {
+        await this.loginOrSignup(() => fetcher<AuthResponse>(LogInMutation, {
             identifier: email, password,
         }));
     }
@@ -74,7 +75,7 @@ export default class AuthStore {
             const { data } = await request();
             this.setUser(data.user, data.jwt);
         } catch (error) {
-            this.setError('Unexpected error.');
+            this.setError(error.message);
             throw error;
         } finally {
             this.setLoading(false);
