@@ -9,7 +9,7 @@ import SingUpMutation from '~/queries/SingUpMutation.gql';
 import { CartItemStoreArgs } from '~/store/CartItemStore';
 import styles from '~/styles/Auth.module.scss';
 import { User } from '~/types';
-import { getCartItems, saveCart } from '~/utils/cartStorage';
+import { getCartItems } from '~/utils/cartStorage';
 import fetcher from '~/utils/fetcher';
 import client from '~/utils/graphql-request';
 
@@ -58,7 +58,7 @@ export default function Auth({ isSignup }: {isSignup?: boolean}): JSX.Element {
             cart.replace(newCartItems);
 
             setloading(false);
-            // await router.back();
+            await router.back();
         } catch (err) {
             console.error(err);
             setloading(false);

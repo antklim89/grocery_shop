@@ -41,7 +41,7 @@ export class CartStore {
                         CreateCartMutation,
                         { qty: cartItem.qty, product: cartItem.product.id },
                     );
-                    ria(() => Object.assign(cartItem, { cartId: cart.id }));
+                    ria(() => Object.assign(cartItem, { id: cart.id }));
                 }
                 ria(() => this.cartItems.push(cartItem));
             }
@@ -53,7 +53,7 @@ export class CartStore {
     }
 
     replace(newCartItems: CartItemStoreArgs[]): void {
-        this.cartItems.replace(newCartItems.map((i) => new CartItemStore(i, this)));
+        this.cartItems.replace(newCartItems.map((cartItem) => new CartItemStore(cartItem)));
     }
 
     getById(id: number): CartItemStore | undefined {
@@ -64,10 +64,10 @@ export class CartStore {
         return !!this.cartItems.find((p) => p.product.id === cartItem.product.id);
     }
 
-    setCurrentProduct(product: CartItemStoreArgs): CartItemStore {
+    setCurrentProduct(cartItem: CartItemStoreArgs): CartItemStore {
         const oldOrNewCartItem = (
-            this.cartItems.find((i) => Number(i.product.id) === Number(product.product.id))
-            || new CartItemStore(product, this)
+            this.cartItems.find((i) => Number(i.product.id) === Number(cartItem.product.id))
+            || new CartItemStore(cartItem)
         );
 
         this.currentCartItem = oldOrNewCartItem;

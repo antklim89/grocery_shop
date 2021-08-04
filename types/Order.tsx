@@ -1,4 +1,4 @@
-import type { IProductPreview } from '~/types';
+import { IProduct } from './IProduct';
 
 
 export interface Order {
@@ -10,7 +10,7 @@ export interface Order {
     carts: Array<{
         id: number
         qty: number
-        product: IProductPreview;
+        product: Omit<IProduct, 'description'>;
     }>
     user: {
         id: string;
