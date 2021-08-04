@@ -2,11 +2,10 @@ import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-import { useAuth } from '../auth/AuthProvider';
-import Loading from '../utils/Loading';
-
 import OrderForm from './OrderForm';
 
+import { useAuth } from '~/components/auth/AuthProvider';
+import Loading from '~/components/utils/Loading';
 import CreateOrderMutation from '~/queries/CreateOrderMutation.gql';
 import { CartItemStore } from '~/store/CartItemStore';
 import { CART_LOCAL_STORAGE_NAME } from '~/utils/constants';

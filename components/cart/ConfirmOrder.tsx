@@ -29,7 +29,6 @@ function ConfirmOrder(): JSX.Element {
             if (!auth.isAuth) return;
             try {
                 const data = await client.request<{order: Order}>(OrderQuery, { id: router.query.id });
-                console.debug(data);
                 setOrder(data.order);
             } catch (err) {
                 console.error(err);

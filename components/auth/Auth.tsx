@@ -1,83 +1,58 @@
-import { useRouter } from 'next/router';
-import { FormEvent, useState } from 'react';
-
-import { useCart } from '../cart/CartProvider';
-import Loading from '../utils/Loading';
+import { observer } from 'mobx-react-lite';
+import { FC, FormEvent, useState } from 'react';
 
 import { useAuth } from '~/components/auth/AuthProvider';
-import LogInMutation from '~/queries/LogInMutation.gql';
-import SingUpMutation from '~/queries/SingUpMutation.gql';
+import { useCart } from '~/components/cart/CartProvider';
+import Loading from '~/components/utils/Loading';
 import { CartItemStoreArgs } from '~/store/CartItemStore';
 import styles from '~/styles/Auth.module.scss';
-import { User } from '~/types';
 import { getCartItems } from '~/utils/cartStorage';
 import fetcher from '~/utils/fetcher';
-import client from '~/utils/graphql-request';
 
 
-interface AuthResponse {
-    data: {
-        jwt: string;
-        user: User;
-    };
-}
-
-export default function Auth({ isSignup }: {isSignup?: boolean}): JSX.Element {
+const Auth: FC<{isSignup?: boolean}> = ({ isSignup }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirm, setConfirm] = useState('');
     const [username, setUsername] = useState('');
-    const [loading, setloading] = useState(false);
 
     const auth = useAuth();
-    const router = useRouter();
     const cart = useCart();
 
     const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setloading(true);
 
         try {
-            const { data } = isSignup
-                ? await client.request<AuthResponse>(SingUpMutation, {
-                    email, username, password, cart: [{ qty: 1, products: 1 }],
-                })
-                : await client.request<AuthResponse>(LogInMutation, {
-                    identifier: email, password,
-                });
-
-            auth.setUser(data.user, data.jwt);
+            if (isSignup) {
+                await auth.signup({ email, username, password });
+            } else {
+                await auth.login({ email, password });
+            }
 
             const cartItems = getCartItems()?.map((i) => ({ qty: i.qty, product: i.product.id }));
-            console.debug('cartItems: ', cartItems);
             const newCartItems = await fetcher<CartItemStoreArgs[]>('/carts/refresh', {
                 method: 'post',
                 body: cartItems || [],
             });
 
-            console.debug(newCartItems);
             cart.replace(newCartItems);
-
-            setloading(false);
-            await router.back();
         } catch (err) {
-            console.error(err);
-            setloading(false);
+            console.error(err.message);
+            // console.debug('err.name: \n', err.response.errors[0].extensions.exception.data.message[0].messages[0].message);
         }
     };
 
-    // if (auth.user) {
-    //     return (
-    //         <p className="h1 text-center">
-    //             You are already
-    //             {isSignup ? ' sign up.' : ' log in.'}
-    //         </p>
-    //     );
-    // }
+
     return (
         <div className="container">
             <h1 className="text-center text-primary">{isSignup ? 'Sign Up' : 'Log In'}</h1>
             <form className={`p-5 border ${styles.form}`} onSubmit={handleLogin}>
+                {auth.error && (
+                    <div className="alert alert-danger" role="alert">
+                        <i className="bi bi-exclamation-triangle px-2" />
+                        {auth.error}
+                    </div>
+                )}
                 <div className="mb-3">
                     <input
                         required
@@ -125,11 +100,13 @@ export default function Auth({ isSignup }: {isSignup?: boolean}): JSX.Element {
                         />
                     </div>
                 )}
-                <button className="btn btn-primary" disabled={loading} type="submit">
+                <button className="btn btn-primary" disabled={auth.loading} type="submit">
                     {isSignup ? 'Sign up' : 'Log In'}
-                    <Loading loading={loading} size="sm" />
+                    <Loading loading={auth.loading} size="sm" />
                 </button>
             </form>
         </div>
     );
-}
+};
+
+export default observer(Auth);
