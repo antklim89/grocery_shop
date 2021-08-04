@@ -7,7 +7,7 @@ import ProductsList from '~/components/products/ProductsList';
 import Seo from '~/components/utils/Seo';
 import ProductsPageQuery from '~/queries/ProductsPageQuery.gql';
 import { IProductPreview } from '~/types';
-import client from '~/utils/graphql-request';
+import fetcher from '~/utils/fetcher';
 import useBootstrap from '~/utils/useBootstrap';
 
 
@@ -21,7 +21,7 @@ export default function ProductsPage(): JSX.Element {
     useEffect(() => {
         (async () => {
             try {
-                const data = await client.request<{products: IProductPreview[]}>(
+                const data = await fetcher<{products: IProductPreview[]}>(
                     ProductsPageQuery,
                     // { country: 'Egypt' },
                 );

@@ -9,7 +9,7 @@ import Loading from '~/components/utils/Loading';
 import CreateOrderMutation from '~/queries/CreateOrderMutation.gql';
 import { CartItemStore } from '~/store/CartItemStore';
 import { CART_LOCAL_STORAGE_NAME } from '~/utils/constants';
-import client from '~/utils/graphql-request';
+import fetcher from '~/utils/fetcher';
 import useBootstrap from '~/utils/useBootstrap';
 
 
@@ -35,7 +35,7 @@ function CartFormModal(): JSX.Element {
         const carts = cartItemStore.map((p) => p.id);
 
         try {
-            const data = await client.request(CreateOrderMutation, {
+            const data = await fetcher<{createOrder: {order: {id: number}}}>(CreateOrderMutation, {
                 email, name, surname, address, phone, carts,
             });
             setLoading(false);

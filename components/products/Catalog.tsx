@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import CatalogQuery from '~/queries/CatalogQuery.gql';
 import cls from '~/utils/cls';
-import client from '~/utils/graphql-request';
+import fetcher from '~/utils/fetcher';
 
 
 export default function Catalog(): JSX.Element {
@@ -15,7 +15,7 @@ export default function Catalog(): JSX.Element {
 
     useEffect(() => {
         (async () => {
-            const data = await client.request<Record<string, {name: string}[]>>(CatalogQuery);
+            const data = await fetcher<Record<string, {name: string}[]>>(CatalogQuery);
             setCatecories(data.categories.map((i) => i.name));
             setCountries(data.countries.map((i) => i.name));
         })();

@@ -3,9 +3,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 
+import ProtectedComponent from '../utils/ProtectedComponent';
+
 import CartFormModal from './CartFormModal';
 
-import { useAuth } from '~/components/auth/AuthProvider';
 import { useCart } from '~/components/cart/CartProvider';
 import Price from '~/components/utils/Price';
 import getTotalPrice from '~/utils/getTotalPrice';
@@ -17,7 +18,6 @@ function imagePath(url: string) {
 
 function CartList(): JSX.Element {
     const cart = useCart();
-    const auth = useAuth();
 
     if (!cart.cartItems || cart.cartItems.length === 0) {
         return (
@@ -88,17 +88,17 @@ function CartList(): JSX.Element {
                         {totalPrice}
                     </p>
                 </div>
-                {
-                    auth.isAuth ? (
-                        <CartFormModal />
-                    ) : (
+                <ProtectedComponent
+                    render={(
                         <Link href="/login">
                             <a className="btn btn-primary btn-lg align-self-center">
                                 Login to confirm order...
                             </a>
                         </Link>
-                    )
-                }
+                    )}
+                >
+                    <CartFormModal />
+                </ProtectedComponent>
             </div>
         </div>
     );

@@ -5,7 +5,7 @@ import { CartItemStore, CartItemStoreArgs } from './CartItemStore';
 import CreateCartMutation from '~/queries/CreateCartMutation.gql';
 import DeleteCartMutation from '~/queries/DeleteCartMutation.gql';
 import { AUTH_TOKEN_NAME } from '~/utils/constants';
-import client from '~/utils/graphql-request';
+import fetcher from '~/utils/fetcher';
 
 
 export class CartStore {
@@ -27,8 +27,8 @@ export class CartStore {
         try {
             if (this.exists(cartItem)) {
                 if (isAuth && !this.loading) {
-                    ria(() => { this.loading = true; });
-                    await client.request(
+                    this.setLoading(true);
+                    await fetcher(
                         DeleteCartMutation,
                         { id: cartItem.id },
                     );
@@ -36,8 +36,8 @@ export class CartStore {
                 ria(() => this.cartItems.remove(cartItem));
             } else {
                 if (isAuth && !this.loading) {
-                    ria(() => { this.loading = true; });
-                    const { createCart: { cart } } = await client.request(
+                    this.setLoading(true);
+                    const { createCart: { cart } } = await fetcher(
                         CreateCartMutation,
                         { qty: cartItem.qty, product: cartItem.product.id },
                     );
@@ -48,7 +48,7 @@ export class CartStore {
         } catch (err) {
             console.error(err);
         } finally {
-            ria(() => { this.loading = false; });
+            this.setLoading(false);
         }
     }
 
@@ -76,6 +76,10 @@ export class CartStore {
 
     setCartFedched(): void {
         this.isCartFetched = true;
+    }
+
+    setLoading(state = true): void {
+        this.loading = state;
     }
 }
 

@@ -28,7 +28,7 @@ const fetcher: Fetcher = async <T extends unknown>(
 async function graphqlFetcher(url: DocumentNode, body: unknown, options: Options) {
     const { print } = await import('graphql');
 
-    const token = localStorage.getItem(AUTH_TOKEN_NAME);
+    const token = typeof window !== 'undefined' && localStorage.getItem(AUTH_TOKEN_NAME);
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
         ...options,
@@ -58,7 +58,7 @@ async function graphqlFetcher(url: DocumentNode, body: unknown, options: Options
 
 
 async function restFetcher(url: string, body: unknown, options: Options) {
-    const token = localStorage.getItem(AUTH_TOKEN_NAME);
+    const token = typeof window !== 'undefined' && localStorage.getItem(AUTH_TOKEN_NAME);
 
     const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
         ...options,

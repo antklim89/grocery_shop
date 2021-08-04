@@ -4,8 +4,8 @@ import LogInMutation from '~/queries/LogInMutation.gql';
 import MeQuery from '~/queries/MeQuery.gql';
 import SingUpMutation from '~/queries/SingUpMutation.gql';
 import { AuthResponse, User } from '~/types';
+import { AUTH_TOKEN_NAME } from '~/utils/constants';
 import fetcher from '~/utils/fetcher';
-import client from '~/utils/graphql-request';
 
 
 export default class AuthStore {
@@ -15,7 +15,7 @@ export default class AuthStore {
 
     public user?: User | null;
 
-    public isAuth = typeof window === 'undefined' ? true : !!localStorage.getItem('token')
+    public isAuth = typeof window === 'undefined' ? true : !!localStorage.getItem(AUTH_TOKEN_NAME)
 
     public isUserFetched = false
 
@@ -28,8 +28,7 @@ export default class AuthStore {
         this.isAuth = true;
 
         if (jwt) {
-            localStorage.setItem('token', jwt);
-            client.setHeader('Authorization', `Bearer ${jwt}`);
+            localStorage.setItem(AUTH_TOKEN_NAME, jwt);
         }
     }
 
@@ -37,20 +36,21 @@ export default class AuthStore {
         this.user = null;
         this.isAuth = false;
 
-        localStorage.removeItem('token');
-        client.setHeader('Authorization', '');
+        localStorage.removeItem(AUTH_TOKEN_NAME);
     }
 
     async signup({ email, username, password }: {email: string, username: string, password: string}): Promise<void> {
-        await this.loginOrSignup(() => fetcher<AuthResponse>(SingUpMutation, {
-            email, username, password,
-        }));
+        await this.loginOrSignup(() => fetcher<AuthResponse>(
+            SingUpMutation,
+            { email, username, password },
+        ));
     }
 
     async login({ email, password }: {email: string, password: string}): Promise<void> {
-        await this.loginOrSignup(() => fetcher<AuthResponse>(LogInMutation, {
-            identifier: email, password,
-        }));
+        await this.loginOrSignup(() => fetcher<AuthResponse>(
+            LogInMutation,
+            { identifier: email, password },
+        ));
     }
 
 
@@ -60,7 +60,7 @@ export default class AuthStore {
             return;
         }
         try {
-            const { me } = await client.request(MeQuery);
+            const { me } = await fetcher(MeQuery);
             this.setUser(me);
             this.setIsUserFetched();
         } catch (error) {

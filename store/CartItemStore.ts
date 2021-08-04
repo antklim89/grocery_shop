@@ -1,11 +1,9 @@
-import { makeAutoObservable, runInAction } from 'mobx';
-
-import type { CartStore } from './CartStore';
+import { makeAutoObservable } from 'mobx';
 
 import UpdateCartMutation from '~/queries/UpdateCartMutation.gql';
 import type { IProduct } from '~/types';
 import { AUTH_TOKEN_NAME } from '~/utils/constants';
-import client from '~/utils/graphql-request';
+import fetcher from '~/utils/fetcher';
 
 
 export type CartItemStoreArgs = Pick<CartItemStore, 'id'|'qty'> & {
@@ -41,7 +39,7 @@ export class CartItemStore {
         if (timeout) clearTimeout(timeout);
 
         timeout = setTimeout(() => {
-            client.request(UpdateCartMutation, { qty: this.qty, id: this.id });
+            fetcher(UpdateCartMutation, { qty: this.qty, id: this.id });
         }, 700);
     }
 }

@@ -9,8 +9,8 @@ import { useAuth } from '~/components/auth/AuthProvider';
 import Price from '~/components/utils/Price';
 import OrderQuery from '~/queries/OrderQuery.gql';
 import { Order } from '~/types';
+import fetcher from '~/utils/fetcher';
 import getTotalPrice from '~/utils/getTotalPrice';
-import client from '~/utils/graphql-request';
 
 
 function ConfirmOrder(): JSX.Element {
@@ -28,7 +28,7 @@ function ConfirmOrder(): JSX.Element {
             if (!router.query.id) return;
             if (!auth.isAuth) return;
             try {
-                const data = await client.request<{order: Order}>(OrderQuery, { id: router.query.id });
+                const data = await fetcher<{order: Order}>(OrderQuery, { id: router.query.id });
                 setOrder(data.order);
             } catch (err) {
                 console.error(err);

@@ -5,7 +5,7 @@ import Features from '~/components/about/Features';
 import Seo from '~/components/utils/Seo';
 import AboutUsPageQuery from '~/queries/AboutUsPageQuery.gql';
 import { AboutAsProps, IFeature } from '~/types';
-import client from '~/utils/graphql-request';
+import fetcher from '~/utils/fetcher';
 
 
 interface Props {
@@ -24,7 +24,7 @@ export default function AboutPage({ aboutUs, features }: Props): JSX.Element {
 }
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-    const props = await client.request<Props>(AboutUsPageQuery, {});
+    const props = await fetcher<Props>(AboutUsPageQuery, {});
 
     return { props };
 };

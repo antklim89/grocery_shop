@@ -4,7 +4,7 @@ import Product from '~/components/products/Product';
 import Seo from '~/components/utils/Seo';
 import ProductPageQuery from '~/queries/ProductPageQuery.gql';
 import { IProduct } from '~/types';
-import client from '~/utils/graphql-request';
+import fetcher from '~/utils/fetcher';
 
 
 interface Props {
@@ -40,7 +40,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 
 export const getStaticProps: GetStaticProps<Props, {id: string}> = async ({ params }) => {
-    const props = await client.request<Props>(
+    const props = await fetcher<Props>(
         ProductPageQuery,
         { id: params?.id },
     );
