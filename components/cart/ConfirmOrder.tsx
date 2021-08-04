@@ -3,11 +3,13 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 
+import Loading from '../utils/Loading';
+
 import { useAuth } from '~/components/auth/AuthProvider';
 import Price from '~/components/utils/Price';
 import OrderQuery from '~/queries/OrderQuery.gql';
 import { Order } from '~/types';
-import getPrice from '~/utils/getPrice';
+import getTotalPrice from '~/utils/getTotalPrice';
 import client from '~/utils/graphql-request';
 
 
@@ -62,18 +64,12 @@ function ConfirmOrder(): JSX.Element {
     if (!order) {
         return (
             <div className="d-flex justify-content-center">
-                <div className="spinner-border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </div>
+                <Loading loading />
             </div>
         );
     }
 
-    const totalPrice = order.carts.reduce((total, {
-        qty, product: { price, discount, unit },
-    }) => (
-        total + Number(getPrice(price * unit * qty, discount))
-    ), 0);
+    const totalPrice = getTotalPrice(order.carts);
 
     return (
         <div>
@@ -150,13 +146,12 @@ function ConfirmOrder(): JSX.Element {
                 </p>
             </div>
             {(status === 'error' || status === null) && (
-                <button className="btn btn-primary" type="submit" onClick={handleConfirm}>
+                <button
+                    className="btn btn-primary" disabled={loading} type="submit"
+                    onClick={handleConfirm}
+                >
                     Confirm
-                    {loading && (
-                        <div className="spinner-border spinner-border-sm ms-1" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </div>
-                    )}
+                    <Loading loading={loading} size="sm" />
                 </button>
             )}
         </div>

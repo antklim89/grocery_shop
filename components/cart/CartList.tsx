@@ -8,7 +8,7 @@ import CartFormModal from './CartFormModal';
 import { useAuth } from '~/components/auth/AuthProvider';
 import { useCart } from '~/components/cart/CartProvider';
 import Price from '~/components/utils/Price';
-import getPrice from '~/utils/getPrice';
+import getTotalPrice from '~/utils/getTotalPrice';
 
 
 function imagePath(url: string) {
@@ -25,11 +25,7 @@ function CartList(): JSX.Element {
         );
     }
 
-    const totalPrice = cart.cartItems.reduce((total, {
-        qty, product: { price, discount, unit },
-    }) => (
-        total + Number(getPrice(price * unit * qty, discount))
-    ), 0);
+    const totalPrice = getTotalPrice(cart.cartItems);
 
     return (
         <div className="container">

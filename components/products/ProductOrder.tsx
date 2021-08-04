@@ -1,6 +1,8 @@
 import { observer, Observer } from 'mobx-react-lite';
 import { FormEvent } from 'react';
 
+import Loading from '../utils/Loading';
+
 import { useCart } from '~/components/cart/CartProvider';
 import Price from '~/components/utils/Price';
 import { IProduct } from '~/types';
@@ -24,9 +26,7 @@ function ProductOrder(product: IProduct): JSX.Element {
         return (
             <div className="border h-100 shadow p-2 d-flex flex-column">
                 <h1 className="text-center py-2 text-dark border-bottom">{name}</h1>
-                <div className="spinner-border m-auto" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </div>
+                <Loading loading />
             </div>
         );
     }

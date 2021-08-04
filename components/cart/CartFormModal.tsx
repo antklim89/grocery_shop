@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import { useAuth } from '../auth/AuthProvider';
+import Loading from '../utils/Loading';
 
 import OrderForm from './OrderForm';
 
@@ -96,11 +97,7 @@ function CartFormModal(): JSX.Element {
                                 onClick={handleConfirm}
                             >
                                 Confirm
-                                {loading && (
-                                    <div className="spinner-border spinner-border-sm ms-1" role="status">
-                                        <span className="visually-hidden">Loading...</span>
-                                    </div>
-                                )}
+                                <Loading loading={loading} size="sm" />
                             </button>
                             <button
                                 className="btn btn-danger"

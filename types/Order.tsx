@@ -1,4 +1,4 @@
-import { IProduct } from './IProduct';
+import { CartItemStoreArgs } from '~/store/CartItemStore';
 
 
 export interface Order {
@@ -7,11 +7,7 @@ export interface Order {
     surname: string;
     address: string;
     phone: string;
-    carts: Array<{
-        id: number
-        qty: number
-        product: Omit<IProduct, 'description'>;
-    }>
+    carts: CartItemStoreArgs[]
     user: {
         id: string;
         username: string;

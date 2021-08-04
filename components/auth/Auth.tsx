@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
 
 import { useCart } from '../cart/CartProvider';
+import Loading from '../utils/Loading';
 
 import { useAuth } from '~/components/auth/AuthProvider';
 import LogInMutation from '~/queries/LogInMutation.gql';
@@ -124,13 +125,9 @@ export default function Auth({ isSignup }: {isSignup?: boolean}): JSX.Element {
                         />
                     </div>
                 )}
-                <button className="btn btn-primary" type="submit">
+                <button className="btn btn-primary" disabled={loading} type="submit">
                     {isSignup ? 'Sign up' : 'Log In'}
-                    {loading && (
-                        <div className="spinner-border spinner-border-sm ms-1" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </div>
-                    )}
+                    <Loading loading={loading} size="sm" />
                 </button>
             </form>
         </div>
