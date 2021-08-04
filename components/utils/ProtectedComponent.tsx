@@ -31,7 +31,7 @@ const ProtectedComponent: FC<Props> = ({
     useEffect(() => {
         if (!auth.isUserFetched) return;
         setIsMounted(true);
-        console.debug('redirect: \n', redirect);
+
         if (needProtect && redirect === 'back') {
             router.back();
             return;
@@ -39,7 +39,7 @@ const ProtectedComponent: FC<Props> = ({
         if (needProtect && redirect) {
             router.replace(redirect);
         }
-    }, [auth.isUserFetched]);
+    }, [auth.isUserFetched, auth.isAuth]);
 
 
     if (!isMounted) return null;
