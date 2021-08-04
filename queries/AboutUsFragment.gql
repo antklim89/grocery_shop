@@ -8,7 +8,5 @@ fragment AboutUsFragment on AboutUs {
     image {
         ...StrapiImageFragment
     }
-    published_at
     title
-    updated_at
 }

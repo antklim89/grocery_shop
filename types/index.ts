@@ -3,7 +3,6 @@ export * from './IFeature';
 export * from './StrapiImage';
 export * from './HeroProps';
 export * from './IProduct';
-export * from './AuthStore';
 export * from './User';
 export * from './IProductPreview';
 export * from './Order';

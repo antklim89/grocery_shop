@@ -26,7 +26,7 @@ function ConfirmOrder(): JSX.Element {
         (async () => {
             setError(null);
             if (!router.query.id) return;
-            if (!auth.tokenExists) return;
+            if (!auth.isAuth) return;
             try {
                 const data = await client.request<{order: Order}>(OrderQuery, { id: router.query.id });
                 console.debug(data);

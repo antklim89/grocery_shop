@@ -1,15 +1,14 @@
 import { useLocalObservable } from 'mobx-react-lite';
 import {
-    useEffect, ReactChild, createContext, useContext,
+    useEffect, ReactChild, createContext, useContext, useMemo,
 } from 'react';
 
 import MeQuery from '~/queries/MeQuery.gql';
-import { authStore } from '~/store/authStore';
-import { AuthStore } from '~/types';
+import AuthStore from '~/store/AuthStore';
 import client from '~/utils/graphql-request';
 
 
-export const Context = createContext<AuthStore>(authStore);
+export const Context = createContext<AuthStore>({} as AuthStore);
 
 export default function AuthProvider({ children }: { children: ReactChild}): JSX.Element {
     useEffect(() => {
@@ -25,7 +24,7 @@ export default function AuthProvider({ children }: { children: ReactChild}): JSX
         })();
     }, []);
 
-    const auth = useLocalObservable(() => authStore);
+    const auth = useMemo(() => new AuthStore(), []);
 
 
     return (
