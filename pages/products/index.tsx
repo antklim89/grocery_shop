@@ -14,7 +14,14 @@ import useBootstrap from '~/utils/useBootstrap';
 export default function ProductsPage(): JSX.Element {
     const [products, setProducts] = useState<IProductPreview[]>([]);
     const router = useRouter();
-    const query = router.asPath.replace('/products', '');
+    const [, query] = router.asPath.split('?');
+
+    const params = new URLSearchParams(query);
+
+    const paramsObj = Array.from(params.entries()).reduce<Record<string, string>>((acc, [key, value]) => {
+        acc[key] = value;
+        return acc;
+    }, {});
 
     useBootstrap('Offcanvas');
 
@@ -23,7 +30,7 @@ export default function ProductsPage(): JSX.Element {
             try {
                 const data = await fetcher<{products: IProductPreview[]}>(
                     ProductsPageQuery,
-                    // { country: 'Egypt' },
+                    paramsObj,
                 );
                 setProducts(data.products);
             } catch (error) {

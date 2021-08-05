@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 
+import CatalogItem from './CatalogItem';
+
 import CatalogQuery from '~/queries/CatalogQuery.gql';
 import cls from '~/utils/cls';
 import fetcher from '~/utils/fetcher';
@@ -11,7 +13,8 @@ const Catalog: FC = () => {
     const [categories, setCatecories] = useState<string[]>([]);
     const [countries, setCountries] = useState<string[]>([]);
 
-    const { route, query } = useRouter();
+    const { asPath } = useRouter();
+    const query: string | undefined = asPath.split('?')[1];
 
     useEffect(() => {
         (async () => {
@@ -29,7 +32,7 @@ const Catalog: FC = () => {
                         className={cls(
                             'list-group-item',
                             'list-group-item-action',
-                            (!query['category.name'] && !query['country.name']) && 'active',
+                            (!query || query.length === 0) && 'active',
                         )}
                         role="listitem"
                     >
@@ -40,37 +43,13 @@ const Catalog: FC = () => {
             <ul className="list-group mb-4">
                 <h5>Category</h5>
                 {categories.map((category) => (
-                    <Link href={`${route}?category.name=${category}`} key={category}>
-                        <a
-                            className={cls(
-                                'list-group-item',
-                                'list-group-item-action',
-                                query['category.name'] === category && 'active',
-                            )}
-                            data-bs-dismiss="offcanvas"
-                            role="listitem"
-                        >
-                            {category}
-                        </a>
-                    </Link>
+                    <CatalogItem key={category} name="category" value={category} />
                 ))}
             </ul>
             <ul className="list-group mb-4">
                 <h5>Countries</h5>
                 {countries.map((country) => (
-                    <Link href={`${route}?country.name=${country}`} key={country}>
-                        <a
-                            className={cls(
-                                'list-group-item',
-                                'list-group-item-action',
-                                query['country.name'] === country && 'active',
-                            )}
-                            data-bs-dismiss="offcanvas"
-                            role="listitem"
-                        >
-                            {country}
-                        </a>
-                    </Link>
+                    <CatalogItem key={country} name="country" value={country} />
                 ))}
             </ul>
         </nav>
