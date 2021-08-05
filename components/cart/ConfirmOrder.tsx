@@ -2,10 +2,8 @@ import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
-
 import Loading from '../utils/Loading';
 
-import { useAuth } from '~/components/auth/AuthProvider';
 import Price from '~/components/utils/Price';
 import OrderQuery from '~/queries/OrderQuery.gql';
 import { Order } from '~/types';
