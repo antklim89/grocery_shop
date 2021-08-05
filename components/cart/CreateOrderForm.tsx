@@ -18,7 +18,7 @@ interface Props {
     }
 }
 
-export default function OrderForm({ values, setValues }: Props): JSX.Element {
+export default function CreateOrderForm({ values, setValues }: Props): JSX.Element {
     return (
         <form className="row">
             <div className="mb-3 col-sm-6 col-12">

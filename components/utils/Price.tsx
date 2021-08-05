@@ -1,3 +1,5 @@
+import { FC } from 'react';
+
 import getPrice from '~/utils/getPrice';
 
 
@@ -8,9 +10,12 @@ interface Props {
     measure: string;
 }
 
-export default function Price({
-    price, discount, unit, measure,
-}: Props): JSX.Element {
+const Price: FC<Props> = ({
+    price,
+    discount,
+    unit,
+    measure,
+}) => {
     const rest = (
         <>
             {' '}
@@ -47,4 +52,6 @@ export default function Price({
             )}
         </>
     );
-}
+};
+
+export default Price;

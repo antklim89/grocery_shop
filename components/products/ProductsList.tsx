@@ -1,13 +1,15 @@
+import { FC } from 'react';
+
 import ProductCard from './ProductCard';
 
 import { IProductPreview } from '~/types';
 
 
-interface PropTypes {
+interface Props {
     products: IProductPreview[]
 }
 
-export default function ProductsList({ products }: PropTypes): JSX.Element {
+const ProductsList: FC<Props> = ({ products }) => {
     return (
         <div className="container  my-3">
             {products.length > 0 ? (
@@ -21,4 +23,7 @@ export default function ProductsList({ products }: PropTypes): JSX.Element {
             )}
         </div>
     );
-}
+};
+
+export default ProductsList;
+

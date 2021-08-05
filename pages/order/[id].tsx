@@ -3,7 +3,7 @@ import ProtectedComponent from '~/components/utils/ProtectedComponent';
 import Seo from '~/components/utils/Seo';
 
 
-export default function ConfirmOrderPage(): JSX.Element {
+export default function OrderPage(): JSX.Element {
     return (
         <ProtectedComponent notFound>
             <Seo title="Confirm Order" />

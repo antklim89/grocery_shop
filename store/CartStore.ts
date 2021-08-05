@@ -1,4 +1,4 @@
-import { makeAutoObservable, observable, runInAction as ria } from 'mobx';
+import { makeAutoObservable, observable, runInAction } from 'mobx';
 
 import { CartItemStore, CartItemStoreArgs } from './CartItemStore';
 
@@ -22,29 +22,9 @@ export class CartStore {
     isCartFetched = false
 
     async toggle(cartItem: CartItemStore): Promise<void> {
-        const isAuth = !!localStorage.getItem(AUTH_TOKEN_NAME);
-
         try {
-            if (this.exists(cartItem)) {
-                if (isAuth && !this.loading) {
-                    this.setLoading(true);
-                    await fetcher(
-                        DeleteCartMutation,
-                        { id: cartItem.id },
-                    );
-                }
-                ria(() => this.cartItems.remove(cartItem));
-            } else {
-                if (isAuth && !this.loading) {
-                    this.setLoading(true);
-                    const { createCart: { cart } } = await fetcher(
-                        CreateCartMutation,
-                        { qty: cartItem.qty, product: cartItem.product.id },
-                    );
-                    ria(() => Object.assign(cartItem, { id: cart.id }));
-                }
-                ria(() => this.cartItems.push(cartItem));
-            }
+            if (this.exists(cartItem)) await this.deleteCartItem(cartItem);
+            else await this.createCartItem(cartItem);
         } catch (err) {
             console.error(err);
         } finally {
@@ -52,12 +32,34 @@ export class CartStore {
         }
     }
 
-    replace(newCartItems: CartItemStoreArgs[]): void {
-        this.cartItems.replace(newCartItems.map((cartItem) => new CartItemStore(cartItem)));
+    private async createCartItem(cartItem: CartItemStore) {
+        const isAuth = !!localStorage.getItem(AUTH_TOKEN_NAME);
+
+        if (isAuth && !this.loading) {
+            this.setLoading(true);
+            const { createCart } = await fetcher(
+                CreateCartMutation,
+                { qty: cartItem.qty, product: cartItem.product.id },
+            );
+            cartItem.setId(createCart.cart.id);
+        }
+
+        runInAction(() => this.cartItems.push(cartItem));
     }
 
-    getById(id: number): CartItemStore | undefined {
-        return this.cartItems.find((i) => i.product.id === id);
+    private async deleteCartItem(cartItem: CartItemStore) {
+        const isAuth = !!localStorage.getItem(AUTH_TOKEN_NAME);
+
+        if (isAuth && !this.loading) {
+            this.setLoading(true);
+            await fetcher(DeleteCartMutation, { id: cartItem.id });
+        }
+
+        runInAction(() => this.cartItems.remove(cartItem));
+    }
+
+    replace(newCartItems: CartItemStoreArgs[]): void {
+        this.cartItems.replace(newCartItems.map((cartItem) => new CartItemStore(cartItem)));
     }
 
     exists(cartItem: CartItemStore): boolean {

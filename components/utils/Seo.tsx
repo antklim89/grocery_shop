@@ -1,18 +1,19 @@
 import Head from 'next/head';
+import { FC } from 'react';
 
 
-export interface SeoProps {
+export interface Props {
     description?: string;
     title: string;
     keywords?: string[]
 }
 
 
-export default function Seo({
+const Seo: FC<Props> = ({
     description,
     keywords = [],
     title,
-}: SeoProps): JSX.Element {
+}) => {
     const metaDescription = `Grocery Shop. ${description || ''}`.trim();
     const defaultTitle = `${title ? `${title} | ` : ''}Grocery Shop`;
 
@@ -32,4 +33,6 @@ export default function Seo({
             <meta content={metaDescription} name="twitter:description" />
         </Head>
     );
-}
+};
+
+export default Seo;

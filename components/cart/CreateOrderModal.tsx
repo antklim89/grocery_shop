@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-import OrderForm from './OrderForm';
+import CreateOrderForm from './CreateOrderForm';
 
 import { useAuth } from '~/components/auth/AuthProvider';
 import Loading from '~/components/utils/Loading';
@@ -13,7 +13,7 @@ import fetcher from '~/utils/fetcher';
 import useBootstrap from '~/utils/useBootstrap';
 
 
-function CartFormModal(): JSX.Element {
+function CreateOrderModal(): JSX.Element {
     const [modal, ref] = useBootstrap('Modal');
 
     const auth = useAuth();
@@ -79,7 +79,7 @@ function CartFormModal(): JSX.Element {
                         </div>
 
                         <div className="modal-body">
-                            <OrderForm
+                            <CreateOrderForm
                                 setValues={{
                                     setEmail, setName, setSurname, setAddress, setPhone,
                                 }}
@@ -113,4 +113,4 @@ function CartFormModal(): JSX.Element {
     );
 }
 
-export default observer(CartFormModal);
+export default observer(CreateOrderModal);

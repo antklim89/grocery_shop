@@ -15,7 +15,6 @@ import getTotalPrice from '~/utils/getTotalPrice';
 
 function ConfirmOrder(): JSX.Element {
     const router = useRouter();
-    const auth = useAuth();
 
     const [order, setOrder] = useState<Order|null>(null);
     const [error, setError] = useState<string|null>(null);
@@ -26,7 +25,6 @@ function ConfirmOrder(): JSX.Element {
         (async () => {
             setError(null);
             if (!router.query.id) return;
-            if (!auth.isAuth) return;
             try {
                 const data = await fetcher<{order: Order}>(OrderQuery, { id: router.query.id });
                 setOrder(data.order);

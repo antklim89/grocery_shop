@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { ReactNode } from 'react-markdown';
 
 
@@ -6,7 +7,7 @@ interface Props {
     productsList: ReactNode
 }
 
-export default function ProductsBlock({ catalog, productsList }: Props): JSX.Element {
+const ProductsBlock: FC<Props> = ({ catalog, productsList }) => {
     return (
         <>
             <div className="container d-block d-xl-none">
@@ -47,4 +48,6 @@ export default function ProductsBlock({ catalog, productsList }: Props): JSX.Ele
             </div>
         </>
     );
-}
+};
+
+export default ProductsBlock;

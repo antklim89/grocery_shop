@@ -25,8 +25,9 @@ const ProtectedComponent: FC<Props> = ({
     const auth = useAuth();
     const router = useRouter();
 
-    const needProtect = authNeeded ? !auth.isAuth : auth.isAuth;
     const [isMounted, setIsMounted] = useState(false);
+
+    const needProtect = authNeeded ? !auth.isAuth : auth.isAuth;
 
     useEffect(() => {
         if (!auth.isUserFetched) return;

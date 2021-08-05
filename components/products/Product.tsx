@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 import ProductCarousel from './ProductCarousel';
@@ -6,7 +7,7 @@ import ProductOrder from './ProductOrder';
 import { IProduct } from '~/types';
 
 
-export default function Product(product: IProduct): JSX.Element {
+const Product: FC<IProduct> = (product) => {
     return (
         <article className="container my-5">
             <div className="row">
@@ -20,4 +21,6 @@ export default function Product(product: IProduct): JSX.Element {
             <ReactMarkdown>{product.description}</ReactMarkdown>
         </article>
     );
-}
+};
+
+export default Product;

@@ -16,7 +16,7 @@ interface Props {
     newProducts: IProductPreview[]
 }
 
-export default function Home({ hero, features, newProducts }: Props): JSX.Element {
+export default function HomePage({ hero, features, newProducts }: Props): JSX.Element {
     return (
         <>
             <Seo title="Home" />

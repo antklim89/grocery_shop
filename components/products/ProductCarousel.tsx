@@ -1,17 +1,17 @@
 import Image from 'next/image';
-import { useEffect } from 'react';
+import { FC } from 'react';
 
 import { StrapiImage } from '~/types';
+import useBootstrap from '~/utils/useBootstrap';
 
 
-interface PropTypes {
+interface Props {
     images: StrapiImage[];
 }
 
-export default function ProductCarousel({ images }: PropTypes): JSX.Element {
-    useEffect(() => {
-        import('bootstrap/js/src/carousel');
-    }, []);
+
+const ProductCarousel: FC<Props> = ({ images }) => {
+    useBootstrap('Carousel');
 
     return (
         <div className="carousel slide" data-bs-ride="carousel" id="images-carousel">
@@ -51,4 +51,6 @@ export default function ProductCarousel({ images }: PropTypes): JSX.Element {
             </button>
         </div>
     );
-}
+};
+
+export default ProductCarousel;

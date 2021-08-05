@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import CatalogQuery from '~/queries/CatalogQuery.gql';
 import cls from '~/utils/cls';
 import fetcher from '~/utils/fetcher';
 
 
-export default function Catalog(): JSX.Element {
+const Catalog: FC = () => {
     const [categories, setCatecories] = useState<string[]>([]);
     const [countries, setCountries] = useState<string[]>([]);
 
@@ -75,4 +75,6 @@ export default function Catalog(): JSX.Element {
             </ul>
         </nav>
     );
-}
+};
+
+export default Catalog;

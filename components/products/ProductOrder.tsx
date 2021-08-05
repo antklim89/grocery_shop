@@ -1,26 +1,18 @@
 import { observer, Observer } from 'mobx-react-lite';
-import { FormEvent } from 'react';
-
-import Loading from '../utils/Loading';
+import { FC, FormEvent } from 'react';
 
 import { useCart } from '~/components/cart/CartProvider';
+import Loading from '~/components/utils/Loading';
 import Price from '~/components/utils/Price';
 import { IProduct } from '~/types';
 
 
-function ProductOrder(product: IProduct): JSX.Element {
+const ProductOrder: FC<IProduct> = (product) => {
     const {
         name, country, category, discount, price, unit, measure,
     } = product;
 
     const cart = useCart();
-
-    const cartItem = cart.setCurrentProduct({ product, qty: unit });
-
-    const handleOrder = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if (cartItem) cart.toggle(cartItem);
-    };
 
     if (!cart.isCartFetched) {
         return (
@@ -30,6 +22,13 @@ function ProductOrder(product: IProduct): JSX.Element {
             </div>
         );
     }
+
+    const cartItem = cart.setCurrentProduct({ product, qty: unit });
+
+    const handleOrder = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        cart.toggle(cartItem);
+    };
 
     return (
         <div className="border h-100 shadow p-2 d-flex flex-column">
@@ -90,26 +89,24 @@ function ProductOrder(product: IProduct): JSX.Element {
                     )}
                     />
                 </label>
-                <Observer>
-                    {() => (cart.exists(cartItem) ? (
-                        <input
-                            className="btn btn-primary my-2"
-                            disabled={cart.loading}
-                            type="submit"
-                            value="Remove from Cart"
-                        />
-                    ) : (
-                        <input
-                            className="btn btn-primary my-2"
-                            disabled={cart.loading}
-                            type="submit"
-                            value="Place to Cart"
-                        />
-                    ))}
-                </Observer>
+                {cart.exists(cartItem) ? (
+                    <input
+                        className="btn btn-primary my-2"
+                        disabled={cart.loading}
+                        type="submit"
+                        value="Remove from Cart"
+                    />
+                ) : (
+                    <input
+                        className="btn btn-primary my-2"
+                        disabled={cart.loading}
+                        type="submit"
+                        value="Place to Cart"
+                    />
+                )}
             </form>
         </div>
     );
-}
+};
 
 export default observer(ProductOrder);

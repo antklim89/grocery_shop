@@ -1,3 +1,5 @@
+import { FC } from 'react';
+
 import cls from '~/utils/cls';
 
 
@@ -6,7 +8,7 @@ interface Props {
     size?: 'sm' | 'lg'
 }
 
-export default function Loading({ loading, size }: Props): JSX.Element | null {
+const Loading: FC<Props> = ({ loading, size }) => {
     return loading ? (
         <div
             className={cls(
@@ -19,4 +21,6 @@ export default function Loading({ loading, size }: Props): JSX.Element | null {
             <span className="visually-hidden">Loading...</span>
         </div>
     ) : null;
-}
+};
+
+export default Loading;

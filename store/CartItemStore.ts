@@ -42,4 +42,8 @@ export class CartItemStore {
             fetcher(UpdateCartMutation, { qty: this.qty, id: this.id });
         }, 700);
     }
+
+    setId(id: number): void {
+        this.id = id;
+    }
 }

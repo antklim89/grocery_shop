@@ -1,7 +1,8 @@
 import Link from 'next/link';
+import { FC } from 'react';
 
 
-export default function ShowMoreProductsButton(): JSX.Element {
+const ShowMoreProductsButton: FC = () => {
     return (
         <div className="text-center my-3">
             <Link href="/products">
@@ -11,4 +12,6 @@ export default function ShowMoreProductsButton(): JSX.Element {
             </Link>
         </div>
     );
-}
+};
+
+export default ShowMoreProductsButton;

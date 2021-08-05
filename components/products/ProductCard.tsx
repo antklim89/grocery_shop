@@ -1,21 +1,28 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { FC } from 'react';
 
 import Price from '~/components/utils/Price';
 import { IProductPreview } from '~/types';
 
 
-export default function ProductCard({
-    name, price, country, id, category, mainImage, unit, measure, discount,
-}: IProductPreview): JSX.Element {
+const ProductCard: FC<IProductPreview> = ({
+    name,
+    price,
+    country,
+    id,
+    category,
+    mainImage,
+    unit,
+    measure,
+    discount,
+}) => {
     return (
         <div className="col-12 col-sm-6 col-lg-3 align-items-stretch">
             <article className="card shadow-sm h-100">
                 <span className="card-footer bg-primary text-white m-0 text-uppercase">
                     {category.name}
-                    {' '}
-                    -
-                    {' '}
+                    &nbsp;-&nbsp;
                     {country.name}
                 </span>
                 <Image
@@ -44,4 +51,7 @@ export default function ProductCard({
             </article>
         </div>
     );
-}
+};
+
+export default ProductCard;
+

@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 import ProtectedComponent from '../utils/ProtectedComponent';
 
-import CartFormModal from './CartFormModal';
+import CreateOrderModal from './CreateOrderModal';
 
 import { useCart } from '~/components/cart/CartProvider';
 import Price from '~/components/utils/Price';
@@ -97,7 +97,7 @@ function CartList(): JSX.Element {
                         </Link>
                     )}
                 >
-                    <CartFormModal />
+                    <CreateOrderModal />
                 </ProtectedComponent>
             </div>
         </div>
