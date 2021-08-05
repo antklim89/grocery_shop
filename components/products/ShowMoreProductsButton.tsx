@@ -5,7 +5,7 @@ import { FC } from 'react';
 const ShowMoreProductsButton: FC = () => {
     return (
         <div className="text-center my-3">
-            <Link href="/products">
+            <Link href="/product">
                 <a className="btn btn-primary">
                     Shom more
                 </a>

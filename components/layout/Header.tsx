@@ -28,7 +28,7 @@ export default function Header(): JSX.Element {
                 </Link>
             </li>
             <li className="nav-item">
-                <Link passHref href="/products">
+                <Link passHref href="/product">
                     <a
                         className={`nav-link ${route === '/products' ? 'active' : ''}`}
                         data-bs-dismiss="offcanvas"

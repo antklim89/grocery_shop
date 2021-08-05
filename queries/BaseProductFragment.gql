@@ -1,6 +1,6 @@
 
 
-fragment BaseProductFragment on Products {
+fragment BaseProductFragment on Product {
     id
     name
     price

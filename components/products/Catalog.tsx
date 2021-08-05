@@ -27,7 +27,7 @@ const Catalog: FC = () => {
     return (
         <nav className="container">
             <ul className="list-group mb-4">
-                <Link href="/products">
+                <Link href="/product">
                     <a
                         className={cls(
                             'list-group-item',

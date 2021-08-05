@@ -25,9 +25,9 @@ const ProductCard: FC<IProductPreview> = ({
         <div className="col-12 col-sm-6 col-lg-3 align-items-stretch">
             <article className="card shadow-sm h-100 position-relative">
                 <span className="card-footer bg-primary text-white m-0 text-uppercase">
-                    {category.name}
+                    {category?.name}
                     &nbsp;-&nbsp;
-                    {country.name}
+                    {country?.name}
                 </span>
                 <div className="position-relative">
                     <Image

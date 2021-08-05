@@ -6,7 +6,7 @@ query AboutUsPageQuery {
     features {
         ...FeaturesFragment
     }
-    aboutUs {
+    about {
         ...AboutUsFragment
     }
 }

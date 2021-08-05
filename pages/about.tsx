@@ -9,15 +9,15 @@ import fetcher from '~/utils/fetcher';
 
 
 interface Props {
-    aboutUs: AboutAsProps
+    about: AboutAsProps
     features: IFeature[]
 }
 
-export default function AboutPage({ aboutUs, features }: Props): JSX.Element {
+export default function AboutPage({ about, features }: Props): JSX.Element {
     return (
         <>
             <Seo title="AboutUs" />
-            <AboutUs {...aboutUs} />
+            <AboutUs {...about} />
             <Features features={features} />
         </>
     );
