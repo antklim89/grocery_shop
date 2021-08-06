@@ -1,16 +1,18 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { FC } from 'react';
+import { FC, HTMLAttributes } from 'react';
 
 import cls from '~/utils/cls';
 
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLAnchorElement> {
     name: string;
     value: string
 }
 
-const CatalogItem: FC<Props> = ({ name, value }) => {
+const CatalogItem: FC<Props> = ({
+    name, value, className, ...props
+}) => {
     const { asPath } = useRouter();
 
     const [, query] = asPath.split('?');
@@ -28,13 +30,12 @@ const CatalogItem: FC<Props> = ({ name, value }) => {
     return (
         <Link href={params.toString().length === 0 ? '' : `?${params}`}>
             <a
+                {...props}
                 className={cls(
-                    'list-group-item',
-                    'list-group-item-action',
+                    className,
                     isActive && 'active',
                 )}
                 data-bs-dismiss="offcanvas"
-
             >
                 {value}
             </a>

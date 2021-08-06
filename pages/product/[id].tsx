@@ -23,8 +23,7 @@ export default function ProductPage({ product }: Props): JSX.Element {
 
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const products = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`)
-        .then<IProduct[]>((d) => d.json());
+    const products = await fetcher<IProduct[]>('/product');
 
     const paths = products.map((product) => ({
         params: {
@@ -42,7 +41,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps<Props, {id: string}> = async ({ params }) => {
     const props = await fetcher<Props>(
         ProductPageQuery,
-        { id: params?.id },
+        { id: Number(params?.id) },
     );
 
     return { props };

@@ -3,6 +3,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
 
+import CatalogItem from './CatalogItem';
+
 import { useCart } from '~/components/cart/CartProvider';
 import Price from '~/components/utils/Price';
 import { IProductPreview } from '~/types';
@@ -24,11 +26,18 @@ const ProductCard: FC<IProductPreview> = ({
     return (
         <div className="col-12 col-sm-6 col-lg-3 align-items-stretch">
             <article className="card shadow-sm h-100 position-relative">
-                <span className="card-footer bg-primary text-white m-0 text-uppercase">
-                    {category?.name}
-                    &nbsp;-&nbsp;
-                    {country?.name}
-                </span>
+                <div className="card-header m-0 p-1 text-uppercase breadcrumb d-flex justify-content-center">
+                    <CatalogItem
+                        className="breadcrumb-item"
+                        name="category"
+                        value={category?.name}
+                    />
+                    <CatalogItem
+                        className="breadcrumb-item"
+                        name="country"
+                        value={country?.name}
+                    />
+                </div>
                 <div className="position-relative">
                     <Image
                         alt={name}
@@ -54,7 +63,7 @@ const ProductCard: FC<IProductPreview> = ({
                             unit={unit}
                         />
                     </p>
-                    <Link href={`/products/${id}`}>
+                    <Link href={`/product/${id}`}>
                         <a className="btn btn-outline-primary">View Details</a>
                     </Link>
                 </div>

@@ -43,13 +43,23 @@ const Catalog: FC = () => {
             <ul className="list-group mb-4">
                 <h5>Category</h5>
                 {categories.map((category) => (
-                    <CatalogItem key={category} name="category" value={category} />
+                    <CatalogItem
+                        className="list-group-item list-group-item-action text-uppercase"
+                        key={category}
+                        name="category"
+                        value={category}
+                    />
                 ))}
             </ul>
             <ul className="list-group mb-4">
                 <h5>Countries</h5>
                 {countries.map((country) => (
-                    <CatalogItem key={country} name="country" value={country} />
+                    <CatalogItem
+                        className="list-group-item list-group-item-action text-uppercase"
+                        key={country}
+                        name="country"
+                        value={country}
+                    />
                 ))}
             </ul>
         </nav>
