@@ -42,11 +42,11 @@ const ProductCard: FC<IProductPreview> = ({
                 <div className="position-relative">
                     <StrapiImage
                         alt={name}
-                        blurDataURL={`${process.env.NEXT_PUBLIC_API_URL}${mainImage.formats.thumbnail.url}`}
+                        blurDataURL={mainImage.formats.thumbnail.url}
                         className="card-img-top"
                         height={272}
                         placeholder="blur"
-                        src={`${process.env.NEXT_PUBLIC_API_URL}${mainImage.url}`}
+                        src={mainImage.url}
                         width={400}
                     />
                     {isPoroductInCart && (

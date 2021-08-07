@@ -10,13 +10,13 @@ export default function Hero({ image, title, text }: HeroProps): JSX.Element {
         <section className={style.section}>
             <StrapiImage
                 alt="hero"
-                blurDataURL={`${image.formats.thumbnail.url}`}
+                blurDataURL={image.formats.thumbnail.url}
                 className="img-fluid d-block mx-auto"
                 height={500}
                 layout="responsive"
                 objectFit="cover"
                 placeholder="blur"
-                src={`${image.url}`}
+                src={image.url}
                 width={1280}
             />
             <div className={style.text}>

@@ -20,12 +20,12 @@ const ProductCarousel: FC<Props> = ({ images }) => {
                     <div className={`carousel-item${index === 0 ? ' active' : ''}`} key={image.id}>
                         <StrapiImage
                             alt={image.alternativeText || `carousel-image-${index + 1}`}
-                            blurDataURL={`${process.env.NEXT_PUBLIC_API_URL}${image.formats.thumbnail.url}`}
+                            blurDataURL={image.formats.thumbnail.url}
                             className="img-fluid"
                             height={720}
                             objectPosition="center"
                             placeholder="blur"
-                            src={`${process.env.NEXT_PUBLIC_API_URL}${image.url}`}
+                            src={image.url}
                             width={1200}
                         />
                     </div>

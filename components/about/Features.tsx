@@ -16,12 +16,12 @@ export default function Features({ features }: {features: IFeature[]}): JSX.Elem
                             <section className="card bg-white text-dark h-100">
                                 <StrapiImage
                                     alt={title}
-                                    blurDataURL={`${process.env.NEXT_PUBLIC_API_URL}${image.formats.thumbnail.url}`}
+                                    blurDataURL={image.formats.thumbnail.url}
                                     className="card-img-top"
                                     height={198}
                                     objectFit="cover"
                                     placeholder="blur"
-                                    src={`${process.env.NEXT_PUBLIC_API_URL}${image.url}`}
+                                    src={image.url}
                                     width={400}
                                 />
                                 <div className="card-body">

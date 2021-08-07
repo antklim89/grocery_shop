@@ -10,10 +10,6 @@ import StrapiImage from '~/components/utils/StrapiImage';
 import getTotalPrice from '~/utils/getTotalPrice';
 
 
-function imagePath(url: string) {
-    return `${process.env.NEXT_PUBLIC_API_URL}${url}`;
-}
-
 function CartList(): JSX.Element {
     const cart = useCart();
 
@@ -33,10 +29,10 @@ function CartList(): JSX.Element {
                         <div className="col-lg-2 col-4">
                             <StrapiImage
                                 alt={cartItem.product.name}
-                                blurDataURL={imagePath(cartItem.product.images[0].formats.thumbnail.url)}
+                                blurDataURL={cartItem.product.images[0].formats.thumbnail.url}
                                 height={120}
                                 placeholder="blur"
-                                src={imagePath(cartItem.product.images[0].url)}
+                                src={cartItem.product.images[0].url}
                                 width={100}
                             />
                         </div>
