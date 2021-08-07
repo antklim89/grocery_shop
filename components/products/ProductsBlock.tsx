@@ -117,7 +117,7 @@ const ProductsBlock: FC = () => {
                                 type="button"
                                 onClick={handleNext}
                             >
-                                NEXT
+                                SHOW MORE
                                 <Loading loading={loading} size="sm" />
                             </button>
                         </div>
