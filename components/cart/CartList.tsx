@@ -1,14 +1,12 @@
 import { observer } from 'mobx-react-lite';
-import Image from 'next/image';
 import Link from 'next/link';
-
-
-import ProtectedComponent from '../utils/ProtectedComponent';
 
 import CreateOrderModal from './CreateOrderModal';
 
 import { useCart } from '~/components/cart/CartProvider';
 import Price from '~/components/utils/Price';
+import ProtectedComponent from '~/components/utils/ProtectedComponent';
+import StrapiImage from '~/components/utils/StrapiImage';
 import getTotalPrice from '~/utils/getTotalPrice';
 
 
@@ -33,7 +31,7 @@ function CartList(): JSX.Element {
                 {cart.cartItems.map((cartItem) => (
                     <section className="row list-group-item d-flex" key={cartItem.product.id}>
                         <div className="col-lg-2 col-4">
-                            <Image
+                            <StrapiImage
                                 alt={cartItem.product.name}
                                 blurDataURL={imagePath(cartItem.product.images[0].formats.thumbnail.url)}
                                 height={120}

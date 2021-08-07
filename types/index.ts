@@ -1,6 +1,6 @@
 export * from './AboutAsProps';
 export * from './IFeature';
-export * from './StrapiImage';
+export * from './IStrapiImage';
 export * from './HeroProps';
 export * from './IProduct';
 export * from './User';

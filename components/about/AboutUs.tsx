@@ -1,6 +1,6 @@
-import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 
+import StrapiImage from '~/components/utils/StrapiImage';
 import { AboutAsProps } from '~/types';
 
 
@@ -10,7 +10,7 @@ export default function AboutUs({ title, image, body }: AboutAsProps): JSX.Eleme
             <h1 className="text-center text-primary">{title}</h1>
             <div className="row">
                 <div className="col-lg">
-                    <Image
+                    <StrapiImage
                         alt="about"
                         blurDataURL={`${process.env.NEXT_PUBLIC_API_URL}${image.formats.thumbnail.url}`}
                         height={600}

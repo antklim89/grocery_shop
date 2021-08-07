@@ -1,12 +1,12 @@
-import Image from 'next/image';
 import { FC } from 'react';
 
-import { StrapiImage } from '~/types';
+import StrapiImage from '~/components/utils/StrapiImage';
+import { IStrapiImage } from '~/types';
 import useBootstrap from '~/utils/useBootstrap';
 
 
 interface Props {
-    images: StrapiImage[];
+    images: IStrapiImage[];
 }
 
 
@@ -18,7 +18,7 @@ const ProductCarousel: FC<Props> = ({ images }) => {
             <div className="carousel-inner">
                 {images.map((image, index) => (
                     <div className={`carousel-item${index === 0 ? ' active' : ''}`} key={image.id}>
-                        <Image
+                        <StrapiImage
                             alt={image.alternativeText || `carousel-image-${index + 1}`}
                             blurDataURL={`${process.env.NEXT_PUBLIC_API_URL}${image.formats.thumbnail.url}`}
                             className="img-fluid"

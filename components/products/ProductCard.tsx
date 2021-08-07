@@ -1,12 +1,13 @@
 import { observer } from 'mobx-react-lite';
-import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
+
 
 import CatalogItem from './CatalogItem';
 
 import { useCart } from '~/components/cart/CartProvider';
 import Price from '~/components/utils/Price';
+import StrapiImage from '~/components/utils/StrapiImage';
 import { IProductPreview } from '~/types';
 
 
@@ -39,7 +40,7 @@ const ProductCard: FC<IProductPreview> = ({
                     />
                 </div>
                 <div className="position-relative">
-                    <Image
+                    <StrapiImage
                         alt={name}
                         blurDataURL={`${process.env.NEXT_PUBLIC_API_URL}${mainImage.formats.thumbnail.url}`}
                         className="card-img-top"

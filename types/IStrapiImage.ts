@@ -4,7 +4,7 @@ interface ImageFormat {
     url: string
 }
 
-export interface StrapiImage {
+export interface IStrapiImage {
     alternativeText: string
     formats: {
         thumbnail: ImageFormat

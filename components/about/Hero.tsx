@@ -1,6 +1,6 @@
-import Image from 'next/image';
 import Link from 'next/link';
 
+import StrapiImage from '~/components/utils/StrapiImage';
 import style from '~/styles/Hero.module.scss';
 import { HeroProps } from '~/types';
 
@@ -8,15 +8,15 @@ import { HeroProps } from '~/types';
 export default function Hero({ image, title, text }: HeroProps): JSX.Element {
     return (
         <section className={style.section}>
-            <Image
+            <StrapiImage
                 alt="hero"
-                blurDataURL={`${process.env.NEXT_PUBLIC_API_URL}${image.formats.thumbnail.url}`}
+                blurDataURL={`${image.formats.thumbnail.url}`}
                 className="img-fluid d-block mx-auto"
                 height={500}
                 layout="responsive"
                 objectFit="cover"
                 placeholder="blur"
-                src={`${process.env.NEXT_PUBLIC_API_URL}${image.url}`}
+                src={`${image.url}`}
                 width={1280}
             />
             <div className={style.text}>

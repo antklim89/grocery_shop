@@ -1,6 +1,6 @@
-import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 
+import StrapiImage from '~/components/utils/StrapiImage';
 import { IFeature } from '~/types';
 
 
@@ -14,7 +14,7 @@ export default function Features({ features }: {features: IFeature[]}): JSX.Elem
                     }) => (
                         <div className="col-12 col-sm-6 col-lg-3 align-items-stretch" key={id}>
                             <section className="card bg-white text-dark h-100">
-                                <Image
+                                <StrapiImage
                                     alt={title}
                                     blurDataURL={`${process.env.NEXT_PUBLIC_API_URL}${image.formats.thumbnail.url}`}
                                     className="card-img-top"
