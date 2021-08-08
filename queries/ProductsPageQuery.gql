@@ -1,11 +1,16 @@
 #import "./ProductPreviewFragment.gql"
 
 
-query productPageQuery($country: String, $category: String) {
-    products(where: {
-        category: { name: $category }
-        country: { name: $country }
-    }) {
+query productPageQuery($country: String, $category: String, $lastId: ID, $sort: String = "id:desc") {
+    products(
+        where: {
+            category: { name: $category }
+            country: { name: $country }
+            id_lt: $lastId
+        }
+        limit: 8
+        sort: $sort
+    ) {
         ...ProductPreviewFragment
     }
 }

@@ -11,12 +11,11 @@ interface Props extends HTMLAttributes<HTMLAnchorElement> {
 }
 
 const CatalogItem: FC<Props> = ({
-    name, value, className, ...props
+    name, value, className, children, ...props
 }) => {
-    const { asPath } = useRouter();
+    const { query } = useRouter();
 
-    const [, query] = asPath.split('?');
-    const params = new URLSearchParams(query);
+    const params = new URLSearchParams(query as Record<string, string> || '');
     const isActive = params.get(name) === value;
 
     if (params.get(name) === value) {
@@ -28,7 +27,7 @@ const CatalogItem: FC<Props> = ({
     }
 
     return (
-        <Link href={params.toString().length === 0 ? '/product' : `/product?${params}`}>
+        <Link replace href={params.toString().length === 0 ? '/product' : `/product?${params}`}>
             <a
                 {...props}
                 className={cls(
@@ -37,7 +36,7 @@ const CatalogItem: FC<Props> = ({
                 )}
                 data-bs-dismiss="offcanvas"
             >
-                {value}
+                { children || value }
             </a>
         </Link>
     );

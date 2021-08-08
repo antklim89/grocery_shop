@@ -3,8 +3,10 @@
 query CatalogQuery {
     categories {
         name
+        id
     }
     countries {
         name
+        id
     }
 }

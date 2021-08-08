@@ -8,6 +8,9 @@ $secondary: white;
 $light: lighten($primary, 10);
 $dark: darken($primary, 2);
 
+$breadcrumb-divider: quote(" | ");
+$breadcrumb-active-color: $primary;
+
 
 // @import "../node_modules/bootstrap/scss/bootstrap.scss";
 // Configuration

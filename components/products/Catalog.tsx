@@ -9,18 +9,24 @@ import cls from '~/utils/cls';
 import fetcher from '~/utils/fetcher';
 
 
-const Catalog: FC = () => {
-    const [categories, setCatecories] = useState<string[]>([]);
-    const [countries, setCountries] = useState<string[]>([]);
+interface ICatalogItem {
+    name: string;
+    id: number;
+}
 
-    const { asPath } = useRouter();
-    const query: string | undefined = asPath.split('?')[1];
+const placeholderItems = Array.from({ length: 5 }).map((_, id) => ({ name: '-----------------', id }));
+
+const Catalog: FC = () => {
+    const [categories, setCatecories] = useState<ICatalogItem[]>(placeholderItems);
+    const [countries, setCountries] = useState<ICatalogItem[]>(placeholderItems);
+
+    const { query } = useRouter();
 
     useEffect(() => {
         (async () => {
-            const data = await fetcher<Record<string, {name: string}[]>>(CatalogQuery);
-            setCatecories(data.categories.map((i) => i.name));
-            setCountries(data.countries.map((i) => i.name));
+            const data = await fetcher<Record<string, ICatalogItem[]>>(CatalogQuery);
+            setCatecories(data.categories);
+            setCountries(data.countries);
         })();
     }, []);
 
@@ -32,7 +38,7 @@ const Catalog: FC = () => {
                         className={cls(
                             'list-group-item',
                             'list-group-item-action',
-                            (!query || query.length === 0) && 'active',
+                            (!query.category || !query.country) && 'active',
                         )}
                         role="listitem"
                     >
@@ -45,9 +51,9 @@ const Catalog: FC = () => {
                 {categories.map((category) => (
                     <CatalogItem
                         className="list-group-item list-group-item-action text-uppercase"
-                        key={category}
+                        key={category.id}
                         name="category"
-                        value={category}
+                        value={category.name}
                     />
                 ))}
             </ul>
@@ -56,9 +62,9 @@ const Catalog: FC = () => {
                 {countries.map((country) => (
                     <CatalogItem
                         className="list-group-item list-group-item-action text-uppercase"
-                        key={country}
+                        key={country.id}
                         name="country"
-                        value={country}
+                        value={country.name}
                     />
                 ))}
             </ul>

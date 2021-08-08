@@ -1,13 +1,64 @@
-import { FC } from 'react';
-import { ReactNode } from 'react-markdown';
+import { useRouter } from 'next/router';
+import { FC, useEffect, useState } from 'react';
 
 
-interface Props {
-    catalog: ReactNode
-    productsList: ReactNode
-}
+import Catalog from './Catalog';
+import ProductsList from './ProductsList';
+import SortProducts from './SortProducts';
 
-const ProductsBlock: FC<Props> = ({ catalog, productsList }) => {
+import Loading from '~/components/utils/Loading';
+import ProductsPageQuery from '~/queries/ProductsPageQuery.gql';
+import { IProductPreview } from '~/types';
+import { PRODUCTS_LIMIT } from '~/utils/constants';
+import fetcher from '~/utils/fetcher';
+
+
+const ProductsBlock: FC = () => {
+    const [products, setProducts] = useState<IProductPreview[]>([]);
+    const [hasNext, setHasNext] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    const router = useRouter();
+
+    const query = router.asPath.split('?').pop();
+
+    const params = new URLSearchParams(query);
+
+    const paramsObj = Array.from(params.entries()).reduce<Record<string, string>>((acc, [key, value]) => {
+        acc[key] = value;
+        return acc;
+    }, {});
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const newProducts = await fetchProducts();
+                setProducts(newProducts);
+            } catch (error) {
+                console.error(error);
+            }
+        })();
+    }, [query]);
+
+
+    const fetchProducts = async (lastId?: number): Promise<IProductPreview[]> => {
+        setLoading(true);
+        const data = await fetcher<{products: IProductPreview[]}>(
+            ProductsPageQuery,
+            { ...paramsObj, lastId },
+        );
+        setHasNext(data.products.length >= PRODUCTS_LIMIT);
+        setLoading(false);
+        return data.products;
+    };
+
+    const handleNext = async () => {
+        const newProducts = await fetchProducts(products.slice().pop()?.id);
+        setProducts((prev) => [...prev, ...newProducts]);
+    };
+
+
+    const catalog = <Catalog />;
     return (
         <>
             <div className="container d-block d-xl-none">
@@ -42,8 +93,35 @@ const ProductsBlock: FC<Props> = ({ catalog, productsList }) => {
                 <div className="col-12 col-xl-3 d-none d-xl-block">
                     {catalog}
                 </div>
-                <div className="col-12 col-xl-9">
-                    {productsList}
+                <div className="col-12 col-xl-9 position-relative">
+                    <div className="breadcrumb d-flex justify-content-end me-3">
+                        <SortProducts className="breadcrumb-item" value="price">
+                            Sort by Price
+                        </SortProducts>
+                        <SortProducts className="breadcrumb-item" value="id">
+                            Sort by Recency
+                        </SortProducts>
+                    </div>
+                    {products.length === 0 ? (
+                        <div className="h2 text-center my-5">Nothing found...</div>
+                    ) : (
+                        <ProductsList products={products} />
+                    )}
+                    <Loading className="position-absolute top-0 left-50" loading={loading} />
+
+                    {(hasNext) && (
+                        <div className="text-center mt-4">
+                            <button
+                                className="btn btn-primary"
+                                disabled={loading}
+                                type="button"
+                                onClick={handleNext}
+                            >
+                                NEXT
+                                <Loading loading={loading} size="sm" />
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
         </>

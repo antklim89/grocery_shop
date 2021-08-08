@@ -18,9 +18,7 @@ const ProductsList: FC<Props> = ({ products }) => {
                         <ProductCard {...product} key={product.id} />
                     ))}
                 </div>
-            ) : (
-                <h5>Nothing found...</h5>
-            )}
+            ) : null}
         </div>
     );
 };
