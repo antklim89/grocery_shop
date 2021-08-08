@@ -1,3 +1,4 @@
+@import "./variables.scss";
 
 .section {
     position: relative;
@@ -5,8 +6,8 @@
 }
 
 .text {
-    background: rgba(0, 0, 0, 0.3);
-    color: white;
+    background: radial-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+    color: lighten($color: $secondary, $amount: 10);
     position: absolute;
     top: 0;
     left: 0;
@@ -15,7 +16,6 @@
     height: 100%;
 
     button {
-        border-color: white;
-        color: white;
+        color: $secondary;
     }
 }

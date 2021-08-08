@@ -1,16 +1,4 @@
-
-$primary: #00af00;
-$secondary: white;
-// $success: $green;
-// $info: $cyan;
-// $warning: $yellow;
-// $danger: $red;
-$light: lighten($primary, 10);
-$dark: darken($primary, 2);
-
-$breadcrumb-divider: quote(" | ");
-$breadcrumb-active-color: $primary;
-
+@import './variables.scss';
 
 // @import "../node_modules/bootstrap/scss/bootstrap.scss";
 // Configuration

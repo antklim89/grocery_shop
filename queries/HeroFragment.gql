@@ -4,6 +4,7 @@
 fragment HeroFragment on Hero {
     title
     text
+    secondText
     image {
       ...StrapiImageFragment
     }

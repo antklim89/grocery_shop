@@ -21,7 +21,11 @@ export default function HomePage({ hero, features, newProducts }: Props): JSX.El
         <>
             <Seo title="Home" />
             <Hero {...hero} />
-            <ProductsList products={newProducts} />
+            <ProductsList products={newProducts.slice(0, 4)} />
+            <div className="text-center my-5 p-5 bg-primary-gradient">
+                <p className="text-white display-1 m-5">{hero.secondText}</p>
+            </div>
+            <ProductsList products={newProducts.slice(4, 8)} />
             <ShowMoreProductsButton />
             <Features features={features} />
         </>

@@ -110,7 +110,7 @@ export default function Header(): JSX.Element {
                     </ul>
                 </nav>
 
-                <CartButton className="btn btn-primary position-relative align-self-end me-lg-0 me-4" />
+                <CartButton className="btn btn-primary bg-dark position-relative align-self-end me-lg-0 me-4" />
 
                 <button
                     aria-expanded

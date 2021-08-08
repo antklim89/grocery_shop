@@ -1,15 +1,16 @@
 @import "./bootstrap.scss";
 
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  font-family: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 a {
-  color: inherit;
+  // color: inherit;
   text-decoration: none;
 }
 
@@ -45,6 +46,10 @@ hr {
 
 .bg-transparent-25 {
   background: rgba(0,0,0,0.25);
+}
+
+.bg-primary-gradient {
+  background: radial-gradient($primary, darken($primary, 10));
 }
 
 body {

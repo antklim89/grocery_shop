@@ -5,4 +5,5 @@ export interface HeroProps {
     image: IStrapiImage;
     title: string;
     text: string;
+    secondText: string;
 }
