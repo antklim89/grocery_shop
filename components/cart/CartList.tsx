@@ -29,10 +29,10 @@ function CartList(): JSX.Element {
                         <div className="col-lg-2 col-4">
                             <StrapiImage
                                 alt={cartItem.product.name}
-                                blurDataURL={cartItem.product.images[0].formats.thumbnail.url}
+                                // blurDataURL={cartItem.product.images[0].formats.thumbnail.url}
                                 height={120}
-                                placeholder="blur"
-                                src={cartItem.product.images[0].url}
+                                // placeholder="blur"
+                                src={cartItem.product.images[0].formats.thumbnail.url}
                                 width={100}
                             />
                         </div>
@@ -76,10 +76,11 @@ function CartList(): JSX.Element {
             </div>
             <div className="my-2 d-flex flex-column">
                 <div className="my-5 align-self-end">
-                    <p className="h3">
+                    <p className="h2">
                         Total Price:
                         <br />
-                        {totalPrice}
+                        {totalPrice.toFixed(2)}
+                        $
                     </p>
                 </div>
                 <ProtectedComponent

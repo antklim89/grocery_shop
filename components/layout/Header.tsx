@@ -2,6 +2,9 @@ import { Observer } from 'mobx-react-lite';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
+import Loading from '../utils/Loading';
+import ProtectedComponent from '../utils/ProtectedComponent';
+
 import { useAuth } from '~/components/auth/AuthProvider';
 import LogoutButton from '~/components/auth/LogoutButton';
 import CartButton from '~/components/cart/CartButton';
@@ -47,26 +50,15 @@ export default function Header(): JSX.Element {
                     </a>
                 </Link>
             </li>
-            <Observer>
-                {() => (auth.user ? (
-                    <>
-                        <li className="nav-item me-1">
-                            <button
-                                className="nav-link btn btn-link"
-                                data-bs-dismiss="offcanvas"
-                                type="button"
-                            >
-                                {auth.user.username}
-                            </button>
-                        </li>
-                        <li className="nav-item me-5">
-                            <LogoutButton
-                                className="nav-link"
-                                data-bs-dismiss="offcanvas"
-                            />
-                        </li>
-                    </>
-                ) : (
+            <ProtectedComponent
+                fallback={(
+                    <li className="nav-item">
+                        <button className="btn btn-link nav-link mx-5" type="button">
+                            <Loading loading size="sm" />
+                        </button>
+                    </li>
+                )}
+                render={(
                     <>
                         <li className="nav-item">
                             <Link passHref href="/signup">
@@ -89,8 +81,26 @@ export default function Header(): JSX.Element {
                             </Link>
                         </li>
                     </>
-                ))}
-            </Observer>
+                )}
+            >
+                <>
+                    <li className="nav-item me-1">
+                        <Link href="/profile">
+                            <a className="nav-link btn btn-link" data-bs-dismiss="offcanvas">
+                                <Observer>
+                                    {() => <>{auth.user?.username}</>}
+                                </Observer>
+                            </a>
+                        </Link>
+                    </li>
+                    <li className="nav-item me-5">
+                        <LogoutButton
+                            className="nav-link"
+                            data-bs-dismiss="offcanvas"
+                        />
+                    </li>
+                </>
+            </ProtectedComponent>
         </>
     );
 

@@ -13,6 +13,7 @@ interface Props {
     redirect?: string | 'back'
     authNeeded?: boolean
     render?: ReactElement
+    fallback?: ReactElement
 }
 
 const ProtectedComponent: FC<Props> = ({
@@ -20,6 +21,7 @@ const ProtectedComponent: FC<Props> = ({
     redirect,
     notFound,
     render,
+    fallback,
     authNeeded = true,
 }) => {
     const auth = useAuth();
@@ -43,7 +45,7 @@ const ProtectedComponent: FC<Props> = ({
     }, [auth.isUserFetched, auth.isAuth]);
 
 
-    if (!isMounted) return null;
+    if (!isMounted) return fallback || null;
 
     if (needProtect && notFound) return <NotFoundPage />;
 

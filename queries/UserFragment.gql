@@ -1,9 +1,13 @@
 
 
 fragment UserFragment on UsersPermissionsMe {
-    blocked
-    confirmed
     email
     id
     username
+    profile {
+        name
+        surname
+        address
+        phone
+    }
 }

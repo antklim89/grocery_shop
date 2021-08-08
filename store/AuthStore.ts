@@ -61,6 +61,7 @@ export default class AuthStore {
         }
         try {
             const { me } = await fetcher(MeQuery);
+            console.debug('me: \n', me);
             this.setUser(me);
             this.setIsUserFetched();
         } catch (error) {

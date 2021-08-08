@@ -4,6 +4,7 @@ export * from './IStrapiImage';
 export * from './HeroProps';
 export * from './IProduct';
 export * from './User';
+export * from './IProfile';
 export * from './IProductPreview';
 export * from './Order';
 export * from './AuthResponse';
