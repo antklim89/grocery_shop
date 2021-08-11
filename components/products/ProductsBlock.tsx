@@ -20,14 +20,8 @@ const ProductsBlock: FC = () => {
 
     const router = useRouter();
 
-    const query = router.asPath.split('?').pop();
+    const query = router.asPath.includes('?') ? router.asPath.replace(/^.+\?/, '') : '';
 
-    const params = new URLSearchParams(query);
-
-    const paramsObj = Array.from(params.entries()).reduce<Record<string, string>>((acc, [key, value]) => {
-        acc[key] = value;
-        return acc;
-    }, {});
 
     useEffect(() => {
         (async () => {
@@ -43,9 +37,12 @@ const ProductsBlock: FC = () => {
 
     const fetchProducts = async (lastId?: number): Promise<IProductPreview[]> => {
         setLoading(true);
+        const searchParams = new URLSearchParams(query);
+        const searchParamsObject = Object.fromEntries(searchParams.entries());
+
         const data = await fetcher<{products: IProductPreview[]}>(
             ProductsPageQuery,
-            { ...paramsObj, lastId },
+            { ...searchParamsObject, lastId },
         );
         setHasNext(data.products.length >= PRODUCTS_LIMIT);
         setLoading(false);
