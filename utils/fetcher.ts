@@ -43,6 +43,7 @@ async function graphqlFetcher(url: DocumentNode, body: unknown, options: Options
             'Content-Type': 'application/json',
         },
     });
+
     const { data, errors } = await response.json();
 
     if (errors) {

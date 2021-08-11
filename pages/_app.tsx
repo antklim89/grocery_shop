@@ -1,4 +1,5 @@
 import '~/styles/globals.scss';
+import 'core-js/features/object/from-entries';
 import type { AppProps } from 'next/app';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 

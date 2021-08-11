@@ -1,0 +1,21 @@
+
+
+mutation UpdateUserMutation (
+    $name: String
+    $surname: String
+    $phone: String
+    $address: String
+) {
+    updateUser(
+        input: {
+            data: {
+                name: $name
+                surname: $surname
+                phone: $phone
+                address: $address
+            }
+        }
+    ) {
+        user { id }
+    }
+}

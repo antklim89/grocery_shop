@@ -1,5 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 
+import { UserStore } from './UserStote';
+
 import LogInMutation from '~/queries/LogInMutation.gql';
 import MeQuery from '~/queries/MeQuery.gql';
 import SingUpMutation from '~/queries/SingUpMutation.gql';
@@ -13,7 +15,7 @@ export default class AuthStore {
         makeAutoObservable(this, {}, { autoBind: true });
     }
 
-    public user?: User | null;
+    public user?: UserStore | null;
 
     public isAuth = typeof window === 'undefined' ? true : !!localStorage.getItem(AUTH_TOKEN_NAME)
 
@@ -24,7 +26,7 @@ export default class AuthStore {
     public error: null | string = null
 
     setUser(user: User, jwt?: string): void {
-        this.user = user;
+        this.user = new UserStore(user);
         this.isAuth = true;
 
         if (jwt) {
@@ -61,7 +63,6 @@ export default class AuthStore {
         }
         try {
             const { me } = await fetcher(MeQuery);
-            console.debug('me: \n', me);
             this.setUser(me);
             this.setIsUserFetched();
         } catch (error) {

@@ -1,9 +1,4 @@
-import { IProfile } from './IProfile';
+import type { UserStore } from '~/store/UserStote';
 
 
-export interface User {
-    email: string;
-    id: string;
-    username: string;
-    profile?: IProfile
-}
+export type User = Pick<UserStore, 'email'|'id'|'username'|'name'|'surname'|'phone'|'address'>

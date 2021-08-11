@@ -4,10 +4,8 @@ fragment UserFragment on UsersPermissionsMe {
     email
     id
     username
-    profile {
-        name
-        surname
-        address
-        phone
-    }
+    name
+    surname
+    address
+    phone
 }

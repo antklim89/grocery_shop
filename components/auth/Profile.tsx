@@ -1,18 +1,23 @@
+import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
 
-import { User } from '~/types';
+import { useAuth } from './AuthProvider';
+import UserInformationForm from './UserInformationForm';
 
 
-const Profile: FC<User> = ({ profile, username }) => {
+const Profile: FC = () => {
+    const { user } = useAuth();
+
+    if (!user) return null;
     return (
         <div className="container">
             <h1 className="text-center mb-4">
-                {username}
+                {user.username}
                 &apos; profile
             </h1>
-            {profile?.name}
+            <UserInformationForm />
         </div>
     );
 };
 
-export default Profile;
+export default observer(Profile);

@@ -37,16 +37,17 @@ function ConfirmOrder(): JSX.Element {
         setLoading(true);
         const token = localStorage.getItem('token');
         if (!token) return;
-        const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/confirm/${router.query.id}`, {
-            method: 'post',
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        const isOk = await data.json();
-        if (isOk) setStatus('success');
-        else setStatus('error');
-        setLoading(false);
+        try {
+            await fetcher(`/orders/confirm/${router.query.id}`, {
+                method: 'post',
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            setStatus('success');
+        } catch {
+            setStatus('error');
+        } finally {
+            setLoading(false);
+        }
     };
 
     if (error) {

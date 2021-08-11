@@ -11,9 +11,7 @@ module.exports = {
     ],
     parser: '@typescript-eslint/parser',
     parserOptions: {
-        ecmaFeatures: {
-            jsx: true,
-        },
+        ecmaFeatures: { jsx: true },
         ecmaVersion: 12,
         sourceType: 'module',
     },
@@ -28,10 +26,7 @@ module.exports = {
         'import/order': [1, {
             groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
             'newlines-between': 'always',
-            alphabetize: {
-                order: 'asc', /* sort in ascending order. Options: ['ignore', 'asc', 'desc'] */
-                caseInsensitive: true, /* ignore case. Options: [true, false] */
-            },
+            alphabetize: { order: 'asc', caseInsensitive: true },
         }],
         'import/no-extraneous-dependencies': [
             'error', { devDependencies: ['*.js'] }],
@@ -48,6 +43,7 @@ module.exports = {
         'react/require-default-props': 0,
         'react/destructuring-assignment': 0,
         'react-hooks/exhaustive-deps': 0,
+        'react/no-this-in-sfc': 0,
 
         '@typescript-eslint/no-shadow': 2,
         '@typescript-eslint/no-unused-vars': [1, { argsIgnorePattern: '^_' }],
@@ -66,6 +62,10 @@ module.exports = {
         'max-len': [1, { code: 120, ignoreComments: true }],
         'no-restricted-syntax': ['error', 'WithStatement'],
         camelcase: 0,
+        'object-curly-newline': [1, {
+            ObjectPattern: { multiline: true, minProperties: 6 },
+            ObjectExpression: { multiline: true, minProperties: 6 },
+        }],
 
         'jsx-a11y/anchor-is-valid': 0,
     },

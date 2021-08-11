@@ -13,6 +13,14 @@ import fetcher from '~/utils/fetcher';
 import useBootstrap from '~/utils/useBootstrap';
 
 
+interface OrderResponse {
+    createOrder: {
+        order: {
+            id: number;
+        };
+    };
+}
+
 export const inputInitState = {
     email: '',
     name: '',
@@ -30,8 +38,14 @@ function CreateOrderModal(): JSX.Element {
     const auth = useAuth();
     const router = useRouter();
 
-    const inputStore = useLocalObservable(() => ({ ...inputInitState, ...(auth.user || {}) }));
-
+    const inputStore = useLocalObservable(() => ({
+        ...inputInitState,
+        email: auth.user?.email || '',
+        name: auth.user?.name || '',
+        surname: auth.user?.surname || '',
+        address: auth.user?.address || '',
+        phone: auth.user?.phone || '',
+    }));
 
     const [loading, setLoading] = useState(false);
 
@@ -43,9 +57,7 @@ function CreateOrderModal(): JSX.Element {
         const carts = cartItemStore.map((p) => p.id);
 
         try {
-            const data = await fetcher<{createOrder: {order: {id: number}}}>(CreateOrderMutation, {
-                ...inputStore, carts,
-            });
+            const data = await fetcher<OrderResponse>(CreateOrderMutation, { ...inputStore, carts });
             setLoading(false);
             modal?.hide();
             router.push(`/order/${data.createOrder.order.id}`);
