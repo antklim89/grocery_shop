@@ -1,4 +1,4 @@
-import { observer } from 'mobx-react-lite';
+import { observer, useLocalObservable } from 'mobx-react-lite';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
@@ -13,17 +13,25 @@ import fetcher from '~/utils/fetcher';
 import useBootstrap from '~/utils/useBootstrap';
 
 
+export const inputInitState = {
+    email: '',
+    name: '',
+    surname: '',
+    address: '',
+    phone: '',
+    setValue<T>(this: T, name: keyof T, value: T[keyof T]): void {
+        this[name] = value;
+    },
+};
+
 function CreateOrderModal(): JSX.Element {
     const [modal, ref] = useBootstrap('Modal');
 
     const auth = useAuth();
     const router = useRouter();
 
-    const [email, setEmail] = useState(() => auth.user?.email || '');
-    const [name, setName] = useState('');
-    const [surname, setSurname] = useState('');
-    const [address, setAddress] = useState('');
-    const [phone, setPhone] = useState('');
+    const inputStore = useLocalObservable(() => ({ ...inputInitState, ...(auth.user || {}) }));
+
 
     const [loading, setLoading] = useState(false);
 
@@ -36,7 +44,7 @@ function CreateOrderModal(): JSX.Element {
 
         try {
             const data = await fetcher<{createOrder: {order: {id: number}}}>(CreateOrderMutation, {
-                email, name, surname, address, phone, carts,
+                ...inputStore, carts,
             });
             setLoading(false);
             modal?.hide();
@@ -79,14 +87,7 @@ function CreateOrderModal(): JSX.Element {
                         </div>
 
                         <div className="modal-body">
-                            <CreateOrderForm
-                                setValues={{
-                                    setEmail, setName, setSurname, setAddress, setPhone,
-                                }}
-                                values={{
-                                    email, name, surname, address, phone,
-                                }}
-                            />
+                            <CreateOrderForm inputStore={inputStore} />
                         </div>
 
                         <div className="modal-footer">

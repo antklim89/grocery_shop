@@ -1,24 +1,14 @@
-import { Dispatch, SetStateAction } from 'react';
+import { observer } from 'mobx-react-lite';
+import { FC } from 'react';
+
+import type { inputInitState } from './CreateOrderModal';
 
 
 interface Props {
-    values: {
-        email: string
-        name: string
-        surname: string
-        address: string
-        phone: string
-    }
-    setValues: {
-        setEmail: Dispatch<SetStateAction<string>>
-        setName: Dispatch<SetStateAction<string>>
-        setSurname: Dispatch<SetStateAction<string>>
-        setAddress: Dispatch<SetStateAction<string>>
-        setPhone: Dispatch<SetStateAction<string>>
-    }
+    inputStore: typeof inputInitState
 }
 
-export default function CreateOrderForm({ values, setValues }: Props): JSX.Element {
+const CreateOrderForm: FC<Props> = ({ inputStore }) => {
     return (
         <form className="row">
             <div className="mb-3 col-sm-6 col-12">
@@ -30,8 +20,8 @@ export default function CreateOrderForm({ values, setValues }: Props): JSX.Eleme
                         className="form-control"
                         id="name"
                         type="text"
-                        value={values.name}
-                        onChange={(e) => setValues.setName(e.target.value)}
+                        value={inputStore.name}
+                        onChange={(e) => inputStore.setValue('name', e.target.value)}
                     />
                 </label>
             </div>
@@ -44,8 +34,8 @@ export default function CreateOrderForm({ values, setValues }: Props): JSX.Eleme
                         className="form-control"
                         id="surname"
                         type="text"
-                        value={values.surname}
-                        onChange={(e) => setValues.setSurname(e.target.value)}
+                        value={inputStore.surname}
+                        onChange={(e) => inputStore.setValue('surname', e.target.value)}
                     />
                 </label>
             </div>
@@ -58,8 +48,8 @@ export default function CreateOrderForm({ values, setValues }: Props): JSX.Eleme
                         className="form-control"
                         id="email"
                         type="email"
-                        value={values.email}
-                        onChange={(e) => setValues.setEmail(e.target.value)}
+                        value={inputStore.email}
+                        onChange={(e) => inputStore.setValue('email', e.target.value)}
                     />
                 </label>
             </div>
@@ -72,8 +62,8 @@ export default function CreateOrderForm({ values, setValues }: Props): JSX.Eleme
                         className="form-control"
                         id="address"
                         type="text"
-                        value={values.address}
-                        onChange={(e) => setValues.setAddress(e.target.value)}
+                        value={inputStore.address}
+                        onChange={(e) => inputStore.setValue('address', e.target.value)}
                     />
                 </label>
             </div>
@@ -86,11 +76,13 @@ export default function CreateOrderForm({ values, setValues }: Props): JSX.Eleme
                         className="form-control"
                         id="phone"
                         type="tel"
-                        value={values.phone}
-                        onChange={(e) => setValues.setPhone(e.target.value)}
+                        value={inputStore.phone}
+                        onChange={(e) => inputStore.setValue('phone', e.target.value)}
                     />
                 </label>
             </div>
         </form>
     );
-}
+};
+
+export default observer(CreateOrderForm);
