@@ -4,22 +4,16 @@
 query productPageQuery(
         $country: String,
         $category: String,
-        $sort: String = "id:desc",
-        $lastId: ID,
-        $lastPrice: Float
-        $firstId: ID,
-        $firstPrice: Float
+        $sort: String = "id:desc"
+        $offset: Int
     ) {
     products(
         where: {
             category: { name: $category }
             country: { name: $country }
-            id_lt: $lastId
-            discountPrice_lte: $lastPrice
-            id_gt: $firstId
-            discountPrice_gte: $firstPrice
         }
         limit: 8
+        start: $offset
         sort: $sort
     ) {
         ...ProductPreviewFragment

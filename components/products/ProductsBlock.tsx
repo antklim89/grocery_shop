@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { FC, useEffect, useMemo, useState } from 'react';
 
-
 import Catalog from './Catalog';
 import ProductsList from './ProductsList';
 import SortProducts from './SortProducts';
@@ -13,13 +12,6 @@ import { PRODUCTS_LIMIT } from '~/utils/constants';
 import fetcher from '~/utils/fetcher';
 
 
-interface FetchNextArgs {
-    lastId?: number;
-    lastPrice?: number;
-    firstId?: number;
-    firstPrice?: number;
-}
-
 const ProductsBlock: FC = () => {
     const [products, setProducts] = useState<IProductPreview[]>([]);
     const [hasNext, setHasNext] = useState(false);
@@ -28,6 +20,7 @@ const ProductsBlock: FC = () => {
     const router = useRouter();
 
     const query = router.asPath.includes('?') ? router.asPath.replace(/^.+\?/, '') : '';
+    const page = useMemo(() => ({ v: 1 }), [query]);
 
     const searchParamsObject = useMemo(() => {
         const searchParams = new URLSearchParams(query);
@@ -46,14 +39,12 @@ const ProductsBlock: FC = () => {
         })();
     }, [query]);
 
-    const fetchProducts = async (
-        { lastId, lastPrice, firstId, firstPrice }: FetchNextArgs = {},
-    ): Promise<IProductPreview[]> => {
+    const fetchProducts = async (offset?: number): Promise<IProductPreview[]> => {
         setLoading(true);
 
         const data = await fetcher<{products: IProductPreview[]}>(
             ProductsPageQuery,
-            { ...searchParamsObject, lastId, lastPrice, firstId, firstPrice },
+            { ...searchParamsObject, offset },
         );
         setHasNext(data.products.length >= PRODUCTS_LIMIT);
         setLoading(false);
@@ -61,19 +52,9 @@ const ProductsBlock: FC = () => {
     };
 
     const handleNext = async () => {
-        const sortDir = searchParamsObject.sort ? searchParamsObject.sort.split(':').pop() : 'asc';
-        const { id, discountPrice } = products.slice().pop() || {} as IProductPreview;
-        if (!id) return;
-        console.debug(': \n', id, discountPrice);
-
-        if (sortDir === 'asc') {
-            const newProducts = await fetchProducts({ firstId: id, firstPrice: Number(discountPrice) });
-            setProducts((prev) => [...prev, ...newProducts]);
-        }
-        if (sortDir === 'desc') {
-            const newProducts = await fetchProducts({ lastId: id, lastPrice: Number(discountPrice) });
-            setProducts((prev) => [...prev, ...newProducts]);
-        }
+        const newProducts = await fetchProducts(page.v * PRODUCTS_LIMIT);
+        page.v += 1;
+        setProducts((prev) => [...prev, ...newProducts]);
     };
 
 
