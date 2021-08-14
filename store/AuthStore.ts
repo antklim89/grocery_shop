@@ -57,16 +57,14 @@ export default class AuthStore {
 
 
     async fetchMe(): Promise<void> {
-        if (!this.isAuth) {
-            this.isUserFetched = true;
-            return;
-        }
+        if (!this.isAuth) return this.setIsUserFetched();
         try {
             const { me } = await fetcher(MeQuery);
             this.setUser(me);
-            this.setIsUserFetched();
+            return this.setIsUserFetched();
         } catch (error) {
             console.error('Fetch Me Error: \n', error);
+            return this.setIsUserFetched();
         }
     }
 
