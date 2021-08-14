@@ -28,8 +28,8 @@ const SortProducts: FC<Props> = ({ value, children, className, ...props }) => {
             <a className={cls(className, isActive && 'active')} {...props}>
                 {children || value}
                 {(direction === 'asc' && currentValue === value) ? (
-                    <i className="bi bi-chevron-down mx-1" />
-                ) : <i className="bi bi-chevron-up mx-1" />}
+                    <i className="bi bi-chevron-up mx-1" />
+                ) : <i className="bi bi-chevron-down mx-1" />}
             </a>
         </Link>
     );
