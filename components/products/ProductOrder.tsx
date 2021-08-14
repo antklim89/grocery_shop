@@ -3,13 +3,12 @@ import { FC, FormEvent } from 'react';
 
 import { useCart } from '~/components/cart/CartProvider';
 import Loading from '~/components/utils/Loading';
-import Price from '~/components/utils/Price';
 import { IProduct } from '~/types';
 
 
 const ProductOrder: FC<IProduct> = (product) => {
     const {
-        name, country, category, discount, price, unit, measure, discountPrice,
+        name, country, category, discount, unit, measure, discountPrice,
     } = product;
 
     const cart = useCart();
