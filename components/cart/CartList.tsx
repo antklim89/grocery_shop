@@ -29,21 +29,21 @@ function CartList(): JSX.Element {
                         <div className="col-lg-2 col-4">
                             <StrapiImage
                                 alt={cartItem.product.name}
-                                // blurDataURL={cartItem.product.images[0].formats.thumbnail.url}
                                 height={120}
-                                // placeholder="blur"
                                 src={cartItem.product.images[0].formats.thumbnail.url}
                                 width={100}
                             />
                         </div>
                         <div className="col-8">
-                            <Link passHref href="/">
+                            <Link passHref href={`/product/${cartItem.product.id}`}>
                                 <a><h2 className="mb-1">{cartItem.product.name}</h2></a>
                             </Link>
                             <p className="mb-1">{cartItem.product.country.name}</p>
                             <small>
                                 <Price
-                                    discount={cartItem.product.discount}
+                                    discountPrice={
+                                        (cartItem.product.discountPrice / cartItem.product.unit) * cartItem.qty
+                                    }
                                     measure={cartItem.product.measure}
                                     price={(cartItem.product.price / cartItem.product.unit) * cartItem.qty}
                                     unit={cartItem.qty}

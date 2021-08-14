@@ -1,53 +1,62 @@
 import { FC } from 'react';
 
-import getPrice from '~/utils/getPrice';
-
 
 interface Props {
     price: number;
-    discount: number;
+    discountPrice: number;
     unit: number;
     measure: string;
 }
 
 const Price: FC<Props> = ({
     price,
-    discount,
+    discountPrice,
     unit,
     measure,
 }) => {
     const rest = (
         <>
-            {' '}
             for
-            {' '}
+            &nbsp;
             <big>{unit}</big>
-            {' '}
+            &nbsp;
             {measure}
         </>
     );
+
     return (
         <>
-            {discount && discount > 0 ? (
-                <span>
-                    <del>
-                        {price.toFixed(2)}
-                        $
-                    </del>
-                    {' '}
-                    <big>
-                        {getPrice(price, discount)}
-                        $
+            {discountPrice === price ? (
+                <span className="d-flex flex-wrap">
+                    <big className="d-flex align-items-end">
+                        <b>
+                            {price?.toFixed(2) || 0}
+                            $&nbsp;
+                        </b>
                     </big>
-                    {rest}
+                    <span className="d-flex align-items-end">
+                        {rest}
+                    </span>
                 </span>
             ) : (
-                <span>
-                    <big>
-                        {price.toFixed(2)}
-                        $
-                    </big>
-                    {rest}
+                <span className="d-flex flex-wrap">
+                    <span className="d-flex align-items-end">
+                        <small>
+                            <del>
+                                {price}
+                                $&nbsp;
+                            </del>
+                        </small>
+                        <big>
+                            <b>
+                                {discountPrice?.toFixed(2) || 0}
+                                $&nbsp;
+                            </b>
+                        </big>
+                    </span>
+                    <span className="d-flex align-items-end">
+                        {rest}
+                    </span>
                 </span>
             )}
         </>

@@ -92,7 +92,7 @@ const ProductsBlock: FC = () => {
                 </div>
                 <div className="col-12 col-xl-9 position-relative">
                     <div className="breadcrumb d-flex justify-content-end me-3">
-                        <SortProducts className="breadcrumb-item" value="price">
+                        <SortProducts className="breadcrumb-item" value="discountPrice">
                             Sort by Price
                         </SortProducts>
                         <SortProducts className="breadcrumb-item" value="id">

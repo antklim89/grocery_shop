@@ -9,7 +9,7 @@ import { IProduct } from '~/types';
 
 const ProductOrder: FC<IProduct> = (product) => {
     const {
-        name, country, category, discount, price, unit, measure,
+        name, country, category, discount, price, unit, measure, discountPrice,
     } = product;
 
     const cart = useCart();
@@ -35,26 +35,6 @@ const ProductOrder: FC<IProduct> = (product) => {
             <h1 className="text-center py-2 text-dark border-bottom">{name}</h1>
 
             <div className="fs-5 py-2 border-bottom">
-                <p>
-                    <Price
-                        discount={discount}
-                        measure={measure}
-                        price={price}
-                        unit={unit}
-                    />
-                </p>
-                <Observer>
-                    {() => (
-                        <p>
-                            <Price
-                                discount={discount}
-                                measure={measure}
-                                price={(price / unit) * cartItem.qty}
-                                unit={cartItem.qty}
-                            />
-                        </p>
-                    )}
-                </Observer>
                 {discount > 0 ? (
                     <p>
                         Discount:
@@ -63,6 +43,40 @@ const ProductOrder: FC<IProduct> = (product) => {
                         %
                     </p>
                 ) : null}
+                <p>
+                    Price for
+                    {' '}
+                    {unit}
+                    {' '}
+                    {measure}
+                    :
+                    <br />
+                    <big>
+                        <b>
+                            {discountPrice}
+                            $
+                        </b>
+                    </big>
+                </p>
+                <Observer>
+                    {() => (
+                        <p>
+                            Total price for
+                            {' '}
+                            {cartItem.qty}
+                            {' '}
+                            {measure}
+                            :
+                            <br />
+                            <big>
+                                <b>
+                                    {(discountPrice / unit) * cartItem.qty}
+                                    $
+                                </b>
+                            </big>
+                        </p>
+                    )}
+                </Observer>
             </div>
 
             <div className="py-2  border-bottom">

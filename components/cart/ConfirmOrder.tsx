@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 
 import Loading from '../utils/Loading';
 
-import Price from '~/components/utils/Price';
 import OrderQuery from '~/queries/OrderQuery.gql';
 import { Order } from '~/types';
 import fetcher from '~/utils/fetcher';
@@ -107,7 +106,7 @@ function ConfirmOrder(): JSX.Element {
                 {order.carts.map(({ qty, product }) => (
                     <li className="list-group-item" key={product.id}>
                         <div className="row">
-                            <div className="col-8">
+                            <div className="col-lg-6 col-12">
                                 <h5>{product.name}</h5>
                                 <p>
                                     {product.category.name}
@@ -117,13 +116,18 @@ function ConfirmOrder(): JSX.Element {
                                     {product.country.name}
                                 </p>
                             </div>
-                            <div className="col-4">
-                                <Price
-                                    discount={product.discount}
-                                    measure={product.measure}
-                                    price={(product.price / product.unit) * qty}
-                                    unit={qty}
-                                />
+                            <div className="col-lg-4 col-6">
+                                <p className="h2">
+                                    {product.discountPrice * qty}
+                                    $
+                                </p>
+                            </div>
+                            <div className="col-lg-2 col-6">
+                                <p className="h2">
+                                    {product.unit}
+                                    &nbsp;
+                                    {product.measure}
+                                </p>
                             </div>
                         </div>
                     </li>
@@ -139,13 +143,15 @@ function ConfirmOrder(): JSX.Element {
                 </p>
             </div>
             {(confirmStatus === 'error' || confirmStatus === null) && (
-                <button
-                    className="btn btn-primary" disabled={loading} type="submit"
-                    onClick={handleConfirm}
-                >
-                    Confirm
-                    <Loading loading={loading} size="sm" />
-                </button>
+                <div className="text-center">
+                    <button
+                        className="btn btn-primary btn-lg" disabled={loading} type="submit"
+                        onClick={handleConfirm}
+                    >
+                        Confirm
+                        <Loading loading={loading} size="sm" />
+                    </button>
+                </div>
             )}
         </div>
     );

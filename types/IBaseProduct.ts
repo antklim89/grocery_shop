@@ -1,17 +1,18 @@
 
 export interface IBaseProduct {
-    id: number;
-    name: string;
-    price: number;
+    id: number
+    name: string
+    price: number
     category: {
-        id: number;
-        name: string;
-    };
+        id: number
+        name: string
+    }
     country: {
-        id: number;
-        name: string;
-    };
-    discount: number;
-    unit: number;
-    measure: string;
+        id: number
+        name: string
+    }
+    discount: number
+    discountPrice: number
+    unit: number
+    measure: string
 }

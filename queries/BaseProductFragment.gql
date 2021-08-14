@@ -13,9 +13,7 @@ fragment BaseProductFragment on Product {
         name
     }
     discount
-    published_at
-    created_at
-    updated_at
+    discountPrice
     unit
     measure
 }

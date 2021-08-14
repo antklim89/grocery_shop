@@ -21,6 +21,7 @@ const ProductCard: FC<IProductPreview> = ({
     unit,
     measure,
     discount,
+    discountPrice,
 }) => {
     const cart = useCart();
     const isPoroductInCart = cart.cartItems.findIndex((i) => +i.product.id === +id) >= 0;
@@ -52,18 +53,24 @@ const ProductCard: FC<IProductPreview> = ({
                     {isPoroductInCart && (
                         <i className="bi bi-cart-check position-absolute end-0 p-1 m-1 rounded text-white bg-primary" />
                     )}
+                    {discount > 0 && (
+                        <span className="position-absolute start-0 p-1 m-1 rounded text-white bg-primary">
+                            {discount}
+                            %
+                        </span>
+                    )}
 
                 </div>
                 <div className="card-body d-flex flex-column justify-content-between">
-                    <h2 className="card-title">{name}</h2>
-                    <p className="card-text flex-shrink-0">
+                    <h2 className="card-title mb-auto">{name}</h2>
+                    <div className="my-4">
                         <Price
-                            discount={discount}
+                            discountPrice={discountPrice}
                             measure={measure}
                             price={price}
                             unit={unit}
                         />
-                    </p>
+                    </div>
                     <Link href={`/product/${id}`}>
                         <a className="btn btn-outline-primary">View Details</a>
                     </Link>
