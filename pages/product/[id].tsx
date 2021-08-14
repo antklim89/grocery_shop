@@ -25,11 +25,7 @@ export default function ProductPage({ product }: Props): JSX.Element {
 export const getStaticPaths: GetStaticPaths = async () => {
     const products = await fetcher<IProduct[]>('/product');
 
-    const paths = products.map((product) => ({
-        params: {
-            id: product.id.toString(),
-        },
-    }));
+    const paths = products.map((product) => ({ params: { id: product.id.toString() } }));
 
     return {
         paths,

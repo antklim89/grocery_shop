@@ -8,9 +8,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
     size?: 'sm' | 'lg'
 }
 
-const Loading: FC<Props> = ({
-    loading, size, className, ...props
-}) => {
+const Loading: FC<Props> = ({ loading, size, className, ...props }) => {
     return loading ? (
         <div
             className={cls(

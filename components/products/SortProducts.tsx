@@ -11,9 +11,7 @@ interface Props extends HTMLAttributes<HTMLAnchorElement> {
 
 const NAME = 'sort';
 
-const SortProducts: FC<Props> = ({
-    value, children, className, ...props
-}) => {
+const SortProducts: FC<Props> = ({ value, children, className, ...props }) => {
     const { query } = useRouter();
 
     const params = new URLSearchParams(query as Record<string, string> || '');

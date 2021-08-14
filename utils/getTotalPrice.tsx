@@ -8,9 +8,7 @@ type CartItem = Array<{
 }>;
 
 export default function getTotalPrice(cartItems: CartItem): number {
-    return cartItems.reduce((total, {
-        qty, product: { price, discount, unit },
-    }) => (
+    return cartItems.reduce((total, { qty, product: { price, discount, unit } }) => (
         total + Number(getPrice(price * unit * qty, discount))
     ), 0);
 }

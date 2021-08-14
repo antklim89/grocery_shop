@@ -17,7 +17,7 @@ function ConfirmOrder(): JSX.Element {
     const [order, setOrder] = useState<Order|null>(null);
     const [error, setError] = useState<string|null>(null);
     const [loading, setLoading] = useState(false);
-    const [status, setStatus] = useState<null|'success'|'error'>(null);
+    const [confirmStatus, setConfirmStatus] = useState<null|'success'|'error'>(null);
 
     useEffect(() => {
         (async () => {
@@ -38,13 +38,10 @@ function ConfirmOrder(): JSX.Element {
         const token = localStorage.getItem('token');
         if (!token) return;
         try {
-            await fetcher(`/orders/confirm/${router.query.id}`, {
-                method: 'post',
-                headers: { Authorization: `Bearer ${token}` },
-            });
-            setStatus('success');
+            await fetcher(`/orders/confirm/${router.query.id}`);
+            setConfirmStatus('success');
         } catch {
-            setStatus('error');
+            setConfirmStatus('error');
         } finally {
             setLoading(false);
         }
@@ -72,10 +69,10 @@ function ConfirmOrder(): JSX.Element {
             <h1 className="text-center text-primary mb-5">
                 Order
             </h1>
-            {status === 'error' && (
+            {confirmStatus === 'error' && (
                 <p className="h1">Order failed. Try again later.</p>
             )}
-            {status === 'success' && (
+            {confirmStatus === 'success' && (
                 <p className="h1">Order successfully confirmed.</p>
             )}
             <div className="list-group mb-5">
@@ -141,7 +138,7 @@ function ConfirmOrder(): JSX.Element {
                     $
                 </p>
             </div>
-            {(status === 'error' || status === null) && (
+            {(confirmStatus === 'error' || confirmStatus === null) && (
                 <button
                     className="btn btn-primary" disabled={loading} type="submit"
                     onClick={handleConfirm}

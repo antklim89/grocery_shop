@@ -10,9 +10,7 @@ interface Props extends HTMLAttributes<HTMLAnchorElement> {
     value: string
 }
 
-const CatalogItem: FC<Props> = ({
-    name, value, className, children, ...props
-}) => {
+const CatalogItem: FC<Props> = ({ name, value, className, children, ...props }) => {
     const { query } = useRouter();
 
     const params = new URLSearchParams(query as Record<string, string> || '');
