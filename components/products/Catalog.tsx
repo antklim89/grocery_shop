@@ -31,7 +31,7 @@ const Catalog: FC = () => {
     }, []);
 
     return (
-        <nav className="container">
+        <nav>
             <ul className="list-group mb-4">
                 <Link href="/product">
                     <a

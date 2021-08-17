@@ -11,7 +11,7 @@ interface Props {
 
 const ProductsList: FC<Props> = ({ products }) => {
     return (
-        <div className="container  my-3">
+        <div className="my-3">
             {products.length > 0 ? (
                 <div className="row g-2">
                     {products.map((product) => (

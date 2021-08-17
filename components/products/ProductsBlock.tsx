@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { FC, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 
 import Catalog from './Catalog';
 import ProductsList from './ProductsList';
@@ -39,7 +39,7 @@ const ProductsBlock: FC = () => {
         })();
     }, [query]);
 
-    const fetchProducts = async (offset?: number): Promise<IProductPreview[]> => {
+    const fetchProducts = useCallback(async (offset?: number): Promise<IProductPreview[]> => {
         setLoading(true);
 
         const data = await fetcher<{products: IProductPreview[]}>(
@@ -49,19 +49,19 @@ const ProductsBlock: FC = () => {
         setHasNext(data.products.length >= PRODUCTS_LIMIT);
         setLoading(false);
         return data.products;
-    };
+    }, [searchParamsObject]);
 
-    const handleNext = async () => {
+    const handleNext = useCallback(async () => {
         const newProducts = await fetchProducts(page.v * PRODUCTS_LIMIT);
         page.v += 1;
         setProducts((prev) => [...prev, ...newProducts]);
-    };
+    }, []);
 
+    const catalog = useMemo(() => <Catalog />, []);
 
-    const catalog = <Catalog />;
     return (
-        <>
-            <div className="container d-block d-xl-none">
+        <div className="container">
+            <div className="d-block d-xl-none">
                 <button
                     className="btn btn-primary"
                     data-bs-target="#catalog-offcanvas"
@@ -90,10 +90,10 @@ const ProductsBlock: FC = () => {
                 </div>
             </div>
             <div className="row">
-                <div className="col-12 col-xl-3 d-none d-xl-block">
+                <div className="col-12 col-xl-2 d-none d-xl-block ps-0">
                     {catalog}
                 </div>
-                <div className="col-12 col-xl-9 position-relative">
+                <div className="col-12 col-xl-10 position-relative">
                     <div className="breadcrumb d-flex justify-content-end me-3">
                         <SortProducts className="breadcrumb-item" value="discountPrice">
                             Sort by Price
@@ -124,7 +124,7 @@ const ProductsBlock: FC = () => {
                     )}
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

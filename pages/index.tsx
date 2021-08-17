@@ -14,18 +14,23 @@ interface Props {
     hero: HeroProps
     features: IFeature[]
     newProducts: IProductPreview[]
+    discountProducts: IProductPreview[]
 }
 
-export default function HomePage({ hero, features, newProducts }: Props): JSX.Element {
+export default function HomePage({ hero, features, newProducts, discountProducts }: Props): JSX.Element {
     return (
         <>
             <Seo title="Home" />
             <Hero {...hero} />
-            <ProductsList products={newProducts.slice(0, 4)} />
-            <div className="text-center my-5 p-5 bg-primary-gradient">
-                <p className="text-white display-1 m-5">{hero.secondText}</p>
+            <div className="container">
+                <ProductsList products={newProducts} />
             </div>
-            <ProductsList products={newProducts.slice(4, 8)} />
+            <div className="text-center my-5 p-5 bg-primary-gradient">
+                <p className="text-white display-1 m-5 text-uppercase">{hero.secondText}</p>
+            </div>
+            <div className="container">
+                <ProductsList products={discountProducts} />
+            </div>
             <ShowMoreProductsButton />
             <Features features={features} />
         </>

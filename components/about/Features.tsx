@@ -22,9 +22,9 @@ export default function Features({ features }: {features: IFeature[]}): JSX.Elem
                                     src={image.url}
                                     width={400}
                                 />
-                                <div className="card-body">
+                                <div className="card-body d-flex flex-column">
                                     <h3 className="card-title text-center text-uppercase">{title}</h3>
-                                    <ReactMarkdown className="card-text">{feature}</ReactMarkdown>
+                                    <ReactMarkdown className="card-text mt-auto">{feature}</ReactMarkdown>
                                 </div>
                             </section>
                         </div>

@@ -8,7 +8,11 @@ query IndexPageQuery {
         ...HeroFragment
     }
 
-    newProducts: products(limit: 8) {
+    newProducts: products(limit: 6, sort: "id:desc") {
+        ...ProductPreviewFragment
+    }
+
+    discountProducts: products(limit: 6, sort: "discount:desc") {
         ...ProductPreviewFragment
     }
     

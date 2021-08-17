@@ -17,8 +17,8 @@ const SortProducts: FC<Props> = ({ value, children, className, ...props }) => {
     const params = new URLSearchParams(query as Record<string, string> || '');
 
     const [currentValue, direction] = params.get(NAME)?.split(':') || [];
-    if (currentValue === value) params.set(NAME, `${value}:${direction === 'asc' ? 'desc' : 'asc'}`);
-    else if (currentValue !== value) params.set(NAME, `${value}:asc`);
+    if (currentValue === value) params.set(NAME, `${value}:${direction === 'desc' ? 'asc' : 'desc'}`);
+    else if (currentValue !== value) params.set(NAME, `${value}:desc`);
 
     const isActive = currentValue === value;
 
