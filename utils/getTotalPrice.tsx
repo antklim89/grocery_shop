@@ -1,5 +1,4 @@
 import { IBaseProduct } from '~/types/IBaseProduct';
-import getPrice from '~/utils/getPrice';
 
 
 type CartItem = Array<{
@@ -8,7 +7,7 @@ type CartItem = Array<{
 }>;
 
 export default function getTotalPrice(cartItems: CartItem): number {
-    return cartItems.reduce((total, { qty, product: { price, discount, unit } }) => (
-        total + Number(getPrice(price * unit * qty, discount))
+    return cartItems.reduce((total, { qty, product: { discountPrice, quantityPerUnit } }) => (
+        total + Number(discountPrice * (qty / quantityPerUnit))
     ), 0);
 }

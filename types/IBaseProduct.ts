@@ -13,6 +13,6 @@ export interface IBaseProduct {
     }
     discount: number
     discountPrice: number
-    unit: number
-    measure: string
+    quantityPerUnit: number
+    unit: string
 }

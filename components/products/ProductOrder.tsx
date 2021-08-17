@@ -8,7 +8,7 @@ import { IProduct } from '~/types';
 
 const ProductOrder: FC<IProduct> = (product) => {
     const {
-        name, country, category, discount, unit, measure, discountPrice,
+        name, country, category, discount, quantityPerUnit, unit, discountPrice,
     } = product;
 
     const cart = useCart();
@@ -22,7 +22,7 @@ const ProductOrder: FC<IProduct> = (product) => {
         );
     }
 
-    const cartItem = cart.setCurrentProduct({ product, qty: unit });
+    const cartItem = cart.setCurrentProduct({ product, qty: quantityPerUnit });
 
     const handleOrder = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -45,14 +45,14 @@ const ProductOrder: FC<IProduct> = (product) => {
                 <p>
                     Price for
                     {' '}
-                    {unit}
+                    {quantityPerUnit}
                     {' '}
-                    {measure}
+                    {unit}
                     :
                     <br />
                     <big>
                         <b>
-                            {discountPrice}
+                            {discountPrice.toFixed(2)}
                             $
                         </b>
                     </big>
@@ -64,12 +64,12 @@ const ProductOrder: FC<IProduct> = (product) => {
                             {' '}
                             {cartItem.qty}
                             {' '}
-                            {measure}
+                            {unit}
                             :
                             <br />
                             <big>
                                 <b>
-                                    {(discountPrice / unit) * cartItem.qty}
+                                    {(discountPrice * (cartItem.qty / quantityPerUnit)).toFixed(2)}
                                     $
                                 </b>
                             </big>
@@ -89,7 +89,7 @@ const ProductOrder: FC<IProduct> = (product) => {
             >
                 <label className="form-label my-2" htmlFor="qte">
                     Quantity: (
-                    {measure}
+                    {unit}
                     )
                     <Observer render={() => (
                         <input

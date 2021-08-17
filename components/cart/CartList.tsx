@@ -1,12 +1,11 @@
 import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
 
+import CartListItem from './CartListItem';
 import CreateOrderModal from './CreateOrderModal';
 
 import { useCart } from '~/components/cart/CartProvider';
-import Price from '~/components/utils/Price';
 import ProtectedComponent from '~/components/utils/ProtectedComponent';
-import StrapiImage from '~/components/utils/StrapiImage';
 import getTotalPrice from '~/utils/getTotalPrice';
 
 
@@ -25,53 +24,7 @@ function CartList(): JSX.Element {
         <div className="container">
             <div className="list-group mt-5">
                 {cart.cartItems.map((cartItem) => (
-                    <section className="row list-group-item d-flex" key={cartItem.product.id}>
-                        <div className="col-lg-2 col-4">
-                            <StrapiImage
-                                alt={cartItem.product.name}
-                                height={120}
-                                src={cartItem.product.images[0].formats.thumbnail.url}
-                                width={100}
-                            />
-                        </div>
-                        <div className="col-8">
-                            <Link passHref href={`/product/${cartItem.product.id}`}>
-                                <a><h2 className="mb-1">{cartItem.product.name}</h2></a>
-                            </Link>
-                            <p className="mb-1">{cartItem.product.country.name}</p>
-                            <small>
-                                <Price
-                                    discountPrice={
-                                        (cartItem.product.discountPrice / cartItem.product.unit) * cartItem.qty
-                                    }
-                                    measure={cartItem.product.measure}
-                                    price={(cartItem.product.price / cartItem.product.unit) * cartItem.qty}
-                                    unit={cartItem.qty}
-                                />
-                            </small>
-                        </div>
-                        <div className="col-lg-2 col-12 d-flex flex-lg-column justify-content-between">
-                            <label className="form-label my-2" htmlFor={`qte-${cartItem.product.id}`}>
-                                Quantity: (
-                                {cartItem.product.measure}
-                                )
-                                <input
-                                    className="form-control"
-                                    id={`qte-${cartItem.product.id}`}
-                                    type="number"
-                                    value={cartItem.qty}
-                                    onChange={(e) => cartItem.changeQty(Number(e.target.value))}
-                                />
-                            </label>
-                            <button
-                                className="btn btn-outline-danger btn-lg p-1 align-self-end"
-                                type="button"
-                                onClick={() => cart.toggle(cartItem)}
-                            >
-                                <i className="bi bi-trash" />
-                            </button>
-                        </div>
-                    </section>
+                    <CartListItem cartItem={cartItem} key={cartItem.product.id} />
                 ))}
             </div>
             <div className="my-2 d-flex flex-column">

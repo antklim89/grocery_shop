@@ -18,8 +18,8 @@ const ProductCard: FC<IProductPreview> = ({
     id,
     category,
     mainImage,
-    unit,
-    measure,
+    quantityPerUnit: unit,
+    unit: measure,
     discount,
     discountPrice,
 }) => {

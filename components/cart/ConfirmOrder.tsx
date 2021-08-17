@@ -118,15 +118,15 @@ function ConfirmOrder(): JSX.Element {
                             </div>
                             <div className="col-lg-4 col-6">
                                 <p className="h2">
-                                    {product.discountPrice * qty}
+                                    {(product.discountPrice * (qty / product.quantityPerUnit)).toFixed(2)}
                                     $
                                 </p>
                             </div>
                             <div className="col-lg-2 col-6">
                                 <p className="h2">
-                                    {product.unit}
+                                    {product.quantityPerUnit}
                                     &nbsp;
-                                    {product.measure}
+                                    {product.unit}
                                 </p>
                             </div>
                         </div>

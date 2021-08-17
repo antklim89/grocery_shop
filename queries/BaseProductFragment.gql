@@ -15,5 +15,5 @@ fragment BaseProductFragment on Product {
     discount
     discountPrice
     unit
-    measure
+    quantityPerUnit
 }
