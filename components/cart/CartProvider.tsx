@@ -3,9 +3,11 @@ import {
     createContext, ReactChild, useContext, useEffect, useMemo,
 } from 'react';
 
+import { CartItem } from '~/store/CartItemStore';
 import { CartStore } from '~/store/CartStore';
 import { getCartItems } from '~/utils/cartStorage';
-import { CART_LOCAL_STORAGE_NAME } from '~/utils/constants';
+import { AUTH_TOKEN_NAME, CART_LOCAL_STORAGE_NAME } from '~/utils/constants';
+import fetcher from '~/utils/fetcher';
 
 
 export const Context = createContext({} as CartStore);
@@ -16,8 +18,13 @@ function CartProvider({ children }: { children: ReactChild[]}): JSX.Element {
 
     useEffect(() => {
         (async () => {
-            const dataCart = getCartItems();
-            if (dataCart) cart.replace(dataCart);
+            if (localStorage.getItem(AUTH_TOKEN_NAME)) {
+                const data = await fetcher<CartItem[]>('/carts/refresh', [], { method: 'post' });
+                cart.replace(data);
+            } else {
+                const dataCart = getCartItems();
+                cart.replace(dataCart);
+            }
             cart.setCartFedched();
         })();
     }, []);

@@ -1,22 +1,22 @@
 import { CART_LOCAL_STORAGE_NAME } from './constants';
 
-import { CartItemStoreArgs } from '~/store/CartItemStore';
+import { CartItem } from '~/store/CartItemStore';
 
 
 const isBrowser = typeof window !== 'undefined';
 
 
-export const saveCart = (cartItems: CartItemStoreArgs[]): CartItemStoreArgs[] => {
+export const saveCart = (cartItems: CartItem[]): CartItem[] => {
     localStorage.setItem(CART_LOCAL_STORAGE_NAME, JSON.stringify(cartItems));
 
     return cartItems;
 };
 
 
-export function getCartItems(): CartItemStoreArgs[] | null {
-    if (!isBrowser) return null;
+export function getCartItems(): CartItem[] {
+    if (!isBrowser) return [];
     const dataStr = localStorage.getItem(CART_LOCAL_STORAGE_NAME);
 
-    if (!dataStr) return null;
-    return JSON.parse(dataStr);
+    if (!dataStr) return [];
+    return JSON.parse(dataStr) || [];
 }

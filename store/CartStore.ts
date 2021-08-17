@@ -1,6 +1,6 @@
 import { makeAutoObservable, observable, runInAction } from 'mobx';
 
-import { CartItemStore, CartItemStoreArgs } from './CartItemStore';
+import { CartItemStore, CartItem } from './CartItemStore';
 
 import CreateCartMutation from '~/queries/CreateCartMutation.gql';
 import DeleteCartMutation from '~/queries/DeleteCartMutation.gql';
@@ -58,7 +58,7 @@ export class CartStore {
         runInAction(() => this.cartItems.remove(cartItem));
     }
 
-    replace(newCartItems: CartItemStoreArgs[]): void {
+    replace(newCartItems: CartItem[]): void {
         this.cartItems.replace(newCartItems.map((cartItem) => new CartItemStore(cartItem)));
     }
 
@@ -66,7 +66,7 @@ export class CartStore {
         return !!this.cartItems.find((p) => p.product.id === cartItem.product.id);
     }
 
-    setCurrentProduct(cartItem: CartItemStoreArgs): CartItemStore {
+    setCurrentProduct(cartItem: CartItem): CartItemStore {
         const oldOrNewCartItem = (
             this.cartItems.find((i) => Number(i.product.id) === Number(cartItem.product.id))
             || new CartItemStore(cartItem)

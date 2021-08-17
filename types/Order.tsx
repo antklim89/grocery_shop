@@ -1,4 +1,4 @@
-import { CartItemStoreArgs } from '~/store/CartItemStore';
+import { CartItem } from '~/store/CartItemStore';
 
 
 export interface Order {
@@ -7,7 +7,7 @@ export interface Order {
     surname: string;
     address: string;
     phone: string;
-    carts: CartItemStoreArgs[]
+    carts: CartItem[]
     user: {
         id: string;
         username: string;

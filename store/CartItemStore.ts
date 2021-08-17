@@ -6,7 +6,7 @@ import { AUTH_TOKEN_NAME } from '~/utils/constants';
 import fetcher from '~/utils/fetcher';
 
 
-export type CartItemStoreArgs = Pick<CartItemStore, 'id'|'qty'> & {
+export type CartItem = Pick<CartItemStore, 'id'|'qty'> & {
     product: IProduct
 }
 
@@ -14,7 +14,7 @@ let timeout: NodeJS.Timeout;
 
 
 export class CartItemStore {
-    constructor(args: CartItemStoreArgs) {
+    constructor(args: CartItem) {
         this.product = {
             ...args.product,
             images: [args.product.images[0]],

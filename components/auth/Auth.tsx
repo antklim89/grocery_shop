@@ -4,7 +4,7 @@ import { FC, FormEvent, useState } from 'react';
 import { useAuth } from '~/components/auth/AuthProvider';
 import { useCart } from '~/components/cart/CartProvider';
 import Loading from '~/components/utils/Loading';
-import { CartItemStoreArgs } from '~/store/CartItemStore';
+import { CartItem } from '~/store/CartItemStore';
 import styles from '~/styles/Auth.module.scss';
 import { getCartItems } from '~/utils/cartStorage';
 import fetcher from '~/utils/fetcher';
@@ -29,7 +29,7 @@ const Auth: FC<{isSignup?: boolean}> = ({ isSignup }) => {
         }
 
         const cartItems = getCartItems()?.map((i) => ({ qty: i.qty, product: i.product.id }));
-        const newCartItems = await fetcher<CartItemStoreArgs[]>(
+        const newCartItems = await fetcher<CartItem[]>(
             '/carts/refresh',
             cartItems || [],
             { method: 'post' },
