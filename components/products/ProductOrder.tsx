@@ -60,17 +60,11 @@ const ProductOrder: FC<IProduct> = (product) => {
                 <Observer>
                     {() => (
                         <p>
-                            Total price for
-                            {' '}
-                            {cartItem.qty}
-                            {' '}
-                            {unit}
-                            :
+                            Total price for{' '}{cartItem.qty}{' '}{unit}:
                             <br />
                             <big>
                                 <b>
-                                    {(discountPrice * (cartItem.qty / quantityPerUnit)).toFixed(2)}
-                                    $
+                                    {(discountPrice * (cartItem.qty / quantityPerUnit)).toFixed(2)}$
                                 </b>
                             </big>
                         </p>
@@ -88,18 +82,13 @@ const ProductOrder: FC<IProduct> = (product) => {
                 onSubmit={handleOrder}
             >
                 <label className="form-label my-2" htmlFor="qte">
-                    Quantity: (
-                    {unit}
-                    )
-                    <Observer render={() => (
-                        <input
-                            className="form-control"
-                            id="qte"
-                            type="number"
-                            value={cartItem.qty}
-                            onChange={(e) => cartItem.changeQty(e.target.value)}
-                        />
-                    )}
+                    Quantity: ({unit})
+                    <input
+                        className="form-control"
+                        id="qte"
+                        type="number"
+                        value={cartItem.qty}
+                        onChange={(e) => cartItem.changeQty(e.target.value)}
                     />
                 </label>
                 {cart.exists(cartItem) ? (

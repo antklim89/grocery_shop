@@ -64,6 +64,7 @@ const Auth: FC<{isSignup?: boolean}> = ({ isSignup }) => {
                     <div className="mb-3">
                         <input
                             required
+                            autoComplete="username"
                             className="form-control"
                             placeholder="Username"
                             type="text"

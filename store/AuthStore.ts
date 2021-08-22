@@ -5,7 +5,7 @@ import { UserStore } from './UserStote';
 import query from '~/queries/Auth.gql';
 import { AuthResponse, User } from '~/types';
 import { AUTH_TOKEN_NAME } from '~/utils/constants';
-import { clearCookie, getCookie, hasCookie, setCookie } from '~/utils/cookie';
+import { clearCookie, hasCookie, setCookie } from '~/utils/cookie';
 import fetcher from '~/utils/fetcher';
 
 

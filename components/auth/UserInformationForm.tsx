@@ -39,7 +39,7 @@ const UserInformationForm: FC = () => {
                 <label className="form-label w-100" htmlFor="name">
                     Name
                     <input
-                        autoComplete="name"
+                        autoComplete="given-name"
                         className="form-control"
                         id="name"
                         maxLength={200}
@@ -55,7 +55,7 @@ const UserInformationForm: FC = () => {
                 <label className="form-label w-100" htmlFor="surname">
                     Surname
                     <input
-                        autoComplete="surname"
+                        autoComplete="family-name"
                         className="form-control"
                         id="surname"
                         maxLength={200}

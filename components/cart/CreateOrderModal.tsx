@@ -106,7 +106,7 @@ function CreateOrderModal(): JSX.Element {
                                         Name:
                                         <input
                                             required
-                                            autoComplete="username"
+                                            autoComplete="given-name"
                                             className="form-control"
                                             id="name"
                                             maxLength={200}
@@ -123,7 +123,7 @@ function CreateOrderModal(): JSX.Element {
                                         Surname:
                                         <input
                                             required
-                                            autoComplete="surname"
+                                            autoComplete="family-name"
                                             className="form-control"
                                             id="surname"
                                             maxLength={200}
@@ -156,7 +156,7 @@ function CreateOrderModal(): JSX.Element {
                                         Address:
                                         <input
                                             required
-                                            autoComplete="address"
+                                            autoComplete="address-level1"
                                             className="form-control"
                                             id="address"
                                             maxLength={2000}
@@ -172,7 +172,7 @@ function CreateOrderModal(): JSX.Element {
                                         Phone number:
                                         <input
                                             required
-                                            autoComplete="phone"
+                                            autoComplete="tel"
                                             className="form-control"
                                             id="phone"
                                             maxLength={200}

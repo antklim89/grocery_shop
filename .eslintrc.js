@@ -4,7 +4,13 @@ module.exports = {
         es2021: true,
     },
     extends: [
-        'airbnb',
+        'eslint:recommended',
+        'plugin:react-hooks/recommended', // <-------
+        'plugin:import/recommended',
+        'plugin:import/errors',
+        'plugin:import/warnings',
+        'plugin:import/typescript',
+        'plugin:jsx-a11y/strict',
         'plugin:@typescript-eslint/recommended',
         'next',
         'next/core-web-vitals',
@@ -17,19 +23,21 @@ module.exports = {
     },
     plugins: [
         '@typescript-eslint',
+        'jsx-a11y',
     ],
     rules: {
         'import/no-unresolved': 0,
         'import/prefer-default-export': 0,
         'import/extensions': 0,
         'import/newline-after-import': ['error', { count: 2 }],
-        'import/order': [1, {
-            groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
-            'newlines-between': 'always',
-            alphabetize: { order: 'asc', caseInsensitive: true },
-        }],
-        'import/no-extraneous-dependencies': [
-            'error', { devDependencies: ['*.js'] }],
+        'import/order': [
+            1, {
+                groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+                'newlines-between': 'always',
+                alphabetize: { order: 'asc', caseInsensitive: true },
+            }
+        ],
+        'import/no-extraneous-dependencies': ['error', { devDependencies: ['*.js'] }],
 
         'react/jsx-sort-props': [1, { callbacksLast: true, shorthandFirst: true }],
         'react/jsx-max-props-per-line': [1, { maximum: 3 }],
@@ -50,23 +58,23 @@ module.exports = {
         '@typescript-eslint/no-unused-vars': [1, { argsIgnorePattern: '^_' }],
         '@typescript-eslint/no-empty-interface': 0,
 
-        'no-use-before-define': 0,
-        'no-shadow': 0,
-        'no-undef': 0,
+        
         'no-useless-constructor': 0,
         'no-multiple-empty-lines': [1, { max: 2 }],
         'arrow-body-style': 0,
         'no-unused-vars': 0,
-        indent: [1, 4],
+        'indent': [1, 4],
         'no-debugger': 0,
         'no-console': 0,
         'max-len': [1, { code: 120, ignoreComments: true }],
         'no-restricted-syntax': ['error', 'WithStatement'],
-        camelcase: 0,
-        'object-curly-newline': [1, {
-            ObjectPattern: { multiline: true, minProperties: 6 },
-            ObjectExpression: { multiline: true, minProperties: 6 },
-        }],
+        'camelcase': 0,
+        'object-curly-newline': [
+            1, {
+                ObjectPattern: { multiline: true, minProperties: 6 },
+                ObjectExpression: { multiline: true, minProperties: 6 },
+            }
+        ],
 
         'jsx-a11y/anchor-is-valid': 0,
     },
@@ -77,5 +85,11 @@ module.exports = {
             version: 'detect', // React version. "detect" automatically picks the version you have installed.
         },
     },
+
+    globals: {
+        module: true,
+        process: true,
+        strapi: true,
+    }
 
 };
