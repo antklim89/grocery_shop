@@ -33,8 +33,6 @@ export class UserStore implements User {
 
     public savingProfile = false;
 
-    public errors: null | string = null
-
     setValue<T extends User, U extends 'phone'|'name'|'surname'|'address'>(
         this: T, key: U, newValue: T[U],
     ): void {
@@ -42,13 +40,11 @@ export class UserStore implements User {
     }
 
     async updateServerProfile(): Promise<void> {
+        if (this.savingProfile) return;
         this.setSavingProfile(true);
-        this.setErrors();
         const { name, surname, address, phone } = this;
         try {
             await fetcher(UpdateUserMutation, { name, surname, address, phone });
-        } catch (error) {
-            this.setErrors(error.message);
         } finally {
             this.setSavingProfile(false);
         }
@@ -56,9 +52,5 @@ export class UserStore implements User {
 
     setSavingProfile(state = true): void {
         this.savingProfile = state;
-    }
-
-    setErrors(state = null): void {
-        this.errors = state;
     }
 }

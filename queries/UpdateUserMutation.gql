@@ -13,6 +13,9 @@ mutation UpdateUserMutation (
                 surname: $surname
                 phone: $phone
                 address: $address
+            },
+            where: {
+                id: 18
             }
         }
     ) {
