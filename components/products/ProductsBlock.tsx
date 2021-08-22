@@ -13,14 +13,14 @@ import fetcher from '~/utils/fetcher';
 import useAsyncEffect from '~/utils/useAsyncEffect';
 
 
-interface ProductsPageQuery {
+interface ProductsPageProps {
     initProducts: IProductPreview[]
     categories: ICatalogItem[]
     countries: ICatalogItem[]
 }
 
 
-const ProductsBlock: FC<ProductsPageQuery> = ({ initProducts, categories, countries }) => {
+const ProductsBlock: FC<ProductsPageProps> = ({ initProducts, categories, countries }) => {
     const [products, setProducts] = useState<IProductPreview[]>(() => initProducts);
     const [hasNext, setHasNext] = useState(() => initProducts.length >= PRODUCTS_LIMIT);
     const [loading, setLoading] = useState(false);
@@ -37,20 +37,6 @@ const ProductsBlock: FC<ProductsPageQuery> = ({ initProducts, categories, countr
         return Object.fromEntries(searchParams.entries());
     }, [query]);
 
-    useAsyncEffect(async () => {
-        if (firstRender.current) {
-            firstRender.current = false;
-            return;
-        }
-        try {
-            const newProducts = await fetchProducts();
-            setProducts(newProducts);
-        } catch (error) {
-            console.error(error);
-        }
-    }, [query]);
-
-
     const fetchProducts = useCallback(async (offset?: number): Promise<IProductPreview[]> => {
         setLoading(true);
 
@@ -63,6 +49,20 @@ const ProductsBlock: FC<ProductsPageQuery> = ({ initProducts, categories, countr
         setLoading(false);
         return data.products;
     }, [searchParamsObject]);
+
+
+    useAsyncEffect(async () => {
+        if (firstRender.current) {
+            firstRender.current = false;
+            return;
+        }
+        try {
+            const newProducts = await fetchProducts();
+            setProducts(newProducts);
+        } catch (error) {
+            console.error(error);
+        }
+    }, [query]);
 
     const handleNext = useCallback(async () => {
         const newProducts = await fetchProducts(page.v * PRODUCTS_LIMIT);

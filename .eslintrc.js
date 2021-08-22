@@ -1,3 +1,4 @@
+
 module.exports = {
     env: {
         browser: true,
@@ -12,6 +13,7 @@ module.exports = {
         'plugin:import/typescript',
         'plugin:jsx-a11y/strict',
         'plugin:@typescript-eslint/recommended',
+        'airbnb',
         'next',
         'next/core-web-vitals',
     ],
@@ -32,10 +34,10 @@ module.exports = {
         'import/newline-after-import': ['error', { count: 2 }],
         'import/order': [
             1, {
-                groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+                'groups': ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
                 'newlines-between': 'always',
-                alphabetize: { order: 'asc', caseInsensitive: true },
-            }
+                'alphabetize': { order: 'asc', caseInsensitive: true },
+            },
         ],
         'import/no-extraneous-dependencies': ['error', { devDependencies: ['*.js'] }],
 
@@ -58,7 +60,15 @@ module.exports = {
         '@typescript-eslint/no-unused-vars': [1, { argsIgnorePattern: '^_' }],
         '@typescript-eslint/no-empty-interface': 0,
 
-        
+        // 'object-curly-spacing': [2, 'newer'],
+        'no-use-before-define': 0,
+        'no-shadow': 0,
+        'no-undef': 0,
+        'semi': 2,
+        'comma-dangle': [1],
+        'quotes': [1, 'single'],
+        'quote-props': [2, 'consistent'],
+        'eol-last': 2,
         'no-useless-constructor': 0,
         'no-multiple-empty-lines': [1, { max: 2 }],
         'arrow-body-style': 0,
@@ -67,14 +77,10 @@ module.exports = {
         'no-debugger': 0,
         'no-console': 0,
         'max-len': [1, { code: 120, ignoreComments: true }],
-        'no-restricted-syntax': ['error', 'WithStatement'],
+        'no-restricted-syntax': [2, 'WithStatement'],
         'camelcase': 0,
-        'object-curly-newline': [
-            1, {
-                ObjectPattern: { multiline: true, minProperties: 6 },
-                ObjectExpression: { multiline: true, minProperties: 6 },
-            }
-        ],
+        'object-curly-newline': 0,
+        'array-element-newline': 0,
 
         'jsx-a11y/anchor-is-valid': 0,
     },
@@ -90,6 +96,7 @@ module.exports = {
         module: true,
         process: true,
         strapi: true,
-    }
+        JSX: true,
+    },
 
 };

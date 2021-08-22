@@ -13,18 +13,6 @@ interface Fetcher {
     <T extends unknown>(query: DocumentNode, body?: unknown, options?: Options): Promise<T>
 }
 
-const fetcher: Fetcher = async <T extends unknown>(
-    url: string | DocumentNode,
-    body?: unknown,
-    options: Options = {},
-): Promise<T> => {
-    if (typeof url === 'string') {
-        return restFetcher(url, body, options);
-    }
-
-    return graphqlFetcher(url, body, options);
-};
-
 
 async function graphqlFetcher(url: DocumentNode, body: unknown, options: Options) {
     const { print } = await import('graphql');
@@ -39,7 +27,7 @@ async function graphqlFetcher(url: DocumentNode, body: unknown, options: Options
             variables: body,
         }),
         headers: {
-            Authorization: token ? `Bearer ${token}` : '',
+            'Authorization': token ? `Bearer ${token}` : '',
             ...options.headers || {},
             'Content-Type': 'application/json',
         },
@@ -65,7 +53,7 @@ async function restFetcher(url: string, body: unknown, options: Options) {
         ...options,
         body: JSON.stringify(body),
         headers: {
-            Authorization: token ? `Bearer ${token}` : '',
+            'Authorization': token ? `Bearer ${token}` : '',
             ...options.headers || {},
             'Content-Type': 'application/json',
         },
@@ -80,6 +68,18 @@ async function restFetcher(url: string, body: unknown, options: Options) {
 
     return data.json();
 }
+
+const fetcher: Fetcher = async <T extends unknown>(
+    url: string | DocumentNode,
+    body?: unknown,
+    options: Options = {},
+): Promise<T> => {
+    if (typeof url === 'string') {
+        return restFetcher(url, body, options);
+    }
+
+    return graphqlFetcher(url, body, options);
+};
 
 
 export default fetcher;

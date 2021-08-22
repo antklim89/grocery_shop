@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 
 import Alert from '~/components/utils/Alert';
 import Loading from '~/components/utils/Loading';

@@ -7,13 +7,13 @@ import { IProductPreview, ICatalogItem } from '~/types';
 import fetcher from '~/utils/fetcher';
 
 
-interface ProductsPageQuery {
+interface ProductsPageProps {
     products: IProductPreview[]
     categories: ICatalogItem[]
     countries: ICatalogItem[]
 }
 
-export default function ProductsPage({ products, categories, countries }: ProductsPageQuery): JSX.Element {
+export default function ProductsPage({ products, categories, countries }: ProductsPageProps): JSX.Element {
     return (
         <>
             <Seo title="Products" />
@@ -22,8 +22,8 @@ export default function ProductsPage({ products, categories, countries }: Produc
     );
 }
 
-export const getServerSideProps: GetServerSideProps<ProductsPageQuery> = async (args) => {
-    const props = await fetcher<ProductsPageQuery>(
+export const getServerSideProps: GetServerSideProps<ProductsPageProps> = async (args) => {
+    const props = await fetcher<ProductsPageProps>(
         ProductsPageQuery,
         args.query,
     );
