@@ -3,6 +3,7 @@ import { makeAutoObservable } from 'mobx';
 import query from '~/queries/Cart.gql';
 import type { IProduct } from '~/types';
 import { AUTH_TOKEN_NAME } from '~/utils/constants';
+import { hasCookie } from '~/utils/cookie';
 import fetcher from '~/utils/fetcher';
 
 
@@ -33,7 +34,7 @@ export class CartItemStore {
     changeQty(numb: number|string): void {
         this.qty = Number(numb);
 
-        const isAuth = !!localStorage.getItem(AUTH_TOKEN_NAME);
+        const isAuth = hasCookie(AUTH_TOKEN_NAME);
 
         if (!isAuth || !this.id) return;
         if (timeout) clearTimeout(timeout);

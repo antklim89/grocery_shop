@@ -4,6 +4,7 @@ import { CartItemStore, CartItem } from './CartItemStore';
 
 import query from '~/queries/Cart.gql';
 import { AUTH_TOKEN_NAME } from '~/utils/constants';
+import { hasCookie } from '~/utils/cookie';
 import fetcher from '~/utils/fetcher';
 
 
@@ -32,7 +33,7 @@ export class CartStore {
     }
 
     private async createCartItem(cartItem: CartItemStore) {
-        const isAuth = !!localStorage.getItem(AUTH_TOKEN_NAME);
+        const isAuth = hasCookie(AUTH_TOKEN_NAME);
 
         if (isAuth && !this.loading) {
             this.setLoading(true);
@@ -47,7 +48,7 @@ export class CartStore {
     }
 
     private async deleteCartItem(cartItem: CartItemStore) {
-        const isAuth = !!localStorage.getItem(AUTH_TOKEN_NAME);
+        const isAuth = hasCookie(AUTH_TOKEN_NAME);
 
         if (isAuth && !this.loading) {
             this.setLoading(true);

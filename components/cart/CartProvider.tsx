@@ -7,6 +7,7 @@ import { CartItem } from '~/store/CartItemStore';
 import { CartStore } from '~/store/CartStore';
 import { getCartItems } from '~/utils/cartStorage';
 import { AUTH_TOKEN_NAME, CART_LOCAL_STORAGE_NAME } from '~/utils/constants';
+import { hasCookie } from '~/utils/cookie';
 import fetcher from '~/utils/fetcher';
 
 
@@ -19,7 +20,7 @@ function CartProvider({ children }: { children: ReactChild[]}): JSX.Element {
     useEffect(() => {
         (async () => {
             try {
-                if (localStorage.getItem(AUTH_TOKEN_NAME)) {
+                if (hasCookie(AUTH_TOKEN_NAME)) {
                     const data = await fetcher<CartItem[]>('/carts/refresh', [], { method: 'post' });
                     cart.replace(data);
                 } else {

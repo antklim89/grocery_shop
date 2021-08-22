@@ -5,6 +5,7 @@ import { UserStore } from './UserStote';
 import query from '~/queries/Auth.gql';
 import { AuthResponse, User } from '~/types';
 import { AUTH_TOKEN_NAME } from '~/utils/constants';
+import { clearCookie, getCookie, hasCookie, setCookie } from '~/utils/cookie';
 import fetcher from '~/utils/fetcher';
 
 
@@ -15,7 +16,7 @@ export default class AuthStore {
 
     public user?: UserStore | null;
 
-    public isAuth = typeof window === 'undefined' ? true : !!localStorage.getItem(AUTH_TOKEN_NAME)
+    public isAuth = hasCookie(AUTH_TOKEN_NAME)
 
     public isUserFetched = false
 
@@ -28,7 +29,7 @@ export default class AuthStore {
         this.isAuth = true;
 
         if (jwt) {
-            localStorage.setItem(AUTH_TOKEN_NAME, jwt);
+            setCookie(AUTH_TOKEN_NAME, jwt);
         }
     }
 
@@ -36,7 +37,7 @@ export default class AuthStore {
         this.user = null;
         this.isAuth = false;
 
-        localStorage.removeItem(AUTH_TOKEN_NAME);
+        clearCookie(AUTH_TOKEN_NAME);
     }
 
     async signup({ email, username, password }: {email: string, username: string, password: string}): Promise<void> {
@@ -61,7 +62,7 @@ export default class AuthStore {
             this.setUser(me);
             return this.setIsUserFetched();
         } catch (error) {
-            localStorage.removeItem(AUTH_TOKEN_NAME);
+            clearCookie(AUTH_TOKEN_NAME);
             return this.setIsUserFetched();
         }
     }
