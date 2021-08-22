@@ -4,6 +4,7 @@ import { FC } from 'react';
 import { useAuth } from './AuthProvider';
 import ChangePassword from './ChangePassword';
 import UserInformationForm from './UserInformationForm';
+import UserOrders from './UserOrders';
 
 import useBootstrap from '~/utils/useBootstrap';
 
@@ -30,7 +31,8 @@ const Profile: FC = () => {
                             data-bs-target="#user-info"
                             data-bs-toggle="tab"
                             id="user-info-tab"
-                            role="tab" type="button"
+                            role="tab"
+                            type="button"
                         >
                             Info
                         </button>
@@ -41,9 +43,22 @@ const Profile: FC = () => {
                             data-bs-target="#change-profile"
                             data-bs-toggle="tab"
                             id="change-profile-tab"
-                            role="tab" type="button"
+                            role="tab"
+                            type="button"
                         >
                             Change password
+                        </button>
+                        <button
+                            aria-controls="user-orders"
+                            aria-selected="false"
+                            className="nav-link"
+                            data-bs-target="#user-orders"
+                            data-bs-toggle="tab"
+                            id="user-orders-tab"
+                            role="tab"
+                            type="button"
+                        >
+                            Orders
                         </button>
                     </div>
                 </nav>
@@ -65,6 +80,14 @@ const Profile: FC = () => {
                         role="tabpanel"
                     >
                         <ChangePassword />
+                    </div>
+                    <div
+                        aria-labelledby="change-profile-tab"
+                        className="tab-pane fade"
+                        id="user-orders"
+                        role="tabpanel"
+                    >
+                        <UserOrders />
                     </div>
                 </div>
             </div>

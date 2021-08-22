@@ -44,6 +44,7 @@ module.exports = {
         'react/destructuring-assignment': 0,
         'react-hooks/exhaustive-deps': 0,
         'react/no-this-in-sfc': 0,
+        'react/jsx-one-expression-per-line': 0,
 
         '@typescript-eslint/no-shadow': 2,
         '@typescript-eslint/no-unused-vars': [1, { argsIgnorePattern: '^_' }],

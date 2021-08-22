@@ -9,6 +9,7 @@ $light: lighten($primary, 20);
 $dark: darken($primary, 10);
 
 $link-color: darken($primary, 20);
+$link-hover-color: lighten($primary, 20);
 
 $breadcrumb-divider: quote(" | ");
 $breadcrumb-active-color: $primary;

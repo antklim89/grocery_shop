@@ -1,27 +1,18 @@
 #import "./ProductPreviewFragment.gql"
 
 
-query OrderQuery($id: ID!) {
-    order( id: $id ) {
+query OrdersQuery {
+    orders {
         id
-        uid
         status
-        email
-        name
-        surname
         address
-        phone
+        email
         carts {
             id
             qty
             product {
                 ...ProductPreviewFragment
             }
-        }
-        user {
-            id
-            username
-            email
         }
     }
 }
