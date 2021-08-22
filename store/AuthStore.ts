@@ -63,7 +63,7 @@ export default class AuthStore {
             this.setUser(me);
             return this.setIsUserFetched();
         } catch (error) {
-            console.error('Fetch Me Error: \n', error);
+            localStorage.removeItem(AUTH_TOKEN_NAME);
             return this.setIsUserFetched();
         }
     }

@@ -18,14 +18,18 @@ function CartProvider({ children }: { children: ReactChild[]}): JSX.Element {
 
     useEffect(() => {
         (async () => {
-            if (localStorage.getItem(AUTH_TOKEN_NAME)) {
-                const data = await fetcher<CartItem[]>('/carts/refresh', [], { method: 'post' });
-                cart.replace(data);
-            } else {
-                const dataCart = getCartItems();
-                cart.replace(dataCart);
+            try {
+                if (localStorage.getItem(AUTH_TOKEN_NAME)) {
+                    const data = await fetcher<CartItem[]>('/carts/refresh', [], { method: 'post' });
+                    cart.replace(data);
+                } else {
+                    cart.replace(getCartItems());
+                }
+            } catch (error) {
+                cart.replace(getCartItems());
+            } finally {
+                cart.setCartFedched();
             }
-            cart.setCartFedched();
         })();
     }, []);
 
