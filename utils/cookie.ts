@@ -1,6 +1,7 @@
 
 
-export function getCookie(name: string): string | null {
+export function getCookie(name: string, cookies?: string): string | null {
+    if (cookies) return cookies.match(new RegExp(`(^| )${name}=([^;]+)`, 'i'))?.pop() || null;
     if (process.browser) return document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`, 'i'))?.pop() || null;
     return null;
 }
@@ -12,10 +13,10 @@ export function hasCookie(name: string): boolean {
 
 
 export function setCookie(name: string, value: string, days = 12): void {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = date.toUTCString();
     if (process.browser) {
-        const date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        const expires = date.toUTCString();
         document.cookie = `${name}=${value};path=/;expires=${expires}`;
     }
 }

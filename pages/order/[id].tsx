@@ -5,24 +5,38 @@ import ProtectedComponent from '~/components/utils/ProtectedComponent';
 import Seo from '~/components/utils/Seo';
 import query from '~/queries/Order.gql';
 import { Order, OrderStatus } from '~/types';
+import { AUTH_TOKEN_NAME } from '~/utils/constants';
+import { getCookie } from '~/utils/cookie';
 import fetcher from '~/utils/fetcher';
 
 
-export default function OrderPage(): JSX.Element {
+interface Props {
+    order: Order
+}
+
+export default function OrderPage({ order }: Props): JSX.Element {
     return (
-        <ProtectedComponent notFound>
+        <>
             <Seo title="Confirm Order" />
             <div className="container">
-                <ConfirmOrder />
+                <ConfirmOrder order={order} />
             </div>
-        </ProtectedComponent>
+        </>
     );
 }
 
 
-export const getServerSideProps: GetServerSideProps<any> = async ({ params, req }) => {
-    console.debug('req: \n', req.headers);
-    // const data = await fetcher<{order: Order}>(query.OrderQuery, { id: params?.id });
-    // console.debug('data: \n', data);
-    return { props: { x: 1 } };
+export const getServerSideProps: GetServerSideProps<Props> = async ({ params, req }) => {
+    console.debug('req.cook: \n', req.cookies);
+    const { token } = req.cookies;
+    if (!token) { return { notFound: true }; }
+
+    const { order } = await fetcher<{order: Order}>(
+        query.OrderQuery,
+        { id: params?.id },
+        { headers: { Authorization: token ? `Bearer ${token}` : '' } },
+    );
+
+
+    return { props: { order } };
 };

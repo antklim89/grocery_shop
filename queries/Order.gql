@@ -1,44 +1,35 @@
 #import "./ProductPreviewFragment.gql"
 
 
+fragment OrderFragment on Order {
+    id
+    uid
+    status
+    email
+    name
+    surname
+    address
+    phone
+    createdAt: created_at
+    updatedAt: updated_at
+    orderedProducts {
+        id
+        qty
+        product {
+            ...ProductPreviewFragment
+        }
+    }
+}
+
 query OrderQuery($id: ID!) {
     order( id: $id ) {
-        id
-        uid
-        status
-        email
-        name
-        surname
-        address
-        phone
-        orderedProducts {
-            id
-            qty
-            product {
-                ...ProductPreviewFragment
-            }
-        }
-        user {
-            id
-            username
-            email
-        }
+        ...OrderFragment
     }
 }
 
 query OrdersQuery {
     orders {
-        id
-        status
-        address
-        email
-        orderedProducts {
-            id
-            qty
-            product {
-                ...ProductPreviewFragment
-            }
-        }
+        ...OrderFragment
     }
 }
 

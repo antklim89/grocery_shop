@@ -9,6 +9,8 @@ export enum OrderStatus {
 }
 
 export interface Order {
+    id: number
+    uid: string
     email: string;
     name: string;
     surname: string;
@@ -21,4 +23,8 @@ export interface Order {
         username: string;
         email: string;
     };
+    createdAt: string
+    updatedAt: string
+
+
 }

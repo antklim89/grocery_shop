@@ -2,25 +2,16 @@ import Link from 'next/link';
 import { FC, useState } from 'react';
 
 import query from '~/queries/Order.gql';
-import { ICart, OrderStatus } from '~/types';
+import { Order, OrderStatus } from '~/types';
 import fetcher from '~/utils/fetcher';
 import useAsyncEffect from '~/utils/useAsyncEffect';
 
 
-interface IUserOrders {
-    id: number
-    status: OrderStatus
-    address: string
-    email: string
-    orderedProducts: ICart[]
-}
-
-
 const UserOrders: FC = () => {
-    const [orders, setOrders] = useState<IUserOrders[]>([]);
+    const [orders, setOrders] = useState<Order[]>([]);
 
     useAsyncEffect(async () => {
-        const data = await fetcher<{orders: IUserOrders[]}>(query.OrdersQuery);
+        const data = await fetcher<{orders: Order[]}>(query.OrdersQuery);
         setOrders(data.orders);
     }, []);
 
@@ -53,7 +44,7 @@ const UserOrders: FC = () => {
                             <h5>
                                 {order.address}
                                 <br />
-                                <span className="h6">{order.email}</span>
+                                <span className="h6">{new Date(order.createdAt).toLocaleString()}</span>
                             </h5>
                             <div className="d-flex flex-column">
                                 <span>Status: {statusMessage(order.status)}</span>
