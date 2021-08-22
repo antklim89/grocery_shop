@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useMemo, useRef, useState } from 'react';
 
 import Catalog from './Catalog';
 import ProductsList from './ProductsList';
@@ -7,15 +7,25 @@ import SortProducts from './SortProducts';
 
 import Loading from '~/components/utils/Loading';
 import ProductsPageQuery from '~/queries/ProductsPageQuery.gql';
-import { IProductPreview } from '~/types';
+import { IProductPreview, ICatalogItem } from '~/types';
 import { PRODUCTS_LIMIT } from '~/utils/constants';
 import fetcher from '~/utils/fetcher';
+import useAsyncEffect from '~/utils/useAsyncEffect';
 
 
-const ProductsBlock: FC = () => {
-    const [products, setProducts] = useState<IProductPreview[]>([]);
-    const [hasNext, setHasNext] = useState(false);
+interface ProductsPageQuery {
+    initProducts: IProductPreview[]
+    categories: ICatalogItem[]
+    countries: ICatalogItem[]
+}
+
+
+const ProductsBlock: FC<ProductsPageQuery> = ({ initProducts, categories, countries }) => {
+    const [products, setProducts] = useState<IProductPreview[]>(() => initProducts);
+    const [hasNext, setHasNext] = useState(() => initProducts.length >= PRODUCTS_LIMIT);
     const [loading, setLoading] = useState(false);
+
+    const firstRender = useRef(true);
 
     const router = useRouter();
 
@@ -27,15 +37,17 @@ const ProductsBlock: FC = () => {
         return Object.fromEntries(searchParams.entries());
     }, [query]);
 
-    useEffect(() => {
-        (async () => {
-            try {
-                const newProducts = await fetchProducts();
-                setProducts(newProducts);
-            } catch (error) {
-                console.error(error);
-            }
-        })();
+    useAsyncEffect(async () => {
+        if (firstRender.current) {
+            firstRender.current = false;
+            return;
+        }
+        try {
+            const newProducts = await fetchProducts();
+            setProducts(newProducts);
+        } catch (error) {
+            console.error(error);
+        }
     }, [query]);
 
 
@@ -58,7 +70,7 @@ const ProductsBlock: FC = () => {
         setProducts((prev) => [...prev, ...newProducts]);
     }, [searchParamsObject]);
 
-    const catalog = useMemo(() => <Catalog />, []);
+    const catalog = useMemo(() => <Catalog categories={categories} countries={countries} />, []);
 
     return (
         <div className="container">

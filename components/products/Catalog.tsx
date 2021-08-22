@@ -1,34 +1,20 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 
 import CatalogItem from './CatalogItem';
 
-import CatalogQuery from '~/queries/CatalogQuery.gql';
+import { ICatalogItem } from '~/types';
 import cls from '~/utils/cls';
-import fetcher from '~/utils/fetcher';
 
 
-interface ICatalogItem {
-    name: string;
-    id: number;
+interface Props {
+    categories: ICatalogItem[]
+    countries: ICatalogItem[]
 }
 
-const placeholderItems = Array.from({ length: 5 }).map((_, id) => ({ name: '-----------------', id }));
-
-const Catalog: FC = () => {
-    const [categories, setCatecories] = useState<ICatalogItem[]>(placeholderItems);
-    const [countries, setCountries] = useState<ICatalogItem[]>(placeholderItems);
-
+const Catalog: FC<Props> = ({ categories, countries }) => {
     const { query } = useRouter();
-
-    useEffect(() => {
-        (async () => {
-            const data = await fetcher<Record<string, ICatalogItem[]>>(CatalogQuery);
-            setCatecories(data.categories);
-            setCountries(data.countries);
-        })();
-    }, []);
 
     return (
         <nav>

@@ -18,4 +18,12 @@ query productPageQuery(
     ) {
         ...ProductPreviewFragment
     }
+    categories {
+        name
+        id
+    }
+    countries {
+        name
+        id
+    }
 }

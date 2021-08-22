@@ -8,3 +8,4 @@ export * from './IProductPreview';
 export * from './Order';
 export * from './AuthResponse';
 export * from './ICart';
+export * from './ICatalogItem';
