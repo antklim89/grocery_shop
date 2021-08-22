@@ -33,18 +33,12 @@ export class UserStore implements User {
 
     public savingProfile = false;
 
-    setValue<T extends User, U extends 'phone'|'name'|'surname'|'address'>(
-        this: T, key: U, newValue: T[U],
-    ): void {
-        this[key] = newValue;
-    }
 
-    async updateServerProfile(): Promise<void> {
+    async saveProfile(newValues: Pick<UserStore, 'name'|'surname'|'address'|'phone'>): Promise<void> {
         if (this.savingProfile) return;
         this.setSavingProfile(true);
-        const { name, surname, address, phone } = this;
         try {
-            await fetcher(UpdateUserMutation, { name, surname, address, phone });
+            await fetcher(UpdateUserMutation, newValues);
         } finally {
             this.setSavingProfile(false);
         }

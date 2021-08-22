@@ -9,7 +9,11 @@ import Loading from '~/components/utils/Loading';
 
 const UserInformationForm: FC = () => {
     const user = useAuth().user || (() => { throw new Error(); })();
-    const { name = '', phone = '', address = '', surname = '' } = user;
+
+    const [name, setName] = useState(user.name || '');
+    const [surname, setSurname] = useState(user.surname || '');
+    const [address, setAddress] = useState(user.address || '');
+    const [phone, setPhone] = useState(user.phone || '');
 
     const [errorMessage, setErrorMessage] = useState<string|null>(null);
     const [resultMessage, setResultMessage] = useState<string|null>(null);
@@ -20,7 +24,7 @@ const UserInformationForm: FC = () => {
         setErrorMessage(null);
         setResultMessage(null);
         try {
-            await user.updateServerProfile();
+            await user.saveProfile({ name, surname, address, phone });
             setResultMessage(`${user.username}'s profile has been successfully updated`);
         } catch (err) {
             setErrorMessage(err.message);
@@ -42,7 +46,7 @@ const UserInformationForm: FC = () => {
                         pattern="^[a-zA-Z-']*$"
                         type="text"
                         value={name}
-                        onChange={(e) => user.setValue('name', e.target.value)}
+                        onChange={(e) => setName(e.target.value)}
                     />
                     <span className="invalid-feedback">Name is invalid</span>
                 </label>
@@ -58,7 +62,7 @@ const UserInformationForm: FC = () => {
                         pattern="^[a-zA-Z-']*$"
                         type="text"
                         value={surname}
-                        onChange={(e) => user.setValue('surname', e.target.value)}
+                        onChange={(e) => setSurname(e.target.value)}
                     />
                     <span className="invalid-feedback">Surname password is invalid</span>
                 </label>
@@ -74,7 +78,7 @@ const UserInformationForm: FC = () => {
                         pattern="^[\d-]*$"
                         type="tel"
                         value={phone}
-                        onChange={(e) => user.setValue('phone', e.target.value)}
+                        onChange={(e) => setPhone(e.target.value)}
                     />
                     <span className="invalid-feedback">Phone is invalid</span>
                 </label>
@@ -89,7 +93,7 @@ const UserInformationForm: FC = () => {
                         maxLength={2000}
                         type="text"
                         value={address}
-                        onChange={(e) => user.setValue('address', e.target.value)}
+                        onChange={(e) => setAddress(e.target.value)}
                     />
                     <span className="invalid-feedback">Address is invalid</span>
                 </label>
