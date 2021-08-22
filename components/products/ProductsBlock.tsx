@@ -27,7 +27,6 @@ const ProductsBlock: FC = () => {
         return Object.fromEntries(searchParams.entries());
     }, [query]);
 
-
     useEffect(() => {
         (async () => {
             try {
@@ -39,6 +38,7 @@ const ProductsBlock: FC = () => {
         })();
     }, [query]);
 
+
     const fetchProducts = useCallback(async (offset?: number): Promise<IProductPreview[]> => {
         setLoading(true);
 
@@ -46,6 +46,7 @@ const ProductsBlock: FC = () => {
             ProductsPageQuery,
             { ...searchParamsObject, offset },
         );
+
         setHasNext(data.products.length >= PRODUCTS_LIMIT);
         setLoading(false);
         return data.products;
@@ -55,7 +56,7 @@ const ProductsBlock: FC = () => {
         const newProducts = await fetchProducts(page.v * PRODUCTS_LIMIT);
         page.v += 1;
         setProducts((prev) => [...prev, ...newProducts]);
-    }, []);
+    }, [searchParamsObject]);
 
     const catalog = useMemo(() => <Catalog />, []);
 
