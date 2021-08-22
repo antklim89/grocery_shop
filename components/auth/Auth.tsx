@@ -1,4 +1,5 @@
 import { observer } from 'mobx-react-lite';
+import Link from 'next/link';
 import { FC, FormEvent, useState } from 'react';
 
 import { useAuth } from '~/components/auth/AuthProvider';
@@ -11,8 +12,8 @@ import fetcher from '~/utils/fetcher';
 
 
 const Auth: FC<{isSignup?: boolean}> = ({ isSignup }) => {
-    const [email, setEmail] = useState('anton@mail.ru');
-    const [password, setPassword] = useState('123');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [confirm, setConfirm] = useState('');
     const [username, setUsername] = useState('');
 
@@ -66,6 +67,7 @@ const Auth: FC<{isSignup?: boolean}> = ({ isSignup }) => {
                             required
                             autoComplete="username"
                             className="form-control"
+                            pattern="^[a-zA-Z-']*$"
                             placeholder="Username"
                             type="text"
                             value={username}
@@ -78,6 +80,7 @@ const Auth: FC<{isSignup?: boolean}> = ({ isSignup }) => {
                         required
                         autoComplete="current-password"
                         className="form-control"
+                        pattern="\S*"
                         placeholder="Password"
                         type="password"
                         value={password}
@@ -90,6 +93,7 @@ const Auth: FC<{isSignup?: boolean}> = ({ isSignup }) => {
                             required
                             autoComplete="current-password"
                             className="form-control"
+                            pattern="\S*"
                             placeholder="Confirm password"
                             type="password"
                             value={confirm}
@@ -97,6 +101,20 @@ const Auth: FC<{isSignup?: boolean}> = ({ isSignup }) => {
                         />
                     </div>
                 )}
+                <div>
+                    <p className="text-center">
+                        or{' '}
+                        {isSignup ? (
+                            <Link passHref href="/login">
+                                <a className="text-decoration-underline">Log In</a>
+                            </Link>
+                        ) : (
+                            <Link passHref href="/signup">
+                                <a className="text-decoration-underline">Sign Up</a>
+                            </Link>
+                        )}
+                    </p>
+                </div>
                 <button className="btn btn-primary" disabled={auth.loading} type="submit">
                     {isSignup ? 'Sign up' : 'Log In'}
                     <Loading loading={auth.loading} size="sm" />
