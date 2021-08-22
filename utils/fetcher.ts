@@ -47,8 +47,7 @@ async function graphqlFetcher(url: DocumentNode, body: unknown, options: Options
     const { data, errors } = await response.json();
 
     if (errors) {
-        console.error('GraphQL Errors: \n', JSON.stringify(errors, null, 4));
-        const message = errors[0]?.extensions?.exception?.data?.message[0]?.messages[0]?.message
+        const message = errors[0]?.extensions?.exception?.data?.message?.[0]?.messages?.[0]?.message
             || errors[0]?.message
             || 'Unexpected error. Try again later.';
         throw new Error(message);

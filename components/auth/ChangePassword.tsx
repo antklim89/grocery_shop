@@ -1,10 +1,9 @@
 import { observer } from 'mobx-react-lite';
-import { FC, FormEvent, useMemo, useState } from 'react';
+import { FC, FormEvent, useState } from 'react';
 
 import Alert from '~/components/utils/Alert';
 import Loading from '~/components/utils/Loading';
 import UpdatePasswordMutation from '~/queries/UpdatePasswordMutation.gql';
-import cls from '~/utils/cls';
 import fetcher from '~/utils/fetcher';
 
 
@@ -12,23 +11,14 @@ const ChangePassword: FC = () => {
     const [newPassword, setNewPassword] = useState('');
     const [oldPassword, setOldPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string|null>(null);
     const [resultMessage, setResultMessage] = useState<string|null>(null);
-    const [submitClicked, setSubmitClicked] = useState(false);
 
-    const isValidFields = useMemo(() => ({
-        newPassword: /^[\S]{3,}$/ig.test(newPassword),
-        oldPassword: /^[\S]{3,}$/ig.test(oldPassword),
-        get confirmPassword(): boolean {
-            return newPassword === confirmPassword;
-        },
-    }), [newPassword, oldPassword, confirmPassword]);
 
-    const handleSaveProfile = async (e: FormEvent<HTMLFormElement>) => {
+    const handleChangePassword = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setSubmitClicked(true);
-        if (!Object.values(isValidFields).every((i) => i)) return;
         setLoading(true);
         setErrorMessage(null);
         setResultMessage(null);
@@ -38,7 +28,6 @@ const ChangePassword: FC = () => {
             setOldPassword('');
             setNewPassword('');
             setConfirmPassword('');
-            setSubmitClicked(false);
         } catch (err) {
             setErrorMessage(err.message);
         } finally {
@@ -47,17 +36,21 @@ const ChangePassword: FC = () => {
     };
 
     return (
-        <form className="border rounded p-5 m-auto" onSubmit={handleSaveProfile}>
+        <form className="border rounded p-5 m-auto" onSubmit={handleChangePassword}>
             <Alert message={resultMessage} type="success" />
             <Alert message={errorMessage} type="danger" />
             <div className="mb-3">
                 <label className="form-label w-100" htmlFor="newPassword">
                     Old Password
                     <input
+                        required
                         autoComplete="current-password"
-                        className={cls('form-control', submitClicked && !isValidFields.oldPassword && 'is-invalid')}
-                        id="newPassword"
-                        type="text"
+                        className="form-control"
+                        id="oldPassword"
+                        maxLength={200}
+                        minLength={3}
+                        pattern="\S*"
+                        type="password"
                         value={oldPassword}
                         onChange={(e) => setOldPassword(e.target.value)}
                     />
@@ -68,10 +61,14 @@ const ChangePassword: FC = () => {
                 <label className="form-label w-100" htmlFor="newPassword">
                     New Password
                     <input
+                        required
                         autoComplete="current-password"
-                        className={cls('form-control', submitClicked && !isValidFields.newPassword && 'is-invalid')}
+                        className="form-control"
                         id="newPassword"
-                        type="text"
+                        maxLength={200}
+                        minLength={3}
+                        pattern="\S*"
+                        type="password"
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
                     />
@@ -82,10 +79,14 @@ const ChangePassword: FC = () => {
                 <label className="form-label w-100" htmlFor="confirmPassword">
                     Confirm Password
                     <input
+                        required
                         autoComplete="current-password"
-                        className={cls('form-control', submitClicked && !isValidFields.confirmPassword && 'is-invalid')}
+                        className="form-control"
                         id="confirmPassword"
-                        type="text"
+                        maxLength={200}
+                        minLength={3}
+                        pattern="\S*"
+                        type="password"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />

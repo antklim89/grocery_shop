@@ -152,7 +152,7 @@ function ConfirmOrder(): JSX.Element {
                 <p className="text-end h2">
                     Total Price:
                     {' '}
-                    {totalPrice}
+                    {totalPrice.toFixed(2)}
                     $
                 </p>
             </div>
