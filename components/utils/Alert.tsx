@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from 'react';
 
 interface Props {
     message?: string|null
-    type?: 'error'|'warning'|'info'|'success'|'danger'|'primary'|'secondary'
+    type?: 'warning'|'info'|'success'|'danger'|'primary'|'secondary'
 }
 
 

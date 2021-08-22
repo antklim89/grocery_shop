@@ -13,7 +13,7 @@ interface Props {
 const CreateOrderForm: FC<Props> = ({ inputStore }) => {
     return (
         <form className="row">
-            <Alert message={inputStore.errorMessage} type="error" />
+            <Alert message={inputStore.errorMessage} type="danger" />
             <div className="mb-3 col-sm-6 col-12">
                 <label className="w-100" htmlFor="email">
                     Name:

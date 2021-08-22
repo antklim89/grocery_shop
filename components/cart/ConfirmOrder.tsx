@@ -1,3 +1,4 @@
+import { runInAction as a } from 'mobx';
 import { observer, useLocalObservable } from 'mobx-react-lite';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
@@ -6,7 +7,7 @@ import Alert from '../utils/Alert';
 import Loading from '../utils/Loading';
 
 import OrderQuery from '~/queries/OrderQuery.gql';
-import { Order } from '~/types';
+import { Order, OrderStatus } from '~/types';
 import fetcher from '~/utils/fetcher';
 import getTotalPrice from '~/utils/getTotalPrice';
 
@@ -17,34 +18,42 @@ const confirmOrderStore = {
     confirming: false,
     confirmMessage: null as string|null,
     confirmError: null as string|null,
+    isSuccess: false,
 
     async fetchOrders(orderId: number|string): Promise<void> {
         this.fetchError = null;
         if (!orderId) return;
         try {
             const data = await fetcher<{order: Order}>(OrderQuery, { id: orderId });
-            this.order = data.order;
+            a(() => { this.order = data.order; });
         } catch (err) {
             console.error(err);
-            this.fetchError = 'Unexpected server error.';
+            a(() => { this.fetchError = 'Unexpected server error.'; });
         }
     },
 
     async handleConfirm(orderId: number|string) {
-        this.confirming = true;
+        if (this.order?.status !== OrderStatus.DRAFT) return;
         const token = localStorage.getItem('token');
         if (!token) return;
+
+        this.confirming = true;
         try {
             await fetcher(`/orders/confirm/${orderId}`, {}, { method: 'POST' });
-            this.confirmMessage = 'Order successfully confirmed.';
+            a(() => {
+                this.confirmMessage = 'Order successfully confirmed.';
+                this.confirming = false;
+                if (this.order) this.order.status = OrderStatus.PROCESSING;
+            });
         } catch (err) {
-            console.error(err);
-            this.confirmError = 'Order failed. Try again later.';
-        } finally {
-            this.confirming = false;
+            a(() => {
+                this.confirmError = 'Order failed. Try again later.';
+                this.confirming = false;
+            });
         }
     },
 };
+
 
 function ConfirmOrder(): JSX.Element {
     const orderId = useRouter().query.id as string || (() => { throw new Error(); })();
@@ -78,8 +87,6 @@ function ConfirmOrder(): JSX.Element {
             <h1 className="text-center text-primary mb-5">
                 Order
             </h1>
-            <Alert message={state.confirmError} type="error" />
-            <Alert message={state.confirmMessage} type="error" />
 
             <div className="list-group mb-5">
                 <p className="list-group-item">
@@ -150,16 +157,19 @@ function ConfirmOrder(): JSX.Element {
                 </p>
             </div>
 
-            <div className="text-center">
-                <button
-                    className="btn btn-primary btn-lg" disabled={state.confirming} type="submit"
-                    onClick={() => state.handleConfirm(orderId)}
-                >
-                    Confirm
-                    <Loading loading={state.confirming} size="sm" />
-                </button>
-            </div>
-
+            {state.order.status === OrderStatus.DRAFT && (
+                <div className="text-center">
+                    <button
+                        className="btn btn-primary btn-lg" disabled={state.confirming} type="submit"
+                        onClick={() => state.handleConfirm(orderId)}
+                    >
+                        Confirm
+                        <Loading loading={state.confirming} size="sm" />
+                    </button>
+                </div>
+            )}
+            <Alert message={state.confirmError} type="danger" />
+            <Alert message={state.confirmMessage} type="success" />
         </div>
     );
 }
