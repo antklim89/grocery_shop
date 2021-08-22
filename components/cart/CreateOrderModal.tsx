@@ -5,7 +5,7 @@ import { FormEvent, useState } from 'react';
 import { useAuth } from '~/components/auth/AuthProvider';
 import Alert from '~/components/utils/Alert';
 import Loading from '~/components/utils/Loading';
-import CreateOrderMutation from '~/queries/CreateOrderMutation.gql';
+import query from '~/queries/Order.gql';
 import { CartItemStore } from '~/store/CartItemStore';
 import { CART_LOCAL_STORAGE_NAME } from '~/utils/constants';
 import fetcher from '~/utils/fetcher';
@@ -50,7 +50,7 @@ function CreateOrderModal(): JSX.Element {
 
         try {
             const data = await fetcher<OrderResponse>(
-                CreateOrderMutation,
+                query.CreateOrderMutation,
                 {
                     email, name, surname, phone, address, orderedProducts: carts,
                 },

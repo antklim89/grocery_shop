@@ -1,15 +1,15 @@
 import Link from 'next/link';
 import { FC, useState } from 'react';
 
-import query from '~/queries/OrdersQuery.gql';
-import { ICart } from '~/types';
+import query from '~/queries/Order.gql';
+import { ICart, OrderStatus } from '~/types';
 import fetcher from '~/utils/fetcher';
 import useAsyncEffect from '~/utils/useAsyncEffect';
 
 
 interface IUserOrders {
     id: number
-    status: string
+    status: OrderStatus
     address: string
     email: string
     orderedProducts: ICart[]
@@ -24,6 +24,26 @@ const UserOrders: FC = () => {
         setOrders(data.orders);
     }, []);
 
+    const handleDeleteOrder = async (id: number|string) => {
+        await fetcher(query.DeleteOrderMutation, { id });
+        setOrders((p) => p.filter((i) => i.id !== id));
+    };
+
+    const statusMessage = (status: OrderStatus): string => {
+        switch (status) {
+        case OrderStatus.DRAFT:
+            return 'Waiting for payment.';
+        case OrderStatus.PROCESSING:
+            return 'Order in processing.';
+        case OrderStatus.SHIPPING:
+            return 'Order is on the way.';
+        case OrderStatus.COMPLETED:
+            return 'The order has been delivered.';
+        default:
+            return 'Order in processing.';
+        }
+    };
+
     return (
         <ul className="list-group">
             {orders.map((order) => (
@@ -35,19 +55,32 @@ const UserOrders: FC = () => {
                                 <br />
                                 <span className="h6">{order.email}</span>
                             </h5>
-                            <span>Status: {order.status}</span>
+                            <div className="d-flex flex-column">
+                                <span>Status: {statusMessage(order.status)}</span>
+                            </div>
                         </a>
                     </Link>
-                    <ul>
-                        {order.orderedProducts.map((cart) => (
-                            <Link href={`/product/${cart.product.id}`} key={cart.id}>
-                                <a>
-                                    <li>
-                                        {cart.product.name} - {cart.qty}{' '}{cart.product.unit}
-                                    </li>
-                                </a>
-                            </Link>
-                        ))}
+                    <ul className="d-flex justify-content-between">
+                        <div>
+                            {order.orderedProducts.map((cart) => (
+                                <Link href={`/product/${cart.product.id}`} key={cart.id}>
+                                    <a>
+                                        <li>
+                                            {cart.product.name} - {cart.qty}{' '}{cart.product.unit}
+                                        </li>
+                                    </a>
+                                </Link>
+                            ))}
+                        </div>
+                        {order.status === OrderStatus.DRAFT && (
+                            <button
+                                className="btn btn-outline-danger align-self-end"
+                                type="button"
+                                onClick={() => handleDeleteOrder(order.id)}
+                            >
+                                <i className="bi bi-trash" />
+                            </button>
+                        )}
                     </ul>
                 </li>
             ))}

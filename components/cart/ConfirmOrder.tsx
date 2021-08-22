@@ -3,10 +3,9 @@ import { observer, useLocalObservable } from 'mobx-react-lite';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 
-import Alert from '../utils/Alert';
-import Loading from '../utils/Loading';
-
-import OrderQuery from '~/queries/OrderQuery.gql';
+import Alert from '~/components/utils/Alert';
+import Loading from '~/components/utils/Loading';
+import query from '~/queries/Order.gql';
 import { Order, OrderStatus } from '~/types';
 import fetcher from '~/utils/fetcher';
 import getTotalPrice from '~/utils/getTotalPrice';
@@ -24,8 +23,12 @@ const confirmOrderStore = {
         this.fetchError = null;
         if (!orderId) return;
         try {
-            const data = await fetcher<{order: Order}>(OrderQuery, { id: orderId });
-            a(() => { this.order = data.order; });
+            const data = await fetcher<{order: Order}>(query.OrderQuery, { id: orderId });
+
+            a(() => {
+                if (!data.order) this.fetchError = 'Order not found';
+                else this.order = data.order;
+            });
         } catch (err) {
             console.error(err);
             a(() => { this.fetchError = 'Unexpected server error.'; });
@@ -52,6 +55,11 @@ const confirmOrderStore = {
             });
         }
     },
+
+    handleDeleteOrder: async (id: number|string) => {
+        await fetcher(query.DeleteOrderMutation, { id });
+        window.history.back();
+    },
 };
 
 
@@ -68,7 +76,7 @@ function ConfirmOrder(): JSX.Element {
     if (state.fetchError) {
         return (
             <div className="d-flex justify-content-center">
-                <p>{state.fetchError}</p>
+                <p className="h1">{state.fetchError}</p>
             </div>
         );
     }
@@ -157,17 +165,35 @@ function ConfirmOrder(): JSX.Element {
                 </p>
             </div>
 
-            {state.order.status === OrderStatus.DRAFT && (
-                <div className="text-center">
-                    <button
-                        className="btn btn-primary btn-lg" disabled={state.confirming} type="submit"
-                        onClick={() => state.handleConfirm(orderId)}
-                    >
-                        Confirm
-                        <Loading loading={state.confirming} size="sm" />
-                    </button>
-                </div>
-            )}
+            <div className="d-flex justify-content-center">
+                {state.order.status === OrderStatus.DRAFT && (
+                    <div className="mx-2">
+                        <button
+                            className="btn btn-primary btn-lg"
+                            disabled={state.confirming}
+                            type="submit"
+                            onClick={() => state.handleConfirm(orderId)}
+                        >
+                            Confirm
+                            <Loading loading={state.confirming} size="sm" />
+                        </button>
+                    </div>
+                )}
+                {state.order.status === OrderStatus.DRAFT && (
+                    <div className="mx-2">
+                        <button
+                            className="btn btn-outline-danger btn-lg"
+                            disabled={state.confirming}
+                            type="submit"
+                            onClick={() => state.handleDeleteOrder(orderId)}
+                        >
+                            Cancel
+                            <Loading loading={state.confirming} size="sm" />
+                        </button>
+                    </div>
+                )}
+            </div>
+
             <Alert message={state.confirmError} type="danger" />
             <Alert message={state.confirmMessage} type="success" />
         </div>

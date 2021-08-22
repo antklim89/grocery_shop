@@ -1,0 +1,77 @@
+#import "./ProductPreviewFragment.gql"
+
+
+query OrderQuery($id: ID!) {
+    order( id: $id ) {
+        id
+        uid
+        status
+        email
+        name
+        surname
+        address
+        phone
+        orderedProducts {
+            id
+            qty
+            product {
+                ...ProductPreviewFragment
+            }
+        }
+        user {
+            id
+            username
+            email
+        }
+    }
+}
+
+query OrdersQuery {
+    orders {
+        id
+        status
+        address
+        email
+        orderedProducts {
+            id
+            qty
+            product {
+                ...ProductPreviewFragment
+            }
+        }
+    }
+}
+
+mutation CreateOrderMutation(
+    $email: String!, 
+    $name: String!, 
+    $surname: String!, 
+    $address: String!, 
+    $phone: String!
+    $orderedProducts: [ComponentOrderOrderedProductInput]
+) {
+    createOrder(input: {
+        data: {
+            orderedProducts: $orderedProducts
+            email: $email
+            name: $name
+            surname: $surname
+            address: $address
+            phone: $phone
+        }
+    }) {
+        order {
+            id
+        }
+    }
+}
+
+mutation DeleteOrderMutation(
+    $id: ID!
+) {
+    deleteOrder(input: { where : { id: $id }}) {
+        order {
+            id
+        }
+    }
+}
