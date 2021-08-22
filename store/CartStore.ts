@@ -2,8 +2,7 @@ import { makeAutoObservable, observable, runInAction } from 'mobx';
 
 import { CartItemStore, CartItem } from './CartItemStore';
 
-import CreateCartMutation from '~/queries/CreateCartMutation.gql';
-import DeleteCartMutation from '~/queries/DeleteCartMutation.gql';
+import query from '~/queries/Cart.gql';
 import { AUTH_TOKEN_NAME } from '~/utils/constants';
 import fetcher from '~/utils/fetcher';
 
@@ -38,7 +37,7 @@ export class CartStore {
         if (isAuth && !this.loading) {
             this.setLoading(true);
             const { createCart } = await fetcher(
-                CreateCartMutation,
+                query.CreateCartMutation,
                 { qty: cartItem.qty, product: cartItem.product.id },
             );
             cartItem.setId(createCart.cart.id);
@@ -52,7 +51,7 @@ export class CartStore {
 
         if (isAuth && !this.loading) {
             this.setLoading(true);
-            await fetcher(DeleteCartMutation, { id: cartItem.id });
+            await fetcher(query.DeleteCartMutation, { id: cartItem.id });
         }
 
         runInAction(() => this.cartItems.remove(cartItem));

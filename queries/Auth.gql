@@ -1,0 +1,65 @@
+#import "./UserFragment.gql"
+
+
+mutation LogInMutation($identifier: String!, $password: String!) {
+    data: login(input: { identifier: $identifier, password: $password }) {
+        jwt
+        user {
+            ...UserFragment
+        }
+    }
+}
+
+mutation SingUpMutation($username: String!, $email: String!, $password: String!) {
+    data: register(input: { username: $username, email: $email, password: $password }) {
+        jwt
+        user {
+            ...UserFragment
+        }
+    }
+}
+
+query MeQuery {    
+    me {
+        ...UserFragment
+    }
+}
+
+mutation UpdateUserMutation (
+    $name: String
+    $surname: String
+    $phone: String
+    $address: String
+) {
+    updateUser(
+        input: {
+            data: {
+                name: $name
+                surname: $surname
+                phone: $phone
+                address: $address
+            },
+            where: {
+                id: 18
+            }
+        }
+    ) {
+        user { id }
+    }
+}
+
+mutation UpdatePasswordMutation (
+    $password: String
+    $oldPassword: String
+) {
+    updateUser(
+        input: {
+            data: {
+                oldPassword: $oldPassword
+                password: $password
+            }
+        }
+    ) {
+        user { id }
+    }
+}

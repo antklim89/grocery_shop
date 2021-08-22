@@ -2,9 +2,7 @@ import { makeAutoObservable } from 'mobx';
 
 import { UserStore } from './UserStote';
 
-import LogInMutation from '~/queries/LogInMutation.gql';
-import MeQuery from '~/queries/MeQuery.gql';
-import SingUpMutation from '~/queries/SingUpMutation.gql';
+import query from '~/queries/Auth.gql';
 import { AuthResponse, User } from '~/types';
 import { AUTH_TOKEN_NAME } from '~/utils/constants';
 import fetcher from '~/utils/fetcher';
@@ -43,14 +41,14 @@ export default class AuthStore {
 
     async signup({ email, username, password }: {email: string, username: string, password: string}): Promise<void> {
         await this.loginOrSignup(() => fetcher<AuthResponse>(
-            SingUpMutation,
+            query.SingUpMutation,
             { email, username, password },
         ));
     }
 
     async login({ email, password }: {email: string, password: string}): Promise<void> {
         await this.loginOrSignup(() => fetcher<AuthResponse>(
-            LogInMutation,
+            query.LogInMutation,
             { identifier: email, password },
         ));
     }
@@ -59,7 +57,7 @@ export default class AuthStore {
     async fetchMe(): Promise<void> {
         if (!this.isAuth) return this.setIsUserFetched();
         try {
-            const { me } = await fetcher(MeQuery);
+            const { me } = await fetcher(query.MeQuery);
             this.setUser(me);
             return this.setIsUserFetched();
         } catch (error) {

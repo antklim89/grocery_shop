@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 
-import UpdateCartMutation from '~/queries/UpdateCartMutation.gql';
+import query from '~/queries/Cart.gql';
 import type { IProduct } from '~/types';
 import { AUTH_TOKEN_NAME } from '~/utils/constants';
 import fetcher from '~/utils/fetcher';
@@ -39,7 +39,7 @@ export class CartItemStore {
         if (timeout) clearTimeout(timeout);
 
         timeout = setTimeout(() => {
-            fetcher(UpdateCartMutation, { qty: this.qty, id: this.id });
+            fetcher(query.UpdateCartMutation, { qty: this.qty, id: this.id });
         }, 700);
     }
 

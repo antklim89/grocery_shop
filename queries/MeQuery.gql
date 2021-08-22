@@ -1,8 +1,0 @@
-#import "./UserFragment.gql"
-
-
-query MeQuery {    
-    me {
-        ...UserFragment
-    }
-}

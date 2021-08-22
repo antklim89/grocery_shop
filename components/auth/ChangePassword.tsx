@@ -3,7 +3,7 @@ import { FC, FormEvent, useState } from 'react';
 
 import Alert from '~/components/utils/Alert';
 import Loading from '~/components/utils/Loading';
-import UpdatePasswordMutation from '~/queries/UpdatePasswordMutation.gql';
+import query from '~/queries/Auth.gql';
 import fetcher from '~/utils/fetcher';
 
 
@@ -23,7 +23,7 @@ const ChangePassword: FC = () => {
         setErrorMessage(null);
         setResultMessage(null);
         try {
-            await fetcher(UpdatePasswordMutation, { password: newPassword, oldPassword });
+            await fetcher(query.UpdatePasswordMutation, { password: newPassword, oldPassword });
             setResultMessage('Password is successully changed.');
             setOldPassword('');
             setNewPassword('');

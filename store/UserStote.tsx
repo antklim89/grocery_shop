@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 
-import UpdateUserMutation from '~/queries/UpdateUserMutation.gql';
+import query from '~/queries/Auth.gql';
 import type { User } from '~/types';
 import fetcher from '~/utils/fetcher';
 
@@ -38,7 +38,7 @@ export class UserStore implements User {
         if (this.savingProfile) return;
         this.setSavingProfile(true);
         try {
-            await fetcher(UpdateUserMutation, newValues);
+            await fetcher(query.UpdateUserMutation, newValues);
         } finally {
             this.setSavingProfile(false);
         }

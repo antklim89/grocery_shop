@@ -1,0 +1,53 @@
+#import "./ProductFragment.gql"
+
+query CartQuery {
+    carts {
+        id
+        qty
+        product {
+            ...ProductFragment
+        }
+    }
+}
+
+
+mutation CreateCartMutation(
+    $qty: Float!
+    $product: ID!
+) {
+    createCart(input: {
+        data: {
+            product: $product
+            qty: $qty
+        }
+    }) {
+        cart {
+            id
+            qty
+        }
+    }
+}
+
+mutation DeleteCartMutation($id: ID!) {
+    deleteCart(input: {
+        where: { id: $id }
+    }) {
+        cart {
+            id
+        }
+    }
+}
+
+mutation UpdateCartMutation(
+    $qty: Float!
+    $id: ID!
+) {
+    updateCart(input: {
+        data: { qty: $qty }
+        where: { id: $id }
+    }) {
+        cart {
+            id
+        }
+    }
+}
