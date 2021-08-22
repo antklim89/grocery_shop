@@ -1,16 +1,19 @@
 import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
 
-import type { inputInitState } from './CreateOrderModal';
+import type { createOrderStore } from './CreateOrderModal';
+
+import Alert from '~/components/utils/Alert';
 
 
 interface Props {
-    inputStore: typeof inputInitState
+    inputStore: typeof createOrderStore
 }
 
 const CreateOrderForm: FC<Props> = ({ inputStore }) => {
     return (
         <form className="row">
+            <Alert message={inputStore.errorMessage} type="error" />
             <div className="mb-3 col-sm-6 col-12">
                 <label className="w-100" htmlFor="email">
                     Name:

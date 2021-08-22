@@ -11,7 +11,7 @@ query OrderQuery($id: ID!) {
         surname
         address
         phone
-        carts {
+        orderedProducts {
             id
             qty
             product {

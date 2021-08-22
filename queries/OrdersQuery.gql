@@ -7,7 +7,7 @@ query OrdersQuery {
         status
         address
         email
-        carts {
+        orderedProducts {
             id
             qty
             product {

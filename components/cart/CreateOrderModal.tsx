@@ -1,6 +1,5 @@
 import { observer, useLocalObservable } from 'mobx-react-lite';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 
 import CreateOrderForm from './CreateOrderForm';
 
@@ -21,14 +20,22 @@ interface OrderResponse {
     };
 }
 
-export const inputInitState = {
+export const createOrderStore = {
     email: '',
     name: '',
     surname: '',
     address: '',
     phone: '',
-    setValue<T>(this: T, name: keyof T, value: T[keyof T]): void {
-        this[name] = value;
+    setValue<T>(this: T, name: 'email'|'name'|'surname'|'phone'|'address', value: T[keyof T]): void {
+        this[name as keyof T] = value;
+    },
+    loading: false,
+    setLoading(state = true): void {
+        this.loading = state;
+    },
+    errorMessage: null as null|string,
+    setErrorMessage(state = null): void {
+        this.errorMessage = state;
     },
 };
 
@@ -36,33 +43,38 @@ function CreateOrderModal(): JSX.Element {
     const [modal, ref] = useBootstrap('Modal');
 
     const auth = useAuth();
+    const user = auth.user || (() => { throw new Error(); })();
     const router = useRouter();
 
     const inputStore = useLocalObservable(() => ({
-        ...inputInitState,
-        email: auth.user?.email || '',
-        name: auth.user?.name || '',
-        surname: auth.user?.surname || '',
-        address: auth.user?.address || '',
-        phone: auth.user?.phone || '',
+        ...createOrderStore,
+        ...user,
     }));
 
-    const [loading, setLoading] = useState(false);
-
     const handleConfirm = async () => {
-        setLoading(true);
+        inputStore.setLoading(true);
+        inputStore.setErrorMessage();
         const dataString = localStorage.getItem(CART_LOCAL_STORAGE_NAME);
         if (!dataString) return;
         const cartItemStore: CartItemStore[] = JSON.parse(dataString);
-        const carts = cartItemStore.map((p) => p.id);
+        const carts = cartItemStore.map(({ qty, product }) => ({ qty, product: product.id }));
 
+        const { email, name, surname, phone, address } = inputStore;
         try {
-            const data = await fetcher<OrderResponse>(CreateOrderMutation, { ...inputStore, carts });
-            setLoading(false);
+            const data = await fetcher<OrderResponse>(
+                CreateOrderMutation,
+                {
+                    email, name, surname, phone, address, orderedProducts: carts,
+                },
+            );
+
+            inputStore.setLoading(false);
+            localStorage.removeItem(CART_LOCAL_STORAGE_NAME);
             modal?.hide();
             router.push(`/order/${data.createOrder.order.id}`);
         } catch (error) {
-            setLoading(false);
+            inputStore.setLoading(false);
+            inputStore.setErrorMessage(error.message);
             console.error('Create Order Error: \n', error);
         }
     };
@@ -109,7 +121,7 @@ function CreateOrderModal(): JSX.Element {
                                 onClick={handleConfirm}
                             >
                                 Confirm
-                                <Loading loading={loading} size="sm" />
+                                <Loading loading={inputStore.loading} size="sm" />
                             </button>
                             <button
                                 className="btn btn-danger"

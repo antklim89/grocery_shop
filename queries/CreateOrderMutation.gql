@@ -6,11 +6,11 @@ mutation CreateOrderMutation(
     $surname: String!, 
     $address: String!, 
     $phone: String!
-    $carts: [ID!]!
+    $orderedProducts: [ComponentOrderOrderedProductInput]
 ) {
     createOrder(input: {
         data: {
-            carts: $carts
+            orderedProducts: $orderedProducts
             email: $email
             name: $name
             surname: $surname

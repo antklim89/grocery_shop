@@ -23,13 +23,13 @@ export class UserStore implements User {
 
     public username: string;
 
-    public name?: string;
+    public name = '';
 
-    public surname?: string;
+    public surname = '';
 
-    public phone?: string;
+    public phone = '';
 
-    public address?: string;
+    public address = '';
 
     public savingProfile = false;
 

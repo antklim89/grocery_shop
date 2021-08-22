@@ -7,7 +7,7 @@ export interface Order {
     surname: string;
     address: string;
     phone: string;
-    carts: CartItem[]
+    orderedProducts: CartItem[]
     user: {
         id: string;
         username: string;

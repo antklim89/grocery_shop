@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { FC, useState } from 'react';
 
 import OrdersQuery from '~/queries/OrdersQuery.gql';
-import { IProductPreview } from '~/types';
+import { ICart } from '~/types';
 import fetcher from '~/utils/fetcher';
 import useAsyncEffect from '~/utils/useAsyncEffect';
 
@@ -12,11 +12,7 @@ interface IUserOrders {
     status: string
     address: string
     email: string
-    carts: Array<{
-        id: number
-        qty: number
-        product: IProductPreview
-    }>
+    orderedProducts: ICart[]
 }
 
 const UserOrders: FC = () => {
@@ -42,7 +38,7 @@ const UserOrders: FC = () => {
                         </a>
                     </Link>
                     <ul>
-                        {order.carts.map((cart) => (
+                        {order.orderedProducts.map((cart) => (
                             <Link href={`/product/${cart.product.id}`} key={cart.id}>
                                 <a>
                                     <li>
