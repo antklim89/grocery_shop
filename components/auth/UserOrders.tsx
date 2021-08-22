@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { FC, useState } from 'react';
 
-import OrdersQuery from '~/queries/OrdersQuery.gql';
+import query from '~/queries/OrdersQuery.gql';
 import { ICart } from '~/types';
 import fetcher from '~/utils/fetcher';
 import useAsyncEffect from '~/utils/useAsyncEffect';
@@ -15,11 +15,12 @@ interface IUserOrders {
     orderedProducts: ICart[]
 }
 
+
 const UserOrders: FC = () => {
     const [orders, setOrders] = useState<IUserOrders[]>([]);
 
     useAsyncEffect(async () => {
-        const data = await fetcher<{orders: IUserOrders[]}>(OrdersQuery);
+        const data = await fetcher<{orders: IUserOrders[]}>(query.OrdersQuery);
         setOrders(data.orders);
     }, []);
 

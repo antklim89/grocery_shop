@@ -8,8 +8,10 @@ declare module '*.gql' {
     import { DocumentNode } from 'graphql';
 
 
-    const Schema: DocumentNode;
+    declare const SchemaObj: {
+        readonly [key: string]: DocumentNode
+    } & DocumentNode;
 
-    export = Schema;
-  }
+    export default SchemaObj;
+}
 
