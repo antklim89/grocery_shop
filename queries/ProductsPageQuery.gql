@@ -6,11 +6,13 @@ query productPageQuery(
         $category: String,
         $sort: String = "id:desc"
         $offset: Int
+        $search: String
     ) {
     products(
         where: {
             category: { name: $category }
             country: { name: $country }
+            name_contains: $search
         }
         limit: 6
         start: $offset

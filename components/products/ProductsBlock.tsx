@@ -3,6 +3,7 @@ import { FC, useCallback, useMemo, useRef, useState } from 'react';
 
 import Catalog from './Catalog';
 import ProductsList from './ProductsList';
+import SearchProducts from './SearchProducts';
 import SortProducts from './SortProducts';
 
 import Loading from '~/components/utils/Loading';
@@ -102,8 +103,11 @@ const ProductsBlock: FC<ProductsPageProps> = ({ initProducts, categories, countr
                     </div>
                 </div>
             </div>
+            <div className="mb-4 mx-4">
+                <SearchProducts />
+            </div>
             <div className="row">
-                <div className="col-12 col-xl-2 d-none d-xl-block ps-0">
+                <div className="col-12 col-xl-2 d-none d-xl-block">
                     {catalog}
                 </div>
                 <div className="col-12 col-xl-10 position-relative">

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FC, HTMLAttributes } from 'react';
+import { FC, HTMLAttributes, useEffect } from 'react';
 
 import cls from '~/utils/cls';
 
@@ -23,6 +23,7 @@ const CatalogItem: FC<Props> = ({ name, value, className, children, ...props }) 
     } else {
         params.append(name, value);
     }
+
 
     return (
         <Link replace href={params.toString().length === 0 ? '/product' : `/product?${params}`}>
