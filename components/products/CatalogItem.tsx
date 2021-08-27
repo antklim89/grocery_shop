@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FC, HTMLAttributes, useEffect } from 'react';
+import { FC, HTMLAttributes } from 'react';
 
 import cls from '~/utils/cls';
 

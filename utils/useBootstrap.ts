@@ -1,7 +1,5 @@
 import type bootstrap from 'bootstrap';
-import {
-    useState, useRef, useEffect, RefObject,
-} from 'react';
+import { useState, useRef, useEffect, RefObject } from 'react';
 
 
 type Modules = keyof typeof bootstrap;

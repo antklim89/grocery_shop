@@ -1,6 +1,4 @@
-import {
-    useEffect, ReactChild, createContext, useContext, useMemo,
-} from 'react';
+import { useEffect, ReactChild, createContext, useContext, useMemo } from 'react';
 
 import AuthStore from '~/store/AuthStore';
 
