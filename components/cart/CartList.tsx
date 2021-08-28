@@ -2,14 +2,14 @@ import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
 
 import CartListItem from './CartListItem';
-import CreateOrderModal from './CreateOrderModal';
+import CreateOrderModal from './CreateOrder';
 
 import { useCart } from '~/components/cart/CartProvider';
 import ProtectedComponent from '~/components/utils/ProtectedComponent';
 import getTotalPrice from '~/utils/getTotalPrice';
 
 
-function CartList(): JSX.Element {
+const CartList = (): JSX.Element => {
     const cart = useCart();
 
     if (!cart.cartItems || cart.cartItems.length === 0) {
@@ -45,11 +45,15 @@ function CartList(): JSX.Element {
                         </Link>
                     )}
                 >
-                    <CreateOrderModal />
+                    <Link href="/order">
+                        <a className="btn btn-primary btn-lg align-self-center">
+                            Create Order
+                        </a>
+                    </Link>
                 </ProtectedComponent>
             </div>
         </div>
     );
-}
+};
 
 export default observer(CartList);
