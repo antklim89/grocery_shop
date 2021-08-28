@@ -1,33 +1,33 @@
 
 module.exports = {
-    env: {
+    'env': {
         browser: true,
         es2021: true,
     },
-    extends: [
-        'eslint:recommended',
-        // 'plugin:react-hooks/recommended', // <-------
+    'extends': [
+        'eslint:all',
+        'plugin:react-hooks/recommended',
         'plugin:import/recommended',
         'plugin:import/errors',
         'plugin:import/warnings',
         'plugin:import/typescript',
         'plugin:jsx-a11y/strict',
         'plugin:@typescript-eslint/recommended',
-        'airbnb',
+        // 'airbnb',
         'next',
         'next/core-web-vitals',
     ],
-    parser: '@typescript-eslint/parser',
-    parserOptions: {
+    'parser': '@typescript-eslint/parser',
+    'parserOptions': {
         ecmaFeatures: { jsx: true },
         ecmaVersion: 12,
         sourceType: 'module',
     },
-    plugins: [
+    'plugins': [
         '@typescript-eslint',
         'jsx-a11y',
     ],
-    rules: {
+    'rules': {
         'import/no-unresolved': 0,
         'import/prefer-default-export': 0,
         'import/extensions': 0,
@@ -60,12 +60,33 @@ module.exports = {
         '@typescript-eslint/no-unused-vars': [1, { argsIgnorePattern: '^_' }],
         '@typescript-eslint/no-empty-interface': 0,
 
+        'require-unicode-regexp': 0,
+        'max-lines-per-function': [2, 200],
+        'max-statements': ['error', 20, { 'ignoreTopLevelFunctions': true }],
+        'no-extra-parens': 0,
+        'prefer-named-capture-group': 0,
+        'id-length': [2, { 'exceptions': ['e'] }],
+        'no-ternary': 0,
+        'curly': 0,
+        'init-declarations': 0,
+        'require-await': 0,
+        'space-before-function-paren': 0,
+        'func-style': [0, 'declaration', { 'allowArrowFunctions': true }],
+        'sort-imports': 0,
+        'one-var': 0,
+        'padded-blocks': 0,
+        'function-call-argument-newline': [2, 'consistent'],
+        'no-magic-numbers': 0,
+        'sort-keys': 0,
+        'object-property-newline': 0,
+        'no-console': ['error', { allow: ['warn', 'error'] }],
+        'no-loss-of-precision': 2,
         'object-curly-spacing': [2, 'always'],
         'no-use-before-define': [0, { 'functions': false, 'classes': true }],
         'no-shadow': 0,
         'no-undef': 0,
         'semi': 2,
-        'comma-dangle': 1,
+        'comma-dangle': [1, 'always-multiline'],
         'quotes': [1, 'single'],
         'quote-props': [2, 'consistent'],
         'eol-last': 2,
@@ -74,8 +95,6 @@ module.exports = {
         'arrow-body-style': [0, 'as-needed'],
         'no-unused-vars': 0,
         'indent': [1, 4],
-        'no-debugger': 0,
-        'no-console': 0,
         'max-len': [1, { code: 120, ignoreComments: true }],
         'no-restricted-syntax': [2, 'WithStatement'],
         'camelcase': 1,
@@ -84,19 +103,20 @@ module.exports = {
 
         'jsx-a11y/anchor-is-valid': 0,
     },
-    settings: {
+    'settings': {
         react: {
-            pragma: 'React', // Pragma to use, default to "React"
-            fragment: 'Fragment', // Fragment to use (may be a property of <pragma>), default to "Fragment"
-            version: 'detect', // React version. "detect" automatically picks the version you have installed.
+            pragma: 'React',
+            fragment: 'Fragment',
+            version: 'detect',
         },
     },
 
-    globals: {
+    'globals': {
         module: true,
         process: true,
         strapi: true,
         JSX: true,
     },
 
+    'ignorePatterns': ['**/node_modules/**/*', '**/.next/**/*', '**/build/**/*', '**/.tmp/**/*', '**/.cache/**/*'],
 };
