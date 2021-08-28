@@ -32,7 +32,7 @@ const SearchProducts: FC<HTMLAttributes<HTMLInputElement>> = ({ className, ...pr
     return (
         <div className="position-relative">
             <input
-                autoComplete="search"
+                autoComplete="on"
                 className={cls(className, 'form-control')}
                 placeholder="Enter search request..."
                 type="text"

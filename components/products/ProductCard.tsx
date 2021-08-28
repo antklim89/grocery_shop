@@ -24,7 +24,8 @@ const ProductCard: FC<IProductPreview> = ({
     discountPrice,
 }) => {
     const cart = useCart();
-    const isPoroductInCart = cart.cartItems.findIndex((i) => +i.product.id === +id) >= 0;
+    const isPoroductInCart = cart.cartItems.findIndex((cartItem) => Number(cartItem.product.id) === Number(id)) >= 0;
+
     return (
         <div className="col-12 col-lg-6 col-xl-4 align-items-stretch">
             <article className="card shadow-sm h-100 position-relative">

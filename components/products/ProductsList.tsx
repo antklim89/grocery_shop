@@ -12,13 +12,15 @@ interface Props {
 const ProductsList: FC<Props> = ({ products }) => {
     return (
         <div className="my-3">
-            {products.length > 0 ? (
-                <div className="row g-2">
-                    {products.map((product) => (
-                        <ProductCard {...product} key={product.id} />
-                    ))}
-                </div>
-            ) : null}
+            {products.length > 0
+                ? (
+                    <div className="row g-2">
+                        {products.map((product) => (
+                            <ProductCard {...product} key={product.id} />
+                        ))}
+                    </div>
+                )
+                : null}
         </div>
     );
 };

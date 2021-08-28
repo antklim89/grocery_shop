@@ -17,7 +17,7 @@ interface Props {
     discountProducts: IProductPreview[]
 }
 
-export default function HomePage({ hero, features, newProducts, discountProducts }: Props): JSX.Element {
+const HomePage = ({ hero, features, newProducts, discountProducts }: Props): JSX.Element => {
     return (
         <>
             <Seo title="Home" />
@@ -35,10 +35,12 @@ export default function HomePage({ hero, features, newProducts, discountProducts
             <Features features={features} />
         </>
     );
-}
+};
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
     const props = await fetcher<Props>(IndexPageQuery, {});
 
     return { props };
 };
+
+export default HomePage;

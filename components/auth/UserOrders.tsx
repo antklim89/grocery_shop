@@ -17,7 +17,7 @@ const UserOrders: FC = () => {
 
     const handleDeleteOrder = async (id: number|string) => {
         await fetcher(query.DeleteOrderMutation, { id });
-        setOrders((p) => p.filter((i) => i.id !== id));
+        setOrders((prevOrders) => prevOrders.filter((orderItem) => orderItem.id !== id));
     };
 
     const statusMessage = (status: OrderStatus): string => {

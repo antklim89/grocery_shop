@@ -13,7 +13,7 @@ import Footer from '~/components/layout/Footer';
 import Header from '~/components/layout/Header';
 
 
-export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
+const MyApp = ({ Component, pageProps }: AppProps): JSX.Element => {
     return (
         <AuthProvider>
             <CartProvider>
@@ -25,4 +25,6 @@ export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
             </CartProvider>
         </AuthProvider>
     );
-}
+};
+
+export default MyApp;

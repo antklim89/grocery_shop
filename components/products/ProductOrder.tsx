@@ -34,14 +34,16 @@ const ProductOrder: FC<IProduct> = (product) => {
             <h1 className="text-center py-2 text-dark border-bottom">{name}</h1>
 
             <div className="fs-5 py-2 border-bottom">
-                {discount > 0 ? (
-                    <p>
-                        Discount:
-                        {' '}
-                        {discount}
-                        %
-                    </p>
-                ) : null}
+                {discount > 0
+                    ? (
+                        <p>
+                            Discount:
+                            {' '}
+                            {discount}
+                            %
+                        </p>
+                    )
+                    : null}
                 <p>
                     Price for
                     {' '}
@@ -91,21 +93,23 @@ const ProductOrder: FC<IProduct> = (product) => {
                         onChange={(e) => cartItem.changeQty(e.target.value)}
                     />
                 </label>
-                {cart.exists(cartItem) ? (
-                    <input
-                        className="btn btn-primary my-2"
-                        disabled={cart.loading}
-                        type="submit"
-                        value="Remove from Cart"
-                    />
-                ) : (
-                    <input
-                        className="btn btn-primary my-2"
-                        disabled={cart.loading}
-                        type="submit"
-                        value="Place to Cart"
-                    />
-                )}
+                {cart.exists(cartItem)
+                    ? (
+                        <input
+                            className="btn btn-primary my-2"
+                            disabled={cart.loading}
+                            type="submit"
+                            value="Remove from Cart"
+                        />
+                    )
+                    : (
+                        <input
+                            className="btn btn-primary my-2"
+                            disabled={cart.loading}
+                            type="submit"
+                            value="Place to Cart"
+                        />
+                    )}
             </form>
         </div>
     );

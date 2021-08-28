@@ -6,7 +6,7 @@ import ProtectedComponent from '~/components/utils/ProtectedComponent';
 import Seo from '~/components/utils/Seo';
 
 
-export default function ProfilePage(): JSX.Element {
+const ProfilePage = (): JSX.Element => {
     const auth = useAuth();
 
     return (
@@ -17,4 +17,6 @@ export default function ProfilePage(): JSX.Element {
             <Profile />
         </ProtectedComponent>
     );
-}
+};
+
+export default ProfilePage;

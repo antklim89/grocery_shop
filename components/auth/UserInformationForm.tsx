@@ -8,7 +8,9 @@ import Loading from '~/components/utils/Loading';
 
 
 const UserInformationForm: FC = () => {
-    const user = useAuth().user || (() => { throw new Error(); })();
+    const user = useAuth().user || (() => {
+        throw new Error();
+    })();
 
     const [name, setName] = useState(user.name || '');
     const [surname, setSurname] = useState(user.surname || '');
@@ -38,6 +40,7 @@ const UserInformationForm: FC = () => {
             <div className="mb-3">
                 <label className="form-label w-100" htmlFor="name">
                     Name
+                    <br />
                     <input
                         autoComplete="given-name"
                         className="form-control"
@@ -53,7 +56,8 @@ const UserInformationForm: FC = () => {
             </div>
             <div className="mb-3">
                 <label className="form-label w-100" htmlFor="surname">
-                    Surname
+                    Surname:
+                    <br />
                     <input
                         autoComplete="family-name"
                         className="form-control"
@@ -69,7 +73,8 @@ const UserInformationForm: FC = () => {
             </div>
             <div className="mb-3">
                 <label className="form-label w-100" htmlFor="phone">
-                    Phone
+                    Phone:
+                    <br />
                     <input
                         autoComplete="tel"
                         className="form-control"
@@ -85,7 +90,8 @@ const UserInformationForm: FC = () => {
             </div>
             <div className="mb-3">
                 <label className="form-label w-100" htmlFor="address">
-                    Address
+                    Address:
+                    <br />
                     <input
                         autoComplete="address-line1"
                         className="form-control"

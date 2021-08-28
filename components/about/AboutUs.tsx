@@ -4,7 +4,7 @@ import StrapiImage from '~/components/utils/StrapiImage';
 import { AboutAsProps } from '~/types';
 
 
-export default function AboutUs({ title, image, body }: AboutAsProps): JSX.Element {
+const AboutUs = ({ title, image, body }: AboutAsProps): JSX.Element => {
     return (
         <section className="container mb-5">
             <h1 className="text-center text-primary">{title}</h1>
@@ -26,4 +26,6 @@ export default function AboutUs({ title, image, body }: AboutAsProps): JSX.Eleme
             </div>
         </section>
     );
-}
+};
+
+export default AboutUs;

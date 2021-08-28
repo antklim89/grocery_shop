@@ -42,6 +42,7 @@ const ChangePassword: FC = () => {
             <div className="mb-3">
                 <label className="form-label w-100" htmlFor="newPassword">
                     Old Password
+                    <br />
                     <input
                         required
                         autoComplete="current-password"
@@ -60,6 +61,7 @@ const ChangePassword: FC = () => {
             <div className="mb-3">
                 <label className="form-label w-100" htmlFor="newPassword">
                     New Password
+                    <br />
                     <input
                         required
                         autoComplete="current-password"
@@ -78,6 +80,7 @@ const ChangePassword: FC = () => {
             <div className="mb-3">
                 <label className="form-label w-100" htmlFor="confirmPassword">
                     Confirm Password
+                    <br />
                     <input
                         required
                         autoComplete="current-password"

@@ -13,14 +13,14 @@ interface ProductsPageProps {
     countries: ICatalogItem[]
 }
 
-export default function ProductsPage({ products, categories, countries }: ProductsPageProps): JSX.Element {
+const ProductsPage = ({ products, categories, countries }: ProductsPageProps): JSX.Element => {
     return (
         <>
             <Seo title="Products" />
             <ProductsBlock categories={categories} countries={countries} initProducts={products} />
         </>
     );
-}
+};
 
 export const getServerSideProps: GetServerSideProps<ProductsPageProps> = async (args) => {
     const props = await fetcher<ProductsPageProps>(
@@ -31,3 +31,4 @@ export const getServerSideProps: GetServerSideProps<ProductsPageProps> = async (
     return { props };
 };
 
+export default ProductsPage;

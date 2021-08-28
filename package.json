@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "run-p dev:*",
     "dev:client": "next dev",
-    "dev:lint": "eslint . --fix",
+    "off-dev:lint": "eslint . --fix",
     "dev:tsc": "tsc --preserveWatchOutput --watch --noEmit",
     "build": "next build",
     "start": "next start",

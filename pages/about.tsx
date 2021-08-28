@@ -13,7 +13,7 @@ interface Props {
     features: IFeature[]
 }
 
-export default function AboutPage({ about, features }: Props): JSX.Element {
+const AboutPage = ({ about, features }: Props): JSX.Element => {
     return (
         <>
             <Seo title="AboutUs" />
@@ -21,10 +21,12 @@ export default function AboutPage({ about, features }: Props): JSX.Element {
             <Features features={features} />
         </>
     );
-}
+};
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
     const props = await fetcher<Props>(AboutUsPageQuery, {});
 
     return { props };
 };
+
+export default AboutPage;

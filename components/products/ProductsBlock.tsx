@@ -30,8 +30,10 @@ const ProductsBlock: FC<ProductsPageProps> = ({ initProducts, categories, countr
 
     const router = useRouter();
 
-    const query = router.asPath.includes('?') ? router.asPath.replace(/^.+\?/, '') : '';
-    const page = useMemo(() => ({ v: 1 }), [query]);
+    const query = router.asPath.includes('?')
+        ? router.asPath.replace(/^.+\?/, '')
+        : '';
+    const page = useMemo(() => ({ value: 1 }), [query]);
 
     const searchParamsObject = useMemo(() => {
         const searchParams = new URLSearchParams(query);
@@ -66,8 +68,8 @@ const ProductsBlock: FC<ProductsPageProps> = ({ initProducts, categories, countr
     }, [query]);
 
     const handleNext = useCallback(async () => {
-        const newProducts = await fetchProducts(page.v * PRODUCTS_LIMIT);
-        page.v += 1;
+        const newProducts = await fetchProducts(page.value * PRODUCTS_LIMIT);
+        page.value += 1;
         setProducts((prev) => [...prev, ...newProducts]);
     }, [searchParamsObject]);
 
@@ -119,11 +121,13 @@ const ProductsBlock: FC<ProductsPageProps> = ({ initProducts, categories, countr
                             Sort by Recency
                         </SortProducts>
                     </div>
-                    {products.length === 0 ? (
-                        <div className="h2 text-center my-5">Nothing found...</div>
-                    ) : (
-                        <ProductsList products={products} />
-                    )}
+                    {products.length === 0
+                        ? (
+                            <div className="h2 text-center my-5">Nothing found...</div>
+                        )
+                        : (
+                            <ProductsList products={products} />
+                        )}
                     <Loading className="position-absolute top-0 left-50" loading={loading} />
 
                     {(hasNext) && (

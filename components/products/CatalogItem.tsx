@@ -26,7 +26,11 @@ const CatalogItem: FC<Props> = ({ name, value, className, children, ...props }) 
 
 
     return (
-        <Link replace href={params.toString().length === 0 ? '/product' : `/product?${params}`}>
+        <Link
+            replace href={params.toString().length === 0
+                ? '/product'
+                : `/product?${params}`}
+        >
             <a
                 {...props}
                 className={cls(

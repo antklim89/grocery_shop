@@ -4,7 +4,7 @@ import StrapiImage from '~/components/utils/StrapiImage';
 import { IFeature } from '~/types';
 
 
-export default function Features({ features }: {features: IFeature[]}): JSX.Element {
+const Features = ({ features }: {features: IFeature[]}): JSX.Element => {
     return (
         <section className="mb-5 py-2 bg-dark text-white">
             <div className="container">
@@ -33,4 +33,6 @@ export default function Features({ features }: {features: IFeature[]}): JSX.Elem
             </div>
         </section>
     );
-}
+};
+
+export default Features;

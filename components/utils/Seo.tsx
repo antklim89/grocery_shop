@@ -15,7 +15,9 @@ const Seo: FC<Props> = ({
     title,
 }) => {
     const metaDescription = `Grocery Shop. ${description || ''}`.trim();
-    const defaultTitle = `${title ? `${title} | ` : ''}Grocery Shop`;
+    const defaultTitle = `${title
+        ? `${title} | `
+        : ''}Grocery Shop`;
 
     return (
         <Head>

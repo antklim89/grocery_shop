@@ -1,108 +1,13 @@
-import { Observer } from 'mobx-react-lite';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 
-import Loading from '../utils/Loading';
-import ProtectedComponent from '../utils/ProtectedComponent';
+import HeaderLinks from './HeaderLinks';
 
-import { useAuth } from '~/components/auth/AuthProvider';
-import LogoutButton from '~/components/auth/LogoutButton';
 import CartButton from '~/components/cart/CartButton';
 import useBootstrap from '~/utils/useBootstrap';
 
 
-export default function Header(): JSX.Element {
-    const auth = useAuth();
-
+const Header = (): JSX.Element => {
     useBootstrap('Offcanvas');
-
-    const { route } = useRouter();
-
-    const links = (
-        <>
-            <li className="nav-item">
-                <Link passHref href="/">
-                    <a
-                        className={`nav-link ${route === '/' ? 'active' : ''}`}
-                        data-bs-dismiss="offcanvas"
-                    >
-                        HOME
-                    </a>
-                </Link>
-            </li>
-            <li className="nav-item">
-                <Link passHref href="/product">
-                    <a
-                        className={`nav-link ${route === '/products' ? 'active' : ''}`}
-                        data-bs-dismiss="offcanvas"
-                    >
-                        PRODUCTS
-                    </a>
-                </Link>
-            </li>
-            <li className="nav-item me-auto">
-                <Link passHref href="/about">
-                    <a
-                        className={`nav-link ${route === '/about' ? 'active' : ''}`}
-                        data-bs-dismiss="offcanvas"
-                    >
-                        ABOUT
-                    </a>
-                </Link>
-            </li>
-            <ProtectedComponent
-                fallback={(
-                    <li className="nav-item">
-                        <button className="btn btn-link nav-link mx-5" type="button">
-                            <Loading loading size="sm" />
-                        </button>
-                    </li>
-                )}
-                render={(
-                    <>
-                        <li className="nav-item">
-                            <Link passHref href="/signup">
-                                <a
-                                    className={`nav-link ${route === '/signup' ? 'active' : ''}`}
-                                    data-bs-dismiss="offcanvas"
-                                >
-                                    Sign Up
-                                </a>
-                            </Link>
-                        </li>
-                        <li className="nav-item me-5">
-                            <Link passHref href="/login">
-                                <a
-                                    className={`nav-link ${route === '/login' ? 'active' : ''}`}
-                                    data-bs-dismiss="offcanvas"
-                                >
-                                    Log In
-                                </a>
-                            </Link>
-                        </li>
-                    </>
-                )}
-            >
-                <>
-                    <li className="nav-item me-1">
-                        <Link href="/profile">
-                            <a className="nav-link btn btn-link" data-bs-dismiss="offcanvas">
-                                <Observer>
-                                    {() => <>{auth.user?.username}</>}
-                                </Observer>
-                            </a>
-                        </Link>
-                    </li>
-                    <li className="nav-item me-5">
-                        <LogoutButton
-                            className="nav-link"
-                            data-bs-dismiss="offcanvas"
-                        />
-                    </li>
-                </>
-            </ProtectedComponent>
-        </>
-    );
 
     return (
         <header className="navbar navbar-expand-lg navbar-dark bg-dark shadow mb-4">
@@ -115,9 +20,7 @@ export default function Header(): JSX.Element {
 
 
                 <nav className="d-lg-block d-none">
-                    <ul className="navbar-nav m-0 w-100">
-                        {links}
-                    </ul>
+                    <HeaderLinks />
                 </nav>
 
                 <CartButton className="btn btn-primary bg-dark position-relative align-self-end me-lg-0 me-4" />
@@ -148,15 +51,13 @@ export default function Header(): JSX.Element {
                             type="button"
                         />
                     </div>
-                    <div className="offcanvas-body">
-                        <nav>
-                            <ul className="navbar-nav">
-                                {links}
-                            </ul>
-                        </nav>
-                    </div>
+                    <nav className="offcanvas-body">
+                        <HeaderLinks />
+                    </nav>
                 </div>
             </div>
         </header>
     );
-}
+};
+
+export default Header;

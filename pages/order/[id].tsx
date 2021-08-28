@@ -11,7 +11,7 @@ interface Props {
     order: Order
 }
 
-export default function OrderPage({ order }: Props): JSX.Element {
+const OrderPage = ({ order }: Props): JSX.Element => {
     return (
         <>
             <Seo title="Confirm Order" />
@@ -20,20 +20,27 @@ export default function OrderPage({ order }: Props): JSX.Element {
             </div>
         </>
     );
-}
+};
 
 
 export const getServerSideProps: GetServerSideProps<Props> = async ({ params, req }) => {
-    console.debug('req.cook: \n', req.cookies);
     const { token } = req.cookies;
-    if (!token) { return { notFound: true }; }
+    if (!token) {
+        return { notFound: true };
+    }
+
+    const Authorization = token
+        ? `Bearer ${token}`
+        : '';
 
     const { order } = await fetcher<{order: Order}>(
         query.OrderQuery,
         { id: params?.id },
-        { headers: { Authorization: token ? `Bearer ${token}` : '' } },
+        { headers: { Authorization } },
     );
 
 
     return { props: { order } };
 };
+
+export default OrderPage;

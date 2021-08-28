@@ -5,7 +5,7 @@ import AuthStore from '~/store/AuthStore';
 
 export const Context = createContext<AuthStore>({} as AuthStore);
 
-export default function AuthProvider({ children }: { children: ReactChild}): JSX.Element {
+const AuthProvider = ({ children }: { children: ReactChild}): JSX.Element => {
     const auth = useMemo(() => new AuthStore(), []);
 
     useEffect(() => {
@@ -17,6 +17,8 @@ export default function AuthProvider({ children }: { children: ReactChild}): JSX
             {children}
         </Context.Provider>
     );
-}
+};
 
 export const useAuth = (): AuthStore => useContext(Context);
+
+export default AuthProvider;

@@ -6,6 +6,7 @@ module.exports = {
     },
     'extends': [
         'eslint:all',
+        'plugin:react/all',
         'plugin:react-hooks/recommended',
         'plugin:import/recommended',
         'plugin:import/errors',
@@ -13,7 +14,6 @@ module.exports = {
         'plugin:import/typescript',
         'plugin:jsx-a11y/strict',
         'plugin:@typescript-eslint/recommended',
-        // 'airbnb',
         'next',
         'next/core-web-vitals',
     ],
@@ -41,6 +41,16 @@ module.exports = {
         ],
         'import/no-extraneous-dependencies': ['error', { devDependencies: ['*.js'] }],
 
+        'capitalized-comments': 0,
+        'multiline-comment-style': 0,
+        'react/jsx-no-useless-fragment': 0,
+        'react/forbid-component-props': 0,
+        'react/jsx-closing-bracket-location': 2,
+        'react/jsx-no-bind': 0, // !!!
+        'react/jsx-no-literals': 0,
+        'react/function-component-definition': [2, { 'namedComponents': 'arrow-function' }],
+        'react/jsx-max-depth': [1, { 'max': 5 }],
+        'react/jsx-newline': 0,
         'react/jsx-sort-props': [1, { callbacksLast: true, shorthandFirst: true }],
         'react/jsx-max-props-per-line': [1, { maximum: 3 }],
         'react/prop-types': 0,
@@ -52,14 +62,23 @@ module.exports = {
         'react/react-in-jsx-scope': 0,
         'react/require-default-props': 0,
         'react/destructuring-assignment': 0,
-        'react-hooks/exhaustive-deps': 0,
         'react/no-this-in-sfc': 0,
         'react/jsx-one-expression-per-line': 0,
+
+        'react-hooks/exhaustive-deps': 0,
+
+        'jsx-a11y/anchor-is-valid': 0,
 
         '@typescript-eslint/no-shadow': 2,
         '@typescript-eslint/no-unused-vars': [1, { argsIgnorePattern: '^_' }],
         '@typescript-eslint/no-empty-interface': 0,
 
+        'no-inline-comments': 0,
+        'line-comment-position': 0,
+        'multiline-ternary': 2,
+        'no-implicit-coercion': 2,
+        'operator-linebreak': [2, 'before'],
+        'dot-location': [2, 'property'],
         'require-unicode-regexp': 0,
         'max-lines-per-function': [2, 200],
         'max-statements': ['error', 20, { 'ignoreTopLevelFunctions': true }],
@@ -100,8 +119,6 @@ module.exports = {
         'camelcase': 1,
         'object-curly-newline': [1, { 'minProperties': 6, 'multiline': true }],
         'array-element-newline': [1, 'consistent'],
-
-        'jsx-a11y/anchor-is-valid': 0,
     },
     'settings': {
         react: {

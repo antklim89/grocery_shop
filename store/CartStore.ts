@@ -63,12 +63,12 @@ export class CartStore {
     }
 
     exists(cartItem: CartItemStore): boolean {
-        return !!this.cartItems.find((p) => p.product.id === cartItem.product.id);
+        return Boolean(this.cartItems.find((prevItem) => prevItem.product.id === cartItem.product.id));
     }
 
     setCurrentProduct(cartItem: CartItem): CartItemStore {
         const oldOrNewCartItem = (
-            this.cartItems.find((i) => Number(i.product.id) === Number(cartItem.product.id))
+            this.cartItems.find((item) => Number(item.product.id) === Number(cartItem.product.id))
             || new CartItemStore(cartItem)
         );
 

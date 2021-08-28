@@ -11,15 +11,14 @@ interface Props {
     product: IProduct;
 }
 
-
-export default function ProductPage({ product }: Props): JSX.Element {
+const ProductPage = ({ product }: Props): JSX.Element => {
     return (
         <>
             <Seo title={product.name} />
             <Product {...product} />
         </>
     );
-}
+};
 
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -42,3 +41,5 @@ export const getStaticProps: GetStaticProps<Props, {id: string}> = async ({ para
 
     return { props };
 };
+
+export default ProductPage;

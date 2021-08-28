@@ -12,7 +12,7 @@ import fetcher from '~/utils/fetcher';
 export const Context = createContext({} as CartStore);
 
 
-function CartProvider({ children }: { children: ReactChild[]}): JSX.Element {
+const CartProvider = ({ children }: { children: ReactChild[]}): JSX.Element => {
     const cart = useMemo(() => new CartStore(), []);
 
     useEffect(() => {
@@ -42,7 +42,7 @@ function CartProvider({ children }: { children: ReactChild[]}): JSX.Element {
             {children}
         </Context.Provider>
     );
-}
+};
 
 export default CartProvider;
 

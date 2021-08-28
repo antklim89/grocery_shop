@@ -1,7 +1,7 @@
 import Seo from '~/components/utils/Seo';
 
 
-export default function NotFoundPage(): JSX.Element {
+const NotFoundPage = (): JSX.Element => {
     return (
         <>
             <Seo title="Page Not Found" />
@@ -12,4 +12,6 @@ export default function NotFoundPage(): JSX.Element {
             </div>
         </>
     );
-}
+};
+
+export default NotFoundPage;

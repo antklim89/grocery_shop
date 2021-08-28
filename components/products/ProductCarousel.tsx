@@ -17,7 +17,11 @@ const ProductCarousel: FC<Props> = ({ images }) => {
         <div className="carousel slide" data-bs-ride="carousel" id="images-carousel">
             <div className="carousel-inner">
                 {images.map((image, index) => (
-                    <div className={`carousel-item${index === 0 ? ' active' : ''}`} key={image.id}>
+                    <div
+                        className={`carousel-item${index === 0
+                            ? ' active'
+                            : ''}`} key={image.id}
+                    >
                         <StrapiImage
                             alt={image.alternativeText || `carousel-image-${index + 1}`}
                             blurDataURL={image.formats.thumbnail.url}

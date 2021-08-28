@@ -5,7 +5,7 @@ import style from '~/styles/Hero.module.scss';
 import { HeroProps } from '~/types';
 
 
-export default function Hero({ image, title, text }: HeroProps): JSX.Element {
+const Hero = ({ image, title, text }: HeroProps): JSX.Element => {
     return (
         <section className={style.section}>
             <StrapiImage
@@ -32,4 +32,6 @@ export default function Hero({ image, title, text }: HeroProps): JSX.Element {
             </div>
         </section>
     );
-}
+};
+
+export default Hero;

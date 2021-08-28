@@ -11,8 +11,13 @@ type Props = Omit<ImageProps, 'src'|'width'|'height'> & {
 const StrapiImage: FC<Props> = ({
     blurDataURL, src, alt, width, height, ...props
 }) => {
-    const url = src.startsWith('http') ? src : `${process.env.NEXT_PUBLIC_API_URL || ''}${src}`;
-    const blurUrl = src.startsWith('http') ? blurDataURL : `${process.env.NEXT_PUBLIC_API_URL || ''}${blurDataURL}`;
+    const url = src.startsWith('http')
+        ? src
+        : `${process.env.NEXT_PUBLIC_API_URL || ''}${src}`;
+
+    const blurUrl = src.startsWith('http')
+        ? blurDataURL
+        : `${process.env.NEXT_PUBLIC_API_URL || ''}${blurDataURL}`;
 
     return (
         <Image

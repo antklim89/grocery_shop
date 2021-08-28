@@ -29,7 +29,7 @@ const Auth: FC<{isSignup?: boolean}> = ({ isSignup }) => {
             await auth.login({ email, password });
         }
 
-        const cartItems = getCartItems()?.map((i) => ({ qty: i.qty, product: i.product.id }));
+        const cartItems = getCartItems()?.map((cartItem) => ({ qty: cartItem.qty, product: cartItem.product.id }));
         const newCartItems = await fetcher<CartItem[]>(
             '/carts/refresh',
             cartItems || [],
@@ -42,7 +42,10 @@ const Auth: FC<{isSignup?: boolean}> = ({ isSignup }) => {
 
     return (
         <div className="container">
-            <h1 className="text-center text-primary">{isSignup ? 'Sign Up' : 'Log In'}</h1>
+            <h1 className="text-center text-primary">{isSignup
+                ? 'Sign Up'
+                : 'Log In'}
+            </h1>
             <form className={`p-5 border ${styles.form}`} onSubmit={handleLogin}>
                 {auth.error && (
                     <div className="alert alert-danger" role="alert">
@@ -104,19 +107,23 @@ const Auth: FC<{isSignup?: boolean}> = ({ isSignup }) => {
                 <div>
                     <p className="text-center">
                         or{' '}
-                        {isSignup ? (
-                            <Link passHref href="/login">
-                                <a className="text-decoration-underline">Log In</a>
-                            </Link>
-                        ) : (
-                            <Link passHref href="/signup">
-                                <a className="text-decoration-underline">Sign Up</a>
-                            </Link>
-                        )}
+                        {isSignup
+                            ? (
+                                <Link passHref href="/login">
+                                    <a className="text-decoration-underline">Log In</a>
+                                </Link>
+                            )
+                            : (
+                                <Link passHref href="/signup">
+                                    <a className="text-decoration-underline">Sign Up</a>
+                                </Link>
+                            )}
                     </p>
                 </div>
                 <button className="btn btn-primary" disabled={auth.loading} type="submit">
-                    {isSignup ? 'Sign up' : 'Log In'}
+                    {isSignup
+                        ? 'Sign up'
+                        : 'Log In'}
                     <Loading loading={auth.loading} size="sm" />
                 </button>
             </form>

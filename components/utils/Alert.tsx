@@ -8,10 +8,10 @@ interface Props {
 
 
 const Alert: FC<Props> = ({ message, type = 'success' }) => {
-    const [show, setShow] = useState(() => !!message);
+    const [show, setShow] = useState(() => Boolean(message));
 
     useEffect(() => {
-        setShow(() => !!message);
+        setShow(() => Boolean(message));
     }, [message, type]);
 
     if (!show) return null;

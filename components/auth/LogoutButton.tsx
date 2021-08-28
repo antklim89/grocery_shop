@@ -4,7 +4,7 @@ import { useAuth } from '~/components/auth/AuthProvider';
 import useBootstrap from '~/utils/useBootstrap';
 
 
-export default function LogoutButton(props: HTMLAttributes<HTMLButtonElement>): JSX.Element {
+const LogoutButton = (props: HTMLAttributes<HTMLButtonElement>): JSX.Element => {
     const auth = useAuth();
     const [modal, ref] = useBootstrap('Modal');
 
@@ -60,4 +60,6 @@ export default function LogoutButton(props: HTMLAttributes<HTMLButtonElement>): 
             </div>
         </>
     );
-}
+};
+
+export default LogoutButton;

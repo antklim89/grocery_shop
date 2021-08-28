@@ -1,6 +1,6 @@
 
 
-export default function Footer(): JSX.Element {
+const Footer = (): JSX.Element => {
     return (
         <footer className="bg-dark navbar mt-4">
             <p className="container text-white">
@@ -21,4 +21,6 @@ export default function Footer(): JSX.Element {
             </p>
         </footer>
     );
-}
+};
+
+export default Footer;

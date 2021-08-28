@@ -27,7 +27,9 @@ async function graphqlFetcher(url: DocumentNode, body: unknown, options: Options
             variables: body,
         }),
         headers: {
-            'Authorization': token ? `Bearer ${token}` : '',
+            'Authorization': token
+                ? `Bearer ${token}`
+                : '',
             ...options.headers || {},
             'Content-Type': 'application/json',
         },
@@ -53,7 +55,9 @@ async function restFetcher(url: string, body: unknown, options: Options) {
         ...options,
         body: JSON.stringify(body),
         headers: {
-            'Authorization': token ? `Bearer ${token}` : '',
+            'Authorization': token
+                ? `Bearer ${token}`
+                : '',
             ...options.headers || {},
             'Content-Type': 'application/json',
         },

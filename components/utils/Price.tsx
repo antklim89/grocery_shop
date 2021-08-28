@@ -14,19 +14,11 @@ const Price: FC<Props> = ({
     unit,
     measure,
 }) => {
-    const rest = (
-        <>
-            for
-            &nbsp;
-            <big>{unit}</big>
-            &nbsp;
-            {measure}
-        </>
-    );
+    const rest = <>for&nbsp;<big>{unit}</big>&nbsp;{measure}</>;
 
     return (
-        <>
-            {discountPrice === price ? (
+        discountPrice === price
+            ? (
                 <span className="d-flex flex-wrap">
                     <big className="d-flex align-items-end">
                         <b>
@@ -38,7 +30,8 @@ const Price: FC<Props> = ({
                         {rest}
                     </span>
                 </span>
-            ) : (
+            )
+            : (
                 <span className="d-flex flex-wrap">
                     <span className="d-flex align-items-end">
                         <small>
@@ -58,8 +51,7 @@ const Price: FC<Props> = ({
                         {rest}
                     </span>
                 </span>
-            )}
-        </>
+            )
     );
 };
 
