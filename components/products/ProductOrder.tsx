@@ -1,5 +1,5 @@
 import { observer, Observer } from 'mobx-react-lite';
-import { FC, FormEvent } from 'react';
+import { FC, FormEvent, useMemo } from 'react';
 
 import { useCart } from '~/components/cart/CartProvider';
 import Loading from '~/components/utils/Loading';
@@ -13,6 +13,8 @@ const ProductOrder: FC<IProduct> = (product) => {
 
     const cart = useCart();
 
+    const cartItem = useMemo(() => cart.setCurrentCart(product), []);
+
     if (!cart.isCartFetched) {
         return (
             <div className="border h-100 shadow p-2 d-flex flex-column">
@@ -22,7 +24,6 @@ const ProductOrder: FC<IProduct> = (product) => {
         );
     }
 
-    const cartItem = cart.setCurrentProduct({ product, qty: quantityPerUnit });
 
     const handleOrder = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -37,25 +38,16 @@ const ProductOrder: FC<IProduct> = (product) => {
                 {discount > 0
                     ? (
                         <p>
-                            Discount:
-                            {' '}
-                            {discount}
-                            %
+                            Discount:{' '}{discount}%
                         </p>
                     )
                     : null}
                 <p>
-                    Price for
-                    {' '}
-                    {quantityPerUnit}
-                    {' '}
-                    {unit}
-                    :
+                    Price for{' '}{quantityPerUnit}{' '}{unit}:
                     <br />
                     <big>
                         <b>
-                            {discountPrice.toFixed(2)}
-                            $
+                            {discountPrice.toFixed(2)}$
                         </b>
                     </big>
                 </p>

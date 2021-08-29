@@ -12,33 +12,35 @@ import fetcher from '~/utils/fetcher';
 
 
 const Auth: FC<{isSignup?: boolean}> = ({ isSignup }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('anton@mail.ru');
+    const [password, setPassword] = useState('123456');
     const [confirm, setConfirm] = useState('');
     const [username, setUsername] = useState('');
 
     const auth = useAuth();
-    const cart = useCart();
+    // const cart = useCart();
 
     const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (isSignup) {
-            await auth.signup({ email, username, password });
-        } else {
-            await auth.login({ email, password });
-        }
+        try {
+            if (isSignup) {
+                await auth.signup({ email, username, password });
 
-        const cartItems = getCartItems()?.map((cartItem) => ({ qty: cartItem.qty, product: cartItem.product.id }));
-        cart.refreshCarts(cartItems);
+                // const cartItems = getCartItems();
+                // cart.refreshCarts(cartItems.map((cartItem) => ({ qty: cartItem.qty, product: cartItem.product.id })));
+            } else {
+                await auth.login({ email, password });
+            }
+        } catch (error) {
+            console.error(error);
+        }
     };
 
 
     return (
         <div className="container">
-            <h1 className="text-center text-primary">{isSignup
-                ? 'Sign Up'
-                : 'Log In'}
+            <h1 className="text-center text-primary">{isSignup ? 'Sign Up' : 'Log In'}
             </h1>
             <form className={`p-5 border ${styles.form}`} onSubmit={handleLogin}>
                 {auth.error && (
@@ -115,9 +117,7 @@ const Auth: FC<{isSignup?: boolean}> = ({ isSignup }) => {
                     </p>
                 </div>
                 <button className="btn btn-primary" disabled={auth.loading} type="submit">
-                    {isSignup
-                        ? 'Sign up'
-                        : 'Log In'}
+                    {isSignup ? 'Sign up' : 'Log In'}
                     <Loading loading={auth.loading} size="sm" />
                 </button>
             </form>

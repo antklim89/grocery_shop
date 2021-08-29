@@ -1,6 +1,7 @@
-import { reaction } from 'mobx';
+import { reaction, toJS } from 'mobx';
 import { createContext, ReactChild, useContext, useEffect, useMemo } from 'react';
 
+import { useAuth } from '~/components/auth/AuthProvider';
 import { CartStore } from '~/store/CartStore';
 import { CART_LOCAL_STORAGE_NAME } from '~/utils/constants';
 
@@ -10,14 +11,22 @@ export const Context = createContext({} as CartStore);
 
 const CartProvider = ({ children }: { children: ReactChild[]}): JSX.Element => {
     const cart = useMemo(() => new CartStore(), []);
+    const auth = useAuth();
 
     useEffect(() => {
-        cart.refreshCarts();
+        cart.refresh();
     }, []);
 
     useEffect(() => reaction(
         () => JSON.stringify(cart.cartItems),
         (json) => localStorage.setItem(CART_LOCAL_STORAGE_NAME, json),
+    ), []);
+
+    useEffect(() => reaction(
+        () => auth.user?.id,
+        (id) => {
+            if (id) cart.refresh(cart.cartItems);
+        },
     ), []);
 
     return (

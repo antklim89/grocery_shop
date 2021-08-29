@@ -1,6 +1,6 @@
 import { makeAutoObservable, observable, runInAction } from 'mobx';
 
-import { CartItemStore, CartItem } from './CartItemStore';
+import { CartItemStore, CartItem, CartProduct } from './CartItemStore';
 
 import query from '~/queries/Cart.gql';
 import { getCartItems } from '~/utils/cartStorage';
@@ -9,11 +9,6 @@ import { hasCookie } from '~/utils/cookie';
 import fetcher from '~/utils/fetcher';
 
 
-interface RefreshCart {
-    qty: number;
-    product: number;
-}
-
 export class CartStore {
     constructor() {
         makeAutoObservable(this, {}, { autoBind: true });
@@ -21,53 +16,44 @@ export class CartStore {
 
     cartItems = observable.array<CartItemStore>()
 
-    currentCartItem: CartItemStore | null = null
+    currentCartItem?: CartItemStore
 
     loading = false
 
     isCartFetched = false
 
     async toggle(cartItem: CartItemStore): Promise<void> {
-        try {
-            if (this.exists(cartItem)) await this.deleteCartItem(cartItem);
-            else await this.createCartItem(cartItem);
-        } catch (err) {
-            console.error(err);
-        } finally {
-            this.setLoading(false);
-        }
+        if (this.exists(cartItem)) await this.remove(cartItem);
+        else await this.push(cartItem);
     }
 
-    private async createCartItem(cartItem: CartItemStore) {
-        const isAuth = hasCookie(AUTH_TOKEN_NAME);
-
-        if (isAuth && !this.loading) {
-            this.setLoading(true);
+    async push(cartItem: CartItemStore): Promise<void> {
+        await this.request(async () => {
             const { createCart } = await fetcher(
                 query.CreateCartMutation,
                 { qty: cartItem.qty, product: cartItem.product.id },
             );
             cartItem.setId(createCart.cart.id);
-        }
 
-        runInAction(() => this.cartItems.push(cartItem));
+            runInAction(() => this.cartItems.push(cartItem));
+        });
     }
 
-    private async deleteCartItem(cartItem: CartItemStore) {
-        const isAuth = hasCookie(AUTH_TOKEN_NAME);
-
-        if (isAuth && !this.loading) {
+    async remove(cartItem: CartItemStore): Promise<void> {
+        await this.request(async () => {
             this.setLoading(true);
-            await fetcher(query.DeleteCartMutation, { id: cartItem.id });
-        }
+            if (cartItem.id) await fetcher(query.DeleteCartMutation, { id: cartItem.id });
 
-        runInAction(() => this.cartItems.remove(cartItem));
+            const idx = this.cartItems.findIndex((item) => Number(item.product.id) === Number(cartItem.product.id));
+            runInAction(() => this.cartItems.splice(idx, 1));
+        });
     }
 
-    async refreshCarts(newCartItems: RefreshCart[] = []): Promise<void> {
+    async refresh(newCartItems: CartItem[] = []): Promise<void> {
         try {
             if (hasCookie(AUTH_TOKEN_NAME)) {
-                const data = await fetcher<CartItem[]>('/carts/refresh', newCartItems, { method: 'post' });
+                const cartItemsBody = newCartItems.map(({ qty, product }) => ({ qty, product: product.id }));
+                const data = await fetcher<CartItem[]>('/carts/refresh', cartItemsBody, { method: 'post' });
                 this.replace(data);
             } else {
                 this.replace(getCartItems());
@@ -80,18 +66,25 @@ export class CartStore {
     }
 
     replace(newCartItems: CartItem[]): void {
-        this.cartItems.replace(newCartItems.map((cartItem) => new CartItemStore(cartItem)));
+        const items = newCartItems.map((cartItem) => {
+            if (this.currentCartItem && Number(cartItem.product.id) === Number(this.currentCartItem.product.id)) {
+                this.currentCartItem.id = cartItem.id;
+                return this.currentCartItem;
+            }
+            return new CartItemStore(cartItem);
+        });
+        this.cartItems.replace(items);
     }
 
-    exists(cartItem: CartItemStore): boolean {
-        return Boolean(this.cartItems.find((prevItem) => prevItem.product.id === cartItem.product.id));
+    exists(cartItem?: CartItemStore|null): boolean {
+        if (!cartItem) return false;
+        return Boolean(this.cartItems.find((prevItem) => Number(prevItem.product.id) === Number(cartItem.product.id)));
     }
 
-    setCurrentProduct(cartItem: CartItem): CartItemStore {
-        const oldOrNewCartItem = (
-            this.cartItems.find((item) => Number(item.product.id) === Number(cartItem.product.id))
-            || new CartItemStore(cartItem)
-        );
+    setCurrentCart(product: CartProduct): CartItemStore {
+        const oldOrNewCartItem
+            = this.cartItems.find((item) => Number(item.product.id) === Number(product.id))
+            || new CartItemStore({ qty: product.quantityPerUnit, product });
 
         this.currentCartItem = oldOrNewCartItem;
         return oldOrNewCartItem;
@@ -103,6 +96,22 @@ export class CartStore {
 
     private setLoading(state = true): void {
         this.loading = state;
+    }
+
+    private async request(callback: () => Promise<void>) {
+        const isAuth = hasCookie(AUTH_TOKEN_NAME);
+
+        if (isAuth && !this.loading) {
+            this.setLoading(true);
+            try {
+                await callback();
+            } catch (error) {
+                console.error(error);
+            } finally {
+                this.setLoading(false);
+            }
+        }
+
     }
 }
 

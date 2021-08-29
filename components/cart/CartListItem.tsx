@@ -20,7 +20,7 @@ const CartListItem: FC<{cartItem: CartItemStore}> = ({ cartItem }) => {
                 <StrapiImage
                     alt={product.name}
                     height={120}
-                    src={product.images[0].formats.thumbnail.url}
+                    src={product.url}
                     width={100}
                 />
             </div>

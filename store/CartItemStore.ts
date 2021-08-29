@@ -1,14 +1,19 @@
 import { makeAutoObservable } from 'mobx';
 
 import query from '~/queries/Cart.gql';
-import type { IProduct } from '~/types';
+import type { IStrapiImage, IBaseProduct } from '~/types';
 import { AUTH_TOKEN_NAME } from '~/utils/constants';
 import { hasCookie } from '~/utils/cookie';
 import fetcher from '~/utils/fetcher';
 
 
+export type CartProduct = IBaseProduct & {
+    images?: IStrapiImage[];
+    mainImage?: IStrapiImage;
+};
+
 export type CartItem = Pick<CartItemStore, 'id'|'qty'> & {
-    product: Omit<IProduct, 'description'>
+    product: CartProduct
     inOrder?: boolean
 }
 
@@ -20,7 +25,9 @@ export class CartItemStore {
     constructor(args: CartItem) {
         this.product = {
             ...args.product,
-            images: [args.product.images[0]],
+            url: args.product.mainImage?.formats?.thumbnail?.url
+                || args.product.images?.[0].formats?.thumbnail?.url
+                || '',
         };
         this.qty = args.qty;
         this.id = args.id;
@@ -28,7 +35,7 @@ export class CartItemStore {
         makeAutoObservable(this, {}, { autoBind: true });
     }
 
-    product: Omit<IProduct, 'description'>;
+    product: IBaseProduct & { url: string }
 
     qty: number
 
