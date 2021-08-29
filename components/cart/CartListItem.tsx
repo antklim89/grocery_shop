@@ -43,28 +43,30 @@ const CartListItem: FC<{cartItem: CartItemStore}> = ({ cartItem }) => {
             <div className="col-lg-2 col-12 d-flex flex-lg-column justify-content-between">
                 <label className="form-label my-2">
                     Quantity: ({product.unit})
-                    <Observer render={() => (
-                        <input
-                            className="form-control"
-                            type="number"
-                            value={cartItem.qty}
-                            onChange={(e) => cartItem.changeQty(e.target.value)}
-                        />
-                    )}
-                    />
+                    <Observer>
+                        {() => (
+                            <input
+                                className="form-control"
+                                type="number"
+                                value={cartItem.qty}
+                                onChange={(e) => cartItem.changeQty(e.target.value)}
+                            />
+                        )}
+                    </Observer>
                 </label>
                 <label className="form-check-label">
                     In order: {'  '}
-                    <Observer render={() => (
-                        <input
-                            checked={cartItem.inOrder}
-                            className="form-check-input"
-                            type="checkbox"
-                            value="on"
-                            onChange={(e) => cartItem.changeInOrder(e.currentTarget.checked)}
-                        />
-                    )}
-                    />
+                    <Observer>
+                        {() => (
+                            <input
+                                checked={cartItem.inOrder}
+                                className="form-check-input"
+                                type="checkbox"
+                                value="on"
+                                onChange={(e) => cartItem.changeInOrder(e.currentTarget.checked)}
+                            />
+                        )}
+                    </Observer>
                 </label>
                 <button
                     className="btn btn-outline-danger btn-lg p-1 align-self-end"
