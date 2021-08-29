@@ -2,9 +2,9 @@ import { makeAutoObservable } from 'mobx';
 
 import { UserStore } from './UserStote';
 
+import { AUTH_TOKEN_NAME } from '~/constants';
 import query from '~/queries/Auth.gql';
 import { AuthResponse, User } from '~/types';
-import { AUTH_TOKEN_NAME } from '~/utils/constants';
 import { clearCookie, hasCookie, setCookie } from '~/utils/cookie';
 import fetcher from '~/utils/fetcher';
 

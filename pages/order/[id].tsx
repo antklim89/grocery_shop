@@ -14,7 +14,7 @@ interface Props {
 const OrderPage = ({ order }: Props): JSX.Element => {
     return (
         <>
-            <Seo title="Confirm Order" />
+            <Seo description="Your orders." title="Confirm Order" />
             <ConfirmOrder order={order} />
         </>
     );

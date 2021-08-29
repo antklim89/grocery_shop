@@ -5,7 +5,7 @@ import Seo from '~/components/utils/Seo';
 const CartPage = (): JSX.Element => {
     return (
         <>
-            <Seo title="Cart" />
+            <Seo description="Your cart." title="Cart" />
             <CartList />
         </>
     );

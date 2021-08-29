@@ -14,9 +14,12 @@ interface ProductsPageProps {
 }
 
 const ProductsPage = ({ products, categories, countries }: ProductsPageProps): JSX.Element => {
+    const categoriesNames = categories.map((item) => item.name);
+    const countiesNames = countries.map((item) => item.name);
+
     return (
         <>
-            <Seo title="Products" />
+            <Seo description="Product list." keywords={[...categoriesNames, ...countiesNames]} title="Products" />
             <ProductsBlock categories={categories} countries={countries} initProducts={products} />
         </>
     );

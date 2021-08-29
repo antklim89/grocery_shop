@@ -7,12 +7,12 @@ import Seo from '~/components/utils/Seo';
 
 
 const ProfilePage = (): JSX.Element => {
-    const auth = useAuth();
+    const { user } = useAuth();
 
     return (
         <ProtectedComponent notFound>
             <Observer>
-                {() => <Seo title={`${auth.user?.username}' profile`} />}
+                {() => <Seo description={`${user?.username}' profile`} title={`${user?.username}' profile`} />}
             </Observer>
             <Profile />
         </ProtectedComponent>

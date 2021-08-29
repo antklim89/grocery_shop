@@ -2,9 +2,9 @@ import { makeAutoObservable, observable, runInAction } from 'mobx';
 
 import { CartItemStore, CartItem, CartProduct } from './CartItemStore';
 
+import { AUTH_TOKEN_NAME } from '~/constants';
 import query from '~/queries/Cart.gql';
 import { getCartItems } from '~/utils/cartStorage';
-import { AUTH_TOKEN_NAME } from '~/utils/constants';
 import { hasCookie } from '~/utils/cookie';
 import fetcher from '~/utils/fetcher';
 

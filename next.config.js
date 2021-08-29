@@ -2,11 +2,10 @@ module.exports = {
     reactStrictMode: true,
     images: {
         domains: [
-            process.env.NEXT_PUBLIC_API_URL,
+            process.env.NEXT_PUBLIC_API_URL.replace(/http(s|):\/\/([\w\d.]*)(:|)(\d*)/, '$2'),
             '192.168.90.19',
             'localhost',
-            'grocery-shop-strapi.herokuapp.com',
-            'ucarecdn.com',
+            process.env.IMAGE_URL,
         ],
     },
     webpack: (config) => {

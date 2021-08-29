@@ -1,8 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 
+import { AUTH_TOKEN_NAME } from '~/constants';
 import query from '~/queries/Cart.gql';
 import type { IStrapiImage, IBaseProduct } from '~/types';
-import { AUTH_TOKEN_NAME } from '~/utils/constants';
 import { hasCookie } from '~/utils/cookie';
 import fetcher from '~/utils/fetcher';
 

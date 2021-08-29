@@ -1,6 +1,8 @@
 import Image, { ImageProps } from 'next/image';
 import { FC, memo } from 'react';
 
+import { API_URL } from '~/constants';
+
 
 type Props = Omit<ImageProps, 'src'|'width'|'height'> & {
     width: number
@@ -11,13 +13,8 @@ type Props = Omit<ImageProps, 'src'|'width'|'height'> & {
 const StrapiImage: FC<Props> = ({
     blurDataURL, src, alt, width, height, ...props
 }) => {
-    const url = src.startsWith('http')
-        ? src
-        : `${process.env.NEXT_PUBLIC_API_URL || ''}${src}`;
-
-    const blurUrl = src.startsWith('http')
-        ? blurDataURL
-        : `${process.env.NEXT_PUBLIC_API_URL || ''}${blurDataURL}`;
+    const url = src.startsWith('http') ? src : `${API_URL || ''}${src}`;
+    const blurUrl = src.startsWith('http') ? blurDataURL : `${API_URL || ''}${blurDataURL}`;
 
     return (
         <Image

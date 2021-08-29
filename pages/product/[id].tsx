@@ -27,7 +27,11 @@ const ProductPage = ({ product }: Props): JSX.Element => {
 
     return (
         <>
-            <Seo title={product.name} />
+            <Seo
+                description={product.description}
+                keywords={[product.category.name, product.country.name]}
+                title={product.name}
+            />
             <Product {...product} />
         </>
     );

@@ -7,9 +7,9 @@ import SearchProducts from './SearchProducts';
 import SortProducts from './SortProducts';
 
 import Loading from '~/components/utils/Loading';
+import { PRODUCTS_LIMIT } from '~/constants';
 import ProductsPageQuery from '~/queries/ProductsPageQuery.gql';
 import { IProductPreview, ICatalogItem } from '~/types';
-import { PRODUCTS_LIMIT } from '~/utils/constants';
 import fetcher from '~/utils/fetcher';
 import useAsyncEffect from '~/utils/useAsyncEffect';
 

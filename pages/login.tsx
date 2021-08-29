@@ -6,7 +6,7 @@ import Seo from '~/components/utils/Seo';
 const LoginPage = (): JSX.Element => {
     return (
         <ProtectedComponent authNeeded={false} redirect="back">
-            <Seo title="Login" />
+            <Seo description="Login page." title="Login" />
             <Auth />
         </ProtectedComponent>
     );

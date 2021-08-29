@@ -116,10 +116,10 @@ module.exports = {
         'arrow-body-style': [0, 'as-needed'],
         'no-unused-vars': 0,
         'indent': [1, 4],
-        'max-len': [1, { code: 120, ignoreComments: true }],
+        'max-len': [1, { code: 120, ignoreComments: true, ignoreStrings: true }],
         'no-restricted-syntax': [2, 'WithStatement'],
         'camelcase': 1,
-        'object-curly-newline': [1, { 'minProperties': 6, 'multiline': true }],
+        'object-curly-newline': [1, { minProperties: 6, multiline: true }],
         'array-element-newline': [1, 'consistent'],
     },
     settings: {

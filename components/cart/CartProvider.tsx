@@ -2,8 +2,8 @@ import { reaction } from 'mobx';
 import { createContext, ReactChild, useContext, useEffect, useMemo } from 'react';
 
 import { useAuth } from '~/components/auth/AuthProvider';
+import { CART_LOCAL_STORAGE_NAME } from '~/constants';
 import { CartStore } from '~/store/CartStore';
-import { CART_LOCAL_STORAGE_NAME } from '~/utils/constants';
 
 
 export const Context = createContext({} as CartStore);

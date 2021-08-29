@@ -1,4 +1,4 @@
-import { CART_LOCAL_STORAGE_NAME } from './constants';
+import { CART_LOCAL_STORAGE_NAME } from '../constants';
 
 import { CartItem } from '~/store/CartItemStore';
 

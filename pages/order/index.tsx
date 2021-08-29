@@ -6,7 +6,7 @@ import Seo from '~/components/utils/Seo';
 const CreateOrderPage = (): JSX.Element => {
     return (
         <ProtectedComponent>
-            <Seo title="Create order" />
+            <Seo description="Create order page." title="Create order" />
             <CreateOrder />
         </ProtectedComponent>
     );

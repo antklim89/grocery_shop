@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
 import type { DocumentNode } from 'graphql';
 
-import { AUTH_TOKEN_NAME } from './constants';
+import { API_URL, AUTH_TOKEN_NAME } from '../constants';
+
 import { getCookie } from './cookie';
 
 
@@ -20,7 +21,7 @@ async function graphqlFetcher(url: DocumentNode, body: unknown, options: Options
 
     const token = getCookie(AUTH_TOKEN_NAME);
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/graphql`, {
+    const response = await fetch(`${API_URL}/graphql`, {
         ...options,
         method: 'POST',
         body: JSON.stringify({
@@ -58,7 +59,7 @@ async function graphqlFetcher(url: DocumentNode, body: unknown, options: Options
 async function restFetcher(url: string, body: unknown, options: Options) {
     const token = getCookie(AUTH_TOKEN_NAME);
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
+    const response = await fetch(`${API_URL}${url}`, {
         ...options,
         body: JSON.stringify(body),
         headers: {
