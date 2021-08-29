@@ -27,26 +27,43 @@ export class CartStore {
 
     async push(cartItem?: CartItemStore): Promise<void> {
         if (!cartItem) return;
-        await this.request(async () => {
-            const { createCart } = await fetcher(
-                query.CreateCartMutation,
-                { qty: cartItem.qty, product: cartItem.product.id },
-            );
-            cartItem.setId(createCart.cart.id);
 
-            runInAction(() => this.cartItems.push(cartItem));
-        });
+        if (hasCookie(AUTH_TOKEN_NAME) && !this.loading) {
+            this.setLoading(true);
+            try {
+                const { createCart } = await fetcher(
+                    query.CreateCartMutation,
+                    { qty: cartItem.qty, product: cartItem.product.id },
+                );
+
+                cartItem.setId(Number(createCart.cart.id));
+            } catch (error) {
+                console.error(error);
+            } finally {
+                this.setLoading(false);
+            }
+        }
+
+        runInAction(() => this.cartItems.push(cartItem));
+
     }
 
     async remove(cartItem?: CartItemStore): Promise<void> {
         if (!cartItem) return;
-        await this.request(async () => {
-            this.setLoading(true);
-            if (cartItem.id) await fetcher(query.DeleteCartMutation, { id: cartItem.id });
 
-            const idx = this.cartItems.findIndex((item) => Number(item.product.id) === Number(cartItem.product.id));
-            runInAction(() => this.cartItems.splice(idx, 1));
-        });
+        if (hasCookie(AUTH_TOKEN_NAME) && !this.loading) {
+            this.setLoading(true);
+            try {
+                if (cartItem.id) await fetcher(query.DeleteCartMutation, { id: cartItem.id });
+            } catch (error) {
+                console.error(error);
+            } finally {
+                this.setLoading(false);
+            }
+        }
+
+        const idx = this.cartItems.findIndex((item) => Number(item.product.id) === Number(cartItem.product.id));
+        runInAction(() => this.cartItems.splice(idx, 1));
     }
 
     async refresh(newCartItems: CartItem[] = []): Promise<void> {
@@ -86,22 +103,6 @@ export class CartStore {
 
     private setLoading(state = true): void {
         this.loading = state;
-    }
-
-    private async request(callback: () => Promise<void>) {
-        const isAuth = hasCookie(AUTH_TOKEN_NAME);
-
-        if (isAuth && !this.loading) {
-            this.setLoading(true);
-            try {
-                await callback();
-            } catch (error) {
-                console.error(error);
-            } finally {
-                this.setLoading(false);
-            }
-        }
-
     }
 }
 

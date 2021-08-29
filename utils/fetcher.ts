@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import type { DocumentNode } from 'graphql';
 
 import { AUTH_TOKEN_NAME } from './constants';
@@ -44,6 +45,12 @@ async function graphqlFetcher(url: DocumentNode, body: unknown, options: Options
         throw new Error(message);
     }
 
+    if (process.browser && process.env.NODE_ENV === 'development') {
+        console.groupCollapsed(`Response: ${print(url).split('{')[0]}`);
+        console.debug(data);
+        console.groupEnd();
+    }
+
     return data;
 }
 
@@ -51,7 +58,7 @@ async function graphqlFetcher(url: DocumentNode, body: unknown, options: Options
 async function restFetcher(url: string, body: unknown, options: Options) {
     const token = getCookie(AUTH_TOKEN_NAME);
 
-    const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
         ...options,
         body: JSON.stringify(body),
         headers: {
@@ -63,14 +70,22 @@ async function restFetcher(url: string, body: unknown, options: Options) {
         },
     });
 
-    if (!data.ok) {
-        const error = await data.json();
+    if (!response.ok) {
+        const error = await response.json();
         console.error(error);
         const message = error.message || 'Unexpected error. Try again later.';
         throw new Error(message);
     }
 
-    return data.json();
+    const json = await response.json();
+
+    if (process.browser && process.env.NODE_ENV === 'development') {
+        console.groupCollapsed(`Response: (${(options.method || 'GET').toUpperCase()}) ${url}`);
+        console.debug(json);
+        console.groupEnd();
+    }
+
+    return json;
 }
 
 const fetcher: Fetcher = async <T extends unknown>(

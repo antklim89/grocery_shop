@@ -35,7 +35,7 @@ const ConfirmOrder: FC<Props> = ({ order }) => {
             setConfirmMessage('Order successfully confirmed.');
             setConfirming(false);
             setIsSuccess(true);
-            const orderedCards = cart.cartItems.filter((cartItem) => cartItem.inOrder);
+            const orderedCards = cart.cartItems.filter((cartItem) => !cartItem.inOrder);
             cart.replace(orderedCards);
         } catch (err) {
             setConfirmError('Order failed. Try again later.');
@@ -51,7 +51,7 @@ const ConfirmOrder: FC<Props> = ({ order }) => {
     const totalPrice = getTotalPrice(order.orderedProducts);
 
     return (
-        <div>
+        <div className="container">
             <h1 className="text-center text-primary mb-5">
                 Order
             </h1>

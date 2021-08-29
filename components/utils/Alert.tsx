@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, memo, useEffect, useState } from 'react';
 
 
 interface Props {
@@ -30,4 +30,4 @@ const Alert: FC<Props> = ({ message, type = 'success' }) => {
     );
 };
 
-export default Alert;
+export default memo(Alert);

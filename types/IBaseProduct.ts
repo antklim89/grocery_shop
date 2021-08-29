@@ -1,6 +1,6 @@
 
 export interface IBaseProduct {
-    id: number
+    id: number|string
     name: string
     price: number
     category: {

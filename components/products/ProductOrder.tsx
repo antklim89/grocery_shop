@@ -8,12 +8,15 @@ import { IProduct } from '~/types';
 
 const ProductOrder: FC<IProduct> = (product) => {
     const {
-        name, country, category, discount, quantityPerUnit, unit, discountPrice,
+        id, name, country, category, discount, quantityPerUnit, unit, discountPrice,
     } = product;
 
     const cart = useCart();
 
-    const cartItem = useMemo(() => cart.getCurrentCart(product), []);
+    const cartItem = useMemo(
+        () => cart.getCurrentCart(product),
+        [cart.cartItems.find((item) => Number(item.product.id) === Number(id))],
+    );
 
     if (!cart.isCartFetched) {
         return (

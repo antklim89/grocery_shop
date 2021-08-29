@@ -1,6 +1,6 @@
 import { Observer } from 'mobx-react-lite';
 import Link from 'next/link';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 
 import Price from '../utils/Price';
 import StrapiImage from '../utils/StrapiImage';
@@ -69,7 +69,7 @@ const CartListItem: FC<{cartItem: CartItemStore}> = ({ cartItem }) => {
                 <button
                     className="btn btn-outline-danger btn-lg p-1 align-self-end"
                     type="button"
-                    onClick={() => cart.toggle(cartItem)}
+                    onClick={() => cart.remove(cartItem)}
                 >
                     <i className="bi bi-trash" />
                 </button>
@@ -78,4 +78,4 @@ const CartListItem: FC<{cartItem: CartItemStore}> = ({ cartItem }) => {
     );
 };
 
-export default CartListItem;
+export default memo(CartListItem);

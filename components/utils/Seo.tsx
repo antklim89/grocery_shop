@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 
 
 export interface Props {
@@ -15,9 +15,7 @@ const Seo: FC<Props> = ({
     title,
 }) => {
     const metaDescription = `Grocery Shop. ${description || ''}`.trim();
-    const defaultTitle = `${title
-        ? `${title} | `
-        : ''}Grocery Shop`;
+    const defaultTitle = `${title ? `${title} | ` : ''}Grocery Shop`;
 
     return (
         <Head>
@@ -37,4 +35,4 @@ const Seo: FC<Props> = ({
     );
 };
 
-export default Seo;
+export default memo(Seo);

@@ -3,22 +3,17 @@ import Link from 'next/link';
 import { FC, FormEvent, useState } from 'react';
 
 import { useAuth } from '~/components/auth/AuthProvider';
-import { useCart } from '~/components/cart/CartProvider';
 import Loading from '~/components/utils/Loading';
-import { CartItem } from '~/store/CartItemStore';
 import styles from '~/styles/Auth.module.scss';
-import { getCartItems } from '~/utils/cartStorage';
-import fetcher from '~/utils/fetcher';
 
 
 const Auth: FC<{isSignup?: boolean}> = ({ isSignup }) => {
-    const [email, setEmail] = useState('anton@mail.ru');
-    const [password, setPassword] = useState('123456');
-    const [confirm, setConfirm] = useState('');
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState(process.env.NODE_ENV === 'development' ? 'anton@mail.ru' : '');
+    const [password, setPassword] = useState(process.env.NODE_ENV === 'development' ? '123456' : '');
+    const [confirm, setConfirm] = useState(process.env.NODE_ENV === 'development' ? '123456' : '');
+    const [username, setUsername] = useState(process.env.NODE_ENV === 'development' ? 'Anton' : '');
 
     const auth = useAuth();
-    // const cart = useCart();
 
     const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -26,9 +21,6 @@ const Auth: FC<{isSignup?: boolean}> = ({ isSignup }) => {
         try {
             if (isSignup) {
                 await auth.signup({ email, username, password });
-
-                // const cartItems = getCartItems();
-                // cart.refreshCarts(cartItems.map((cartItem) => ({ qty: cartItem.qty, product: cartItem.product.id })));
             } else {
                 await auth.login({ email, password });
             }

@@ -14,23 +14,18 @@ import { IProductPreview } from '~/types';
 
 const ProductCard: FC<IProductPreview> = (product) => {
     const {
-        name,
-        price,
-        country,
-        id,
-        category,
-        mainImage,
-        quantityPerUnit,
-        unit,
-        discount,
-        discountPrice,
+        name, price, country, id, category, mainImage, quantityPerUnit, unit, discount, discountPrice,
     } = product;
 
     const cart = useCart();
     const isPoroductInCart = cart.cartItems.findIndex((cartItem) => Number(cartItem.product.id) === Number(id)) >= 0;
 
-    const handleRemove = () => cart.remove(cart.cartItems.find((cartItem) => cartItem.product.id === id));
-    const handlePush = () => cart.push(new CartItemStore({ product, qty: quantityPerUnit }));
+    const handleRemove = (): void => {
+        cart.remove(cart.cartItems.find((cartItem) => Number(cartItem.product.id) === Number(id)));
+    };
+    const handlePush = (): void => {
+        cart.push(new CartItemStore({ product, qty: quantityPerUnit }));
+    };
 
     return (
         <div className="col-12 col-lg-6 col-xl-4 align-items-stretch">

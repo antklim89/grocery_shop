@@ -34,7 +34,7 @@ mutation DeleteCartMutation($id: ID!) {
         where: { id: $id }
     }) {
         cart {
-            id
+            updated_at
         }
     }
 }
@@ -49,7 +49,7 @@ mutation UpdateCartMutation(
         where: { id: $id }
     }) {
         cart {
-            id
+            updated_at
         }
     }
 }

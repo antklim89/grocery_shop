@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 
 
 interface Props {
@@ -36,14 +36,12 @@ const Price: FC<Props> = ({
                     <span className="d-flex align-items-end">
                         <small>
                             <del>
-                                {price.toFixed(2)}
-                                $&nbsp;
+                                {price.toFixed(2)}$&nbsp;
                             </del>
                         </small>
                         <big>
                             <b>
-                                {discountPrice?.toFixed(2) || 0}
-                                $&nbsp;
+                                {discountPrice?.toFixed(2) || 0}$&nbsp;
                             </b>
                         </big>
                     </span>
@@ -55,4 +53,4 @@ const Price: FC<Props> = ({
     );
 };
 
-export default Price;
+export default memo(Price);

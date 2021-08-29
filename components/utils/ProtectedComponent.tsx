@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/router';
-import { FC, useEffect, useState } from 'react';
+import { FC, memo, useEffect, useState } from 'react';
 import { ReactElement } from 'react-markdown';
 
 import { useAuth } from '../auth/AuthProvider';

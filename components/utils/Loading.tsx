@@ -1,4 +1,4 @@
-import { FC, HTMLAttributes } from 'react';
+import { FC, HTMLAttributes, memo } from 'react';
 
 import cls from '~/utils/cls';
 
@@ -9,6 +9,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 
 const Loading: FC<Props> = ({ loading, size, className, ...props }) => {
+
     return loading
         ? (
             <div
@@ -27,4 +28,4 @@ const Loading: FC<Props> = ({ loading, size, className, ...props }) => {
         : null;
 };
 
-export default Loading;
+export default memo(Loading);

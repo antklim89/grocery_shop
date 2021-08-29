@@ -1,5 +1,5 @@
 import Image, { ImageProps } from 'next/image';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 
 
 type Props = Omit<ImageProps, 'src'|'width'|'height'> & {
@@ -34,4 +34,4 @@ const StrapiImage: FC<Props> = ({
     );
 };
 
-export default StrapiImage;
+export default memo(StrapiImage);

@@ -1,7 +1,6 @@
 import { Observer } from 'mobx-react-lite';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
 
 import { useAuth } from '../auth/AuthProvider';
 import LogoutButton from '../auth/LogoutButton';

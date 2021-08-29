@@ -1,4 +1,4 @@
-import { reaction, toJS } from 'mobx';
+import { reaction } from 'mobx';
 import { createContext, ReactChild, useContext, useEffect, useMemo } from 'react';
 
 import { useAuth } from '~/components/auth/AuthProvider';
@@ -25,7 +25,7 @@ const CartProvider = ({ children }: { children: ReactChild[]}): JSX.Element => {
     useEffect(() => reaction(
         () => auth.user?.id,
         (id) => {
-            if (id) cart.refresh(cart.cartItems);
+            if (id && auth.isUserFetched) cart.refresh(cart.cartItems);
         },
     ), []);
 

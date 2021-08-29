@@ -1,4 +1,4 @@
-import { observer } from 'mobx-react-lite';
+import { Observer, observer } from 'mobx-react-lite';
 import { FC } from 'react';
 
 import { useAuth } from './AuthProvider';
@@ -16,10 +16,14 @@ const Profile: FC = () => {
     if (!user) return null;
     return (
         <div className="container">
-            <h1 className="text-center mb-4">
-                {user.username}
-                &apos; profile
-            </h1>
+            <Observer>
+                {() => (
+                    <h1 className="text-center mb-4">
+                        {user.username}
+                        &apos; profile
+                    </h1>
+                )}
+            </Observer>
 
             <div className="row">
                 <nav className="col-12 col-md-4">
@@ -71,7 +75,6 @@ const Profile: FC = () => {
                         role="tabpanel"
                     >
                         <UserInformationForm />
-
                     </div>
                     <div
                         aria-labelledby="change-profile-tab"
@@ -96,4 +99,4 @@ const Profile: FC = () => {
     );
 };
 
-export default observer(Profile);
+export default Profile;
