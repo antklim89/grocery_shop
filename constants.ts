@@ -11,7 +11,7 @@ export const PRODUCTS_LIMIT = Number(process.env.PRODUCTS_LIMIT) || 6;
 export const API_URL = process.env.NEXT_PUBLIC_API_URL || (() => {
     throw new Error('NEXT_PUBLIC_API_URL env variable is required.');
 })();
-export const IMAGE_URL = process.env.IMAGE_URL || (() => {
+export const IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL || (() => {
     throw new Error('IMAGE_URL env variable is required.');
 })();
 

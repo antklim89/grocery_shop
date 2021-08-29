@@ -5,7 +5,7 @@ module.exports = {
             process.env.NEXT_PUBLIC_API_URL.replace(/http(s|):\/\/([\w\d.]*)(:|)(\d*)/, '$2'),
             '192.168.90.19',
             'localhost',
-            process.env.IMAGE_URL,
+            process.env.NEXT_PUBLIC_IMAGE_URL,
         ],
     },
     webpack: (config) => {
