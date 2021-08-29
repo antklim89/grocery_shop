@@ -1,5 +1,6 @@
+import { Observer } from 'mobx-react-lite';
 import Link from 'next/link';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import Price from '../utils/Price';
 import StrapiImage from '../utils/StrapiImage';
@@ -40,16 +41,29 @@ const CartListItem: FC<{cartItem: CartItemStore}> = ({ cartItem }) => {
                 </small>
             </div>
             <div className="col-lg-2 col-12 d-flex flex-lg-column justify-content-between">
-                <label className="form-label my-2" htmlFor={`qte-${product.id}`}>
-                    Quantity: (
-                    {product.unit}
-                    )
-                    <input
-                        className="form-control"
-                        id={`qte-${product.id}`}
-                        type="number"
-                        value={cartItem.qty}
-                        onChange={(e) => cartItem.changeQty(Number(e.target.value))}
+                <label className="form-label my-2">
+                    Quantity: ({product.unit})
+                    <Observer render={() => (
+                        <input
+                            className="form-control"
+                            type="number"
+                            value={cartItem.qty}
+                            onChange={(e) => cartItem.changeQty(e.target.value)}
+                        />
+                    )}
+                    />
+                </label>
+                <label className="form-check-label">
+                    In order: {'  '}
+                    <Observer render={() => (
+                        <input
+                            checked={cartItem.inOrder}
+                            className="form-check-input"
+                            type="checkbox"
+                            value="on"
+                            onChange={(e) => cartItem.changeInOrder(e.currentTarget.checked)}
+                        />
+                    )}
                     />
                 </label>
                 <button

@@ -4,6 +4,7 @@ query CartQuery {
     carts {
         id
         qty
+        inOrder
         product {
             ...ProductFragment
         }
@@ -39,11 +40,12 @@ mutation DeleteCartMutation($id: ID!) {
 }
 
 mutation UpdateCartMutation(
-    $qty: Float!
+    $qty: Float
+    $inOrder: Boolean
     $id: ID!
 ) {
     updateCart(input: {
-        data: { qty: $qty }
+        data: { qty: $qty, inOrder: $inOrder }
         where: { id: $id }
     }) {
         cart {

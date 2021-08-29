@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 
+import { useCart } from './CartProvider';
+
 import Alert from '~/components/utils/Alert';
 import Loading from '~/components/utils/Loading';
 import query from '~/queries/Order.gql';
@@ -15,6 +17,7 @@ interface Props {
 
 const ConfirmOrder: FC<Props> = ({ order }) => {
     const { back } = useRouter();
+    const cart = useCart();
 
     const [confirming, setConfirming] = useState(false);
     const [confirmMessage, setConfirmMessage] = useState<string|null>();
@@ -30,6 +33,8 @@ const ConfirmOrder: FC<Props> = ({ order }) => {
             setConfirmMessage('Order successfully confirmed.');
             setConfirming(false);
             setIsSuccess(true);
+            const orderedCards = cart.cartItems.filter((cartItem) => cartItem.inOrder);
+            cart.replace(orderedCards);
         } catch (err) {
             setConfirmError('Order failed. Try again later.');
             setConfirming(false);

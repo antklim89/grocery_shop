@@ -39,6 +39,9 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ params, re
         { headers: { Authorization } },
     );
 
+    if (!order) {
+        return { notFound: true };
+    }
 
     return { props: { order } };
 };

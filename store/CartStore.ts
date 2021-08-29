@@ -3,10 +3,16 @@ import { makeAutoObservable, observable, runInAction } from 'mobx';
 import { CartItemStore, CartItem } from './CartItemStore';
 
 import query from '~/queries/Cart.gql';
+import { getCartItems } from '~/utils/cartStorage';
 import { AUTH_TOKEN_NAME } from '~/utils/constants';
 import { hasCookie } from '~/utils/cookie';
 import fetcher from '~/utils/fetcher';
 
+
+interface RefreshCart {
+    qty: number;
+    product: number;
+}
 
 export class CartStore {
     constructor() {
@@ -58,6 +64,21 @@ export class CartStore {
         runInAction(() => this.cartItems.remove(cartItem));
     }
 
+    async refreshCarts(newCartItems: RefreshCart[] = []): Promise<void> {
+        try {
+            if (hasCookie(AUTH_TOKEN_NAME)) {
+                const data = await fetcher<CartItem[]>('/carts/refresh', newCartItems, { method: 'post' });
+                this.replace(data);
+            } else {
+                this.replace(getCartItems());
+            }
+        } catch (error) {
+            this.replace(getCartItems());
+        } finally {
+            this.setCartFedched();
+        }
+    }
+
     replace(newCartItems: CartItem[]): void {
         this.cartItems.replace(newCartItems.map((cartItem) => new CartItemStore(cartItem)));
     }
@@ -76,11 +97,11 @@ export class CartStore {
         return oldOrNewCartItem;
     }
 
-    setCartFedched(): void {
+    private setCartFedched(): void {
         this.isCartFetched = true;
     }
 
-    setLoading(state = true): void {
+    private setLoading(state = true): void {
         this.loading = state;
     }
 }

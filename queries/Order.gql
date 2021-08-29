@@ -39,11 +39,9 @@ mutation CreateOrderMutation(
     $surname: String!, 
     $address: String!, 
     $phone: String!
-    $orderedProducts: [ComponentOrderOrderedProductInput]
 ) {
     createOrder(input: {
         data: {
-            orderedProducts: $orderedProducts
             email: $email
             name: $name
             surname: $surname
@@ -53,6 +51,7 @@ mutation CreateOrderMutation(
     }) {
         order {
             id
+            uid
         }
     }
 }
@@ -63,6 +62,7 @@ mutation DeleteOrderMutation(
     deleteOrder(input: { where : { id: $id }}) {
         order {
             id
+            uid
         }
     }
 }

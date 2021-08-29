@@ -30,13 +30,7 @@ const Auth: FC<{isSignup?: boolean}> = ({ isSignup }) => {
         }
 
         const cartItems = getCartItems()?.map((cartItem) => ({ qty: cartItem.qty, product: cartItem.product.id }));
-        const newCartItems = await fetcher<CartItem[]>(
-            '/carts/refresh',
-            cartItems || [],
-            { method: 'post' },
-        );
-
-        cart.replace(newCartItems);
+        cart.refreshCarts(cartItems);
     };
 
 

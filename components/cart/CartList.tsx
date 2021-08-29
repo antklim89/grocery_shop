@@ -2,7 +2,6 @@ import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
 
 import CartListItem from './CartListItem';
-import CreateOrderModal from './CreateOrder';
 
 import { useCart } from '~/components/cart/CartProvider';
 import ProtectedComponent from '~/components/utils/ProtectedComponent';

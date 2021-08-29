@@ -8,10 +8,12 @@ import fetcher from '~/utils/fetcher';
 
 
 export type CartItem = Pick<CartItemStore, 'id'|'qty'> & {
-    product: IProduct
+    product: Omit<IProduct, 'description'>
+    inOrder?: boolean
 }
 
-let timeout: NodeJS.Timeout;
+let qtyTimeout: NodeJS.Timeout;
+let inOrderTimeout: NodeJS.Timeout;
 
 
 export class CartItemStore {
@@ -22,6 +24,7 @@ export class CartItemStore {
         };
         this.qty = args.qty;
         this.id = args.id;
+        this.inOrder = typeof args.inOrder === 'undefined' ? true : args.inOrder;
         makeAutoObservable(this, {}, { autoBind: true });
     }
 
@@ -31,16 +34,31 @@ export class CartItemStore {
 
     id?: number
 
+    inOrder = true
+
     changeQty(numb: number|string): void {
         this.qty = Number(numb);
 
         const isAuth = hasCookie(AUTH_TOKEN_NAME);
 
         if (!isAuth || !this.id) return;
-        if (timeout) clearTimeout(timeout);
+        if (qtyTimeout) clearTimeout(qtyTimeout);
 
-        timeout = setTimeout(() => {
+        qtyTimeout = setTimeout(() => {
             fetcher(query.UpdateCartMutation, { qty: this.qty, id: this.id });
+        }, 700);
+    }
+
+    changeInOrder(value: boolean): void {
+        this.inOrder = value;
+
+        const isAuth = hasCookie(AUTH_TOKEN_NAME);
+
+        if (!isAuth || !this.id) return;
+        if (inOrderTimeout) clearTimeout(inOrderTimeout);
+
+        inOrderTimeout = setTimeout(() => {
+            fetcher(query.UpdateCartMutation, { inOrder: this.inOrder, id: this.id });
         }, 700);
     }
 

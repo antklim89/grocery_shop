@@ -67,6 +67,8 @@ module.exports = {
 
         'react-hooks/exhaustive-deps': 0,
 
+        'jsx-a11y/label-has-associated-control': 2,
+        'jsx-a11y/label-has-for': 0,
         'jsx-a11y/anchor-is-valid': 0,
 
         '@typescript-eslint/no-shadow': 2,
@@ -75,7 +77,7 @@ module.exports = {
 
         'no-inline-comments': 0,
         'line-comment-position': 0,
-        'multiline-ternary': 2,
+        'multiline-ternary': [2, 'always-multiline'],
         'no-implicit-coercion': 2,
         'operator-linebreak': [2, 'before'],
         'dot-location': [2, 'property'],

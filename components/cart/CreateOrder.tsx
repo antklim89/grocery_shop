@@ -16,9 +16,13 @@ interface OrderResponse {
     createOrder: {
         order: {
             id: number;
+            uid: string;
         };
     };
 }
+
+const MINUTES_15 = 60 * 1000 * 1;
+const ORDER_STATE = 'ORDER_STATE';
 
 
 const CreateOrderModal = (): JSX.Element => {
@@ -39,8 +43,15 @@ const CreateOrderModal = (): JSX.Element => {
     const [errorMessage, setErrorMessage] = useState<string|null>(null);
     const [loading, setLoading] = useState(false);
 
-    const handleConfirm = async (e: FormEvent<HTMLFormElement>) => {
+    const handleCreateOrder = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        const [uid, date] = localStorage.getItem(ORDER_STATE)?.split(':') || [];
+        if (uid && date && Date.now() < Number(date)) {
+            localStorage.removeItem(ORDER_STATE);
+            router.push(`/order/${uid}`);
+            return;
+        }
 
         if (cart.cartItems.length === 0) {
             setErrorMessage('There are not products in the cart.');
@@ -50,19 +61,15 @@ const CreateOrderModal = (): JSX.Element => {
         setLoading(true);
         setErrorMessage(null);
 
-        const carts = cart.cartItems.map(({ qty, product }) => ({ qty, product: product.id }));
-
         try {
             const data = await fetcher<OrderResponse>(
                 query.CreateOrderMutation,
-                {
-                    email, name, surname, phone, address, orderedProducts: carts,
-                },
+                { email, name, surname, phone, address },
             );
 
+            localStorage.setItem(ORDER_STATE, `${data.createOrder.order.uid}:${Date.now() + MINUTES_15}`);
             setLoading(false);
-            cart.replace([]);
-            router.push(`/order/${data.createOrder.order.id}`);
+            router.push(`/order/${data.createOrder.order.uid}`);
         } catch (error) {
             setLoading(false);
             setErrorMessage(error.message);
@@ -72,7 +79,7 @@ const CreateOrderModal = (): JSX.Element => {
 
     return (
         <div className="container">
-            <form className="row" onSubmit={handleConfirm}>
+            <form className="row" onSubmit={handleCreateOrder}>
                 <Alert message={errorMessage} type="danger" />
                 <div className="mb-3 col-sm-6 col-12">
                     <label className="w-100" htmlFor="email">

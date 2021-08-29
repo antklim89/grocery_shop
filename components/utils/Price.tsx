@@ -36,7 +36,7 @@ const Price: FC<Props> = ({
                     <span className="d-flex align-items-end">
                         <small>
                             <del>
-                                {price}
+                                {price.toFixed(2)}
                                 $&nbsp;
                             </del>
                         </small>
