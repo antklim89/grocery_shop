@@ -1,10 +1,10 @@
 
 module.exports = {
-    'env': {
+    env: {
         browser: true,
         es2021: true,
     },
-    'extends': [
+    extends: [
         'eslint:all',
         'plugin:react/all',
         'plugin:react-hooks/recommended',
@@ -17,17 +17,17 @@ module.exports = {
         'next',
         'next/core-web-vitals',
     ],
-    'parser': '@typescript-eslint/parser',
-    'parserOptions': {
+    parser: '@typescript-eslint/parser',
+    parserOptions: {
         ecmaFeatures: { jsx: true },
         ecmaVersion: 12,
         sourceType: 'module',
     },
-    'plugins': [
+    plugins: [
         '@typescript-eslint',
         'jsx-a11y',
     ],
-    'rules': {
+    rules: {
         'import/no-unresolved': 0,
         'import/prefer-default-export': 0,
         'import/extensions': 0,
@@ -46,7 +46,7 @@ module.exports = {
         'react/jsx-no-useless-fragment': 0,
         'react/forbid-component-props': 0,
         'react/jsx-closing-bracket-location': 2,
-        'react/jsx-no-bind': 0, // !!!
+        'react/jsx-no-bind': [2, { ignoreDOMComponents: true }],
         'react/jsx-no-literals': 0,
         'react/function-component-definition': [2, { 'namedComponents': 'arrow-function' }],
         'react/jsx-max-depth': [1, { 'max': 5 }],
@@ -122,7 +122,7 @@ module.exports = {
         'object-curly-newline': [1, { 'minProperties': 6, 'multiline': true }],
         'array-element-newline': [1, 'consistent'],
     },
-    'settings': {
+    settings: {
         react: {
             pragma: 'React',
             fragment: 'Fragment',
@@ -130,12 +130,12 @@ module.exports = {
         },
     },
 
-    'globals': {
+    globals: {
         module: true,
         process: true,
         strapi: true,
         JSX: true,
     },
 
-    'ignorePatterns': ['**/node_modules/**/*', '**/.next/**/*', '**/build/**/*', '**/.tmp/**/*', '**/.cache/**/*'],
+    ignorePatterns: ['**/node_modules/**/*', '**/.next/**/*', '**/build/**/*', '**/.tmp/**/*', '**/.cache/**/*'],
 };

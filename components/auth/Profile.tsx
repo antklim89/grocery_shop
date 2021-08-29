@@ -1,4 +1,4 @@
-import { Observer, observer } from 'mobx-react-lite';
+import { Observer } from 'mobx-react-lite';
 import { FC } from 'react';
 
 import { useAuth } from './AuthProvider';
