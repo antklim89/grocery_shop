@@ -33,6 +33,11 @@ export default class AuthStore {
         }
     }
 
+    getUser(): UserStore {
+        if (this.user) return this.user;
+        throw new Error('User is required');
+    }
+
     async logout(): Promise<void> {
         this.user = null;
         this.isAuth = false;

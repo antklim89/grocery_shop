@@ -8,9 +8,7 @@ import Loading from '~/components/utils/Loading';
 
 
 const UserInformationForm: FC = () => {
-    const user = useAuth().user || (() => {
-        throw new Error();
-    })();
+    const user = useAuth().getUser();
 
     const [name, setName] = useState(user.name || '');
     const [surname, setSurname] = useState(user.surname || '');
