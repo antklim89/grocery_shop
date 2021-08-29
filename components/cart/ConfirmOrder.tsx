@@ -27,9 +27,11 @@ const ConfirmOrder: FC<Props> = ({ order }) => {
     const handleConfirm = async () => {
         if (order.status !== OrderStatus.DRAFT) return;
 
+        setConfirmError(null);
+        setConfirmMessage(null);
         setConfirming(true);
         try {
-            await fetcher(`/orders/confirm/${order.id}`, {}, { method: 'POST' });
+            await fetcher(`/orders/confirm/${order.uid}`, {}, { method: 'POST' });
             setConfirmMessage('Order successfully confirmed.');
             setConfirming(false);
             setIsSuccess(true);
@@ -101,6 +103,9 @@ const ConfirmOrder: FC<Props> = ({ order }) => {
                 </p>
             </div>
 
+            <Alert message={confirmError} type="danger" />
+            <Alert message={confirmMessage} type="success" />
+
             <div className="d-flex justify-content-center">
                 {!isSuccess && order.status === OrderStatus.DRAFT && (
                     <div className="mx-2">
@@ -129,9 +134,6 @@ const ConfirmOrder: FC<Props> = ({ order }) => {
                     </div>
                 )}
             </div>
-
-            <Alert message={confirmError} type="danger" />
-            <Alert message={confirmMessage} type="success" />
         </div>
     );
 };

@@ -13,7 +13,7 @@ const ProductOrder: FC<IProduct> = (product) => {
 
     const cart = useCart();
 
-    const cartItem = useMemo(() => cart.setCurrentCart(product), []);
+    const cartItem = useMemo(() => cart.getCurrentCart(product), []);
 
     if (!cart.isCartFetched) {
         return (
@@ -85,7 +85,7 @@ const ProductOrder: FC<IProduct> = (product) => {
                         onChange={(e) => cartItem.changeQty(e.target.value)}
                     />
                 </label>
-                {cart.exists(cartItem)
+                {cart.isProductInCart(cartItem.product.id)
                     ? (
                         <input
                             className="btn btn-primary my-2"

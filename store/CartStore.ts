@@ -16,18 +16,17 @@ export class CartStore {
 
     cartItems = observable.array<CartItemStore>()
 
-    currentCartItem?: CartItemStore
-
     loading = false
 
     isCartFetched = false
 
     async toggle(cartItem: CartItemStore): Promise<void> {
-        if (this.exists(cartItem)) await this.remove(cartItem);
+        if (this.isProductInCart(cartItem.product.id)) await this.remove(cartItem);
         else await this.push(cartItem);
     }
 
-    async push(cartItem: CartItemStore): Promise<void> {
+    async push(cartItem?: CartItemStore): Promise<void> {
+        if (!cartItem) return;
         await this.request(async () => {
             const { createCart } = await fetcher(
                 query.CreateCartMutation,
@@ -39,7 +38,8 @@ export class CartStore {
         });
     }
 
-    async remove(cartItem: CartItemStore): Promise<void> {
+    async remove(cartItem?: CartItemStore): Promise<void> {
+        if (!cartItem) return;
         await this.request(async () => {
             this.setLoading(true);
             if (cartItem.id) await fetcher(query.DeleteCartMutation, { id: cartItem.id });
@@ -66,28 +66,18 @@ export class CartStore {
     }
 
     replace(newCartItems: CartItem[]): void {
-        const items = newCartItems.map((cartItem) => {
-            if (this.currentCartItem && Number(cartItem.product.id) === Number(this.currentCartItem.product.id)) {
-                this.currentCartItem.id = cartItem.id;
-                return this.currentCartItem;
-            }
-            return new CartItemStore(cartItem);
-        });
-        this.cartItems.replace(items);
+        const newCartItemStores = newCartItems.map((cartItem) => new CartItemStore(cartItem));
+        this.cartItems.replace(newCartItemStores);
     }
 
-    exists(cartItem?: CartItemStore|null): boolean {
-        if (!cartItem) return false;
-        return Boolean(this.cartItems.find((prevItem) => Number(prevItem.product.id) === Number(cartItem.product.id)));
+    isProductInCart(productId?: number|string): boolean {
+        if (!productId) return false;
+        return Boolean(this.cartItems.find((prevItem) => Number(prevItem.product.id) === Number(productId)));
     }
 
-    setCurrentCart(product: CartProduct): CartItemStore {
-        const oldOrNewCartItem
-            = this.cartItems.find((item) => Number(item.product.id) === Number(product.id))
+    getCurrentCart(product: CartProduct): CartItemStore {
+        return this.cartItems.find((item) => Number(item.product.id) === Number(product.id))
             || new CartItemStore({ qty: product.quantityPerUnit, product });
-
-        this.currentCartItem = oldOrNewCartItem;
-        return oldOrNewCartItem;
     }
 
     private setCartFedched(): void {

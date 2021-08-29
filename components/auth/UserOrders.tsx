@@ -42,7 +42,7 @@ const UserOrders: FC = () => {
                     <Link href={`/order/${order.id}`}>
                         <a className="d-flex justify-content-between">
                             <h5>
-                                {order.address}
+                                Order N: {order.uid}
                                 <br />
                                 <span className="h6">{new Date(order.createdAt).toLocaleString()}</span>
                             </h5>

@@ -1,6 +1,8 @@
 import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
 
+import Loading from '../utils/Loading';
+
 import CartListItem from './CartListItem';
 
 import { useCart } from '~/components/cart/CartProvider';
@@ -10,6 +12,12 @@ import getTotalPrice from '~/utils/getTotalPrice';
 
 const CartList = (): JSX.Element => {
     const cart = useCart();
+
+    if (!cart.isCartFetched) {
+        return (
+            <div className="d-flex justify-content-center py-5"><Loading loading /></div>
+        );
+    }
 
     if (!cart.cartItems || cart.cartItems.length === 0) {
         return (
