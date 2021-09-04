@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 
+/**
+npm i -D eslint eslint-config-next eslint-import-resolver-alias eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react eslint-plugin-react-hooks @typescript-eslint/eslint-plugin @typescript-eslint/parser
+ */
+
 
 module.exports = {
     env: {
@@ -31,7 +35,6 @@ module.exports = {
         'jsx-a11y',
     ],
     rules: {
-        // 'import/no-unresolved': 0,
         'import/prefer-default-export': 0,
         'import/extensions': 0,
         'import/newline-after-import': ['error', { count: 2 }],
@@ -74,6 +77,8 @@ module.exports = {
         'jsx-a11y/label-has-for': 0,
         'jsx-a11y/anchor-is-valid': 0,
 
+        'no-underscore-dangle': [2, { 'allow': ['_q'] }],
+        '@typescript-eslint/no-var-requires': 0,
         '@typescript-eslint/no-shadow': 2,
         '@typescript-eslint/no-unused-vars': [1, { argsIgnorePattern: '^_' }],
         '@typescript-eslint/no-empty-interface': 0,
@@ -89,7 +94,7 @@ module.exports = {
         'max-statements': ['error', 20, { 'ignoreTopLevelFunctions': true }],
         'no-extra-parens': 0,
         'prefer-named-capture-group': 0,
-        'id-length': [2, { 'exceptions': ['e'] }],
+        'id-length': [2, { 'exceptions': ['e', '_'] }],
         'no-ternary': 0,
         'curly': 0,
         'init-declarations': 0,
@@ -134,7 +139,7 @@ module.exports = {
         'import/resolver': {
             alias: {
                 map: [['~', path.join(__dirname, './')]],
-                extensions: ['.ts', '.tsx', '.js', '.jsx', '.jsonXXX'],
+                extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
             },
         },
     },
