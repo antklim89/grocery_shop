@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+const path = require('path');
+
 
 module.exports = {
     env: {
@@ -28,7 +31,7 @@ module.exports = {
         'jsx-a11y',
     ],
     rules: {
-        'import/no-unresolved': 0,
+        // 'import/no-unresolved': 0,
         'import/prefer-default-export': 0,
         'import/extensions': 0,
         'import/newline-after-import': ['error', { count: 2 }],
@@ -123,10 +126,16 @@ module.exports = {
         'array-element-newline': [1, 'consistent'],
     },
     settings: {
-        react: {
+        'react': {
             pragma: 'React',
             fragment: 'Fragment',
             version: 'detect',
+        },
+        'import/resolver': {
+            alias: {
+                map: [['~', path.join(__dirname, './')]],
+                extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+            },
         },
     },
 
