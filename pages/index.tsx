@@ -37,18 +37,10 @@ const HomePage = ({ hero, features, newProducts, discountProducts }: Props): JSX
     );
 };
 
-// @ts-expect-error psdasd
 export const getStaticProps: GetStaticProps<Props> = async () => {
-    try {
-        const props = await fetcher<Props>(IndexPageQuery, {});
-        // eslint-disable-next-line no-console
-        console.debug('props: \n', props);
-        return { props };
-    } catch (error) {
-        console.error(error);
-        return { props: {} };
-    }
+    const props = await fetcher<Props>(IndexPageQuery, {});
 
+    return { props };
 };
 
 export default HomePage;

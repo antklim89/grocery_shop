@@ -14,24 +14,24 @@ interface ProductsPageProps {
 }
 
 const ProductsPage = ({ products, categories, countries }: ProductsPageProps): JSX.Element => {
-    // const categoriesNames = categories.map((item) => item.name);
-    // const countiesNames = countries.map((item) => item.name);
+    const categoriesNames = categories.map((item) => item.name);
+    const countiesNames = countries.map((item) => item.name);
 
     return (
         <>
-            <Seo description="Product list." title="Products"/* keywords={[...categoriesNames, ...countiesNames]} */ />
-            {/* <ProductsBlock categories={categories} countries={countries} initProducts={products} /> */}
+            <Seo description="Product list." keywords={[...categoriesNames, ...countiesNames]} title="Products" />
+            <ProductsBlock categories={categories} countries={countries} initProducts={products} />
         </>
     );
 };
 
-// export const getServerSideProps: GetServerSideProps<ProductsPageProps> = async (args) => {
-//     const props = await fetcher<ProductsPageProps>(
-//         ProductsPageQuery,
-//         args.query,
-//     );
+export const getServerSideProps: GetServerSideProps<ProductsPageProps> = async (args) => {
+    const props = await fetcher<ProductsPageProps>(
+        ProductsPageQuery,
+        args.query,
+    );
 
-//     return { props };
-// };
+    return { props };
+};
 
 export default ProductsPage;
