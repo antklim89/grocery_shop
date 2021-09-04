@@ -40,7 +40,7 @@ const HomePage = ({ hero, features, newProducts, discountProducts }: Props): JSX
 export const getStaticProps: GetStaticProps<Props> = async () => {
     const props = await fetcher<Props>(IndexPageQuery, {});
 
-    return { props, revalidate: 1000 };
+    return { props };
 };
 
 export default HomePage;

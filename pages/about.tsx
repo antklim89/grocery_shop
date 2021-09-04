@@ -26,7 +26,7 @@ const AboutPage = ({ about, features }: Props): JSX.Element => {
 export const getStaticProps: GetStaticProps<Props> = async () => {
     const props = await fetcher<Props>(AboutUsPageQuery, {});
 
-    return { props, revalidate: 1000 };
+    return { props };
 };
 
 export default AboutPage;

@@ -1,8 +1,6 @@
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { useRouter } from 'next/router';
 
 import Product from '~/components/products/Product';
-import Loading from '~/components/utils/Loading';
 import Seo from '~/components/utils/Seo';
 import ProductPageQuery from '~/queries/ProductPageQuery.gql';
 import { IProduct } from '~/types';
@@ -14,16 +12,6 @@ interface Props {
 }
 
 const ProductPage = ({ product }: Props): JSX.Element => {
-    const { isFallback } = useRouter();
-
-    if (isFallback) return (
-        <>
-            <Seo title="Loading" />
-            <div className="d-flex justify-content-center p-5">
-                <Loading loading />
-            </div>
-        </>
-    );
 
     return (
         <>
@@ -45,7 +33,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
     return {
         paths,
-        fallback: true,
+        fallback: false,
     };
 };
 
@@ -64,10 +52,7 @@ export const getStaticProps: GetStaticProps<Props, {id: string}> = async ({ para
         return { notFound: true };
     }
 
-    return {
-        props: { product },
-        revalidate: 1000,
-    };
+    return { props: { product } };
 };
 
 export default ProductPage;
