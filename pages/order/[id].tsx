@@ -15,32 +15,32 @@ const OrderPage = ({ order }: Props): JSX.Element => {
     return (
         <>
             <Seo description="Your orders." title="Confirm Order" />
-            <ConfirmOrder order={order} />
+            {/* <ConfirmOrder order={order} /> */}
         </>
     );
 };
 
 
-export const getServerSideProps: GetServerSideProps<Props> = async ({ params, req }) => {
-    const { token } = req.cookies;
-    if (!token) {
-        return { notFound: true };
-    }
-    if (!params || !params.id) {
-        return { notFound: true };
-    }
+// export const getServerSideProps: GetServerSideProps<Props> = async ({ params, req }) => {
+//     const { token } = req.cookies;
+//     if (!token) {
+//         return { notFound: true };
+//     }
+//     if (!params || !params.id) {
+//         return { notFound: true };
+//     }
 
-    const { order } = await fetcher<{order: Order}>(
-        query.OrderQuery,
-        { id: params.id },
-        { headers: { Authorization: `Bearer ${token}` } },
-    );
+//     const { order } = await fetcher<{order: Order}>(
+//         query.OrderQuery,
+//         { id: params.id },
+//         { headers: { Authorization: `Bearer ${token}` } },
+//     );
 
-    if (!order) {
-        return { notFound: true };
-    }
+//     if (!order) {
+//         return { notFound: true };
+//     }
 
-    return { props: { order } };
-};
+//     return { props: { order } };
+// };
 
 export default OrderPage;
