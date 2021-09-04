@@ -8,10 +8,10 @@ import styles from '~/styles/Auth.module.scss';
 
 
 const Auth: FC<{isSignup?: boolean}> = ({ isSignup }) => {
-    const [email, setEmail] = useState(process.env.NODE_ENV === 'development' ? 'anton@mail.ru' : '');
-    const [password, setPassword] = useState(process.env.NODE_ENV === 'development' ? '123456' : '');
-    const [confirm, setConfirm] = useState(process.env.NODE_ENV === 'development' ? '123456' : '');
-    const [username, setUsername] = useState(process.env.NODE_ENV === 'development' ? 'Anton' : '');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirm, setConfirm] = useState('');
+    const [username, setUsername] = useState('');
 
     const auth = useAuth();
 
