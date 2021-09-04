@@ -14,8 +14,8 @@ interface ProductsPageProps {
 }
 
 const ProductsPage = ({ products, categories, countries }: ProductsPageProps): JSX.Element => {
-    const categoriesNames = categories.map((item) => item.name);
-    const countiesNames = countries.map((item) => item.name);
+    // const categoriesNames = categories.map((item) => item.name);
+    // const countiesNames = countries.map((item) => item.name);
 
     return (
         <>
