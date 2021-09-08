@@ -1,9 +1,10 @@
 import { Observer } from 'mobx-react-lite';
 import Link from 'next/link';
-import { FC, memo } from 'react';
+import { FC, memo, useCallback } from 'react';
 
 import Price from '../utils/Price';
 import StrapiImage from '../utils/StrapiImage';
+import SwitchToggle from '../utils/SwitchToggle';
 
 import { useCart } from './CartProvider';
 
@@ -13,6 +14,8 @@ import { CartItemStore } from '~/store/CartItemStore';
 const CartListItem: FC<{cartItem: CartItemStore}> = ({ cartItem }) => {
     const cart = useCart();
     const { product } = cartItem;
+
+    const handleToggle = useCallback((e) => cartItem.changeInOrder(e.currentTarget.checked), [cartItem]);
 
     return (
         <section className="row list-group-item d-flex">
@@ -55,21 +58,15 @@ const CartListItem: FC<{cartItem: CartItemStore}> = ({ cartItem }) => {
                     </Observer>
                 </label>
                 <div className="d-flex">
-                    <div className="switchToggle p-1 align-self-end">
-                        In order: {'  '}
-                        <Observer>
-                            {() => (
-                                <input
-                                    checked={cartItem.inOrder}
-                                    id={`switch-${cartItem.id}`}
-                                    type="checkbox"
-                                    value="on"
-                                    onChange={(e) => cartItem.changeInOrder(e.currentTarget.checked)}
-                                />
-                            )}
-                        </Observer>
-                        <label htmlFor={`switch-${cartItem.id}`}>In order:</label>
-                    </div>
+                    <Observer>
+                        {() => (
+                            <SwitchToggle
+                                checked={cartItem.inOrder}
+                                label="In order: "
+                                onChange={handleToggle}
+                            />
+                        )}
+                    </Observer>
                     <button
                         className="btn btn-outline-danger btn-lg p-1 align-self-end"
                         type="button"
