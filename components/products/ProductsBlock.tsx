@@ -79,7 +79,7 @@ const ProductsBlock: FC<ProductsPageProps> = ({ initProducts, categories, countr
         <div className="container">
             <div className="d-block d-xl-none">
                 <button
-                    className="btn btn-primary"
+                    className="btn btn-primary mb-2"
                     data-bs-target="#catalog-offcanvas"
                     data-bs-toggle="offcanvas"
                     type="button"
@@ -105,7 +105,7 @@ const ProductsBlock: FC<ProductsPageProps> = ({ initProducts, categories, countr
                     </div>
                 </div>
             </div>
-            <div className="mb-4 mx-4">
+            <div className="mb-4 mx-1 mx-md-0">
                 <SearchProducts />
             </div>
             <div className="row">

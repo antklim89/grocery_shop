@@ -54,27 +54,30 @@ const CartListItem: FC<{cartItem: CartItemStore}> = ({ cartItem }) => {
                         )}
                     </Observer>
                 </label>
-                <label className="form-check-label">
-                    In order: {'  '}
-                    <Observer>
-                        {() => (
-                            <input
-                                checked={cartItem.inOrder}
-                                className="form-check-input"
-                                type="checkbox"
-                                value="on"
-                                onChange={(e) => cartItem.changeInOrder(e.currentTarget.checked)}
-                            />
-                        )}
-                    </Observer>
-                </label>
-                <button
-                    className="btn btn-outline-danger btn-lg p-1 align-self-end"
-                    type="button"
-                    onClick={() => cart.remove(cartItem)}
-                >
-                    <i className="bi bi-trash" />
-                </button>
+                <div className="d-flex">
+                    <div className="switchToggle p-1 align-self-end">
+                        In order: {'  '}
+                        <Observer>
+                            {() => (
+                                <input
+                                    checked={cartItem.inOrder}
+                                    id={`switch-${cartItem.id}`}
+                                    type="checkbox"
+                                    value="on"
+                                    onChange={(e) => cartItem.changeInOrder(e.currentTarget.checked)}
+                                />
+                            )}
+                        </Observer>
+                        <label htmlFor={`switch-${cartItem.id}`}>In order:</label>
+                    </div>
+                    <button
+                        className="btn btn-outline-danger btn-lg p-1 align-self-end"
+                        type="button"
+                        onClick={() => cart.remove(cartItem)}
+                    >
+                        <i className="bi bi-trash" />
+                    </button>
+                </div>
             </div>
         </section>
     );
