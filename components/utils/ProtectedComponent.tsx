@@ -3,8 +3,7 @@ import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import { ReactElement } from 'react-markdown';
 
-import { useAuth } from '../auth/AuthProvider';
-
+import { useAuth } from '~/components/auth/AuthProvider';
 import NotFoundPage from '~/pages/404';
 
 

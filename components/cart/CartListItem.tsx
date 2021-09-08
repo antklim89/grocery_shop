@@ -2,12 +2,11 @@ import { Observer } from 'mobx-react-lite';
 import Link from 'next/link';
 import { FC, memo, useCallback } from 'react';
 
-import Price from '../utils/Price';
-import StrapiImage from '../utils/StrapiImage';
-import SwitchToggle from '../utils/SwitchToggle';
-
 import { useCart } from './CartProvider';
 
+import Price from '~/components/utils/Price';
+import StrapiImage from '~/components/utils/StrapiImage';
+import SwitchToggle from '~/components/utils/SwitchToggle';
 import { CartItemStore } from '~/store/CartItemStore';
 
 

@@ -2,10 +2,10 @@ import { Observer } from 'mobx-react-lite';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { useAuth } from '../auth/AuthProvider';
-import LogoutButton from '../auth/LogoutButton';
-import Loading from '../utils/Loading';
-import ProtectedComponent from '../utils/ProtectedComponent';
+import { useAuth } from '~/components/auth/AuthProvider';
+import LogoutButton from '~/components/auth/LogoutButton';
+import Loading from '~/components/utils/Loading';
+import ProtectedComponent from '~/components/utils/ProtectedComponent';
 
 
 const HeaderLinks = (): JSX.Element => {

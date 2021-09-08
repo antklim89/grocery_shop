@@ -1,11 +1,11 @@
 import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
 
-import Loading from '../utils/Loading';
 
 import CartListItem from './CartListItem';
 
 import { useCart } from '~/components/cart/CartProvider';
+import Loading from '~/components/utils/Loading';
 import ProtectedComponent from '~/components/utils/ProtectedComponent';
 import getTotalPrice from '~/utils/getTotalPrice';
 
