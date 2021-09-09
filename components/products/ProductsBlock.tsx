@@ -117,8 +117,8 @@ const ProductsBlock: FC<ProductsPageProps> = ({ initProducts, categories, countr
                         <SortProducts className="breadcrumb-item" value="discountPrice">
                             Sort by Price
                         </SortProducts>
-                        <SortProducts className="breadcrumb-item" value="id">
-                            Sort by Recency
+                        <SortProducts isDefault className="breadcrumb-item" value="id">
+                            Sort by Novelty
                         </SortProducts>
                     </div>
                     {products.length === 0
@@ -130,7 +130,7 @@ const ProductsBlock: FC<ProductsPageProps> = ({ initProducts, categories, countr
                         )}
                     <Loading className="position-absolute top-0 left-50" loading={loading} />
 
-                    {(hasNext) && (
+                    {hasNext && (
                         <div className="text-center mt-4">
                             <button
                                 className="btn btn-primary"
