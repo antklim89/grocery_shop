@@ -1,6 +1,7 @@
 {
-  "name": "grocery_shop_client",
-  "version": "0.1.0",
+  "name": "grocery-shop-frontend",
+  "version": "1.0.0",
+  "description": "A Nextjs application",
   "private": true,
   "scripts": {
     "dev": "run-p dev:*",
@@ -23,8 +24,7 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-markdown": "^6.0.2",
-    "sass": "^1.35.1",
-    "yup": "^0.32.9"
+    "sass": "^1.35.1"
   },
   "devDependencies": {
     "@types/bootstrap": "^5.0.17",
@@ -40,5 +40,22 @@
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "typescript": "4.3.4"
-  }
+  },
+  "author": {
+      "name": "Me"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:antklim89/grocery_shop.git"
+  },
+  "bugs": {
+    "url": "https://github.com/antklim89/grocery_shop/issues"
+  },
+  "keywords": [
+    "React",
+    "Nextjs",
+    "Scss",
+    "Bootsrap 5"
+  ],
+  "license": "MIT"
 }
