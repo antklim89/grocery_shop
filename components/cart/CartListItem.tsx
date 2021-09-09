@@ -1,12 +1,13 @@
 import { Observer } from 'mobx-react-lite';
+import Image from 'next/image';
 import Link from 'next/link';
 import { FC, memo, useCallback } from 'react';
 
 import { useCart } from './CartProvider';
 
 import Price from '~/components/utils/Price';
-import StrapiImage from '~/components/utils/StrapiImage';
 import SwitchToggle from '~/components/utils/SwitchToggle';
+import { API_URL } from '~/constants';
 import { CartItemStore } from '~/store/CartItemStore';
 
 
@@ -19,10 +20,11 @@ const CartListItem: FC<{cartItem: CartItemStore}> = ({ cartItem }) => {
     return (
         <section className="row list-group-item d-flex">
             <div className="col-lg-2 col-4">
-                <StrapiImage
+                <Image
+                    unoptimized
                     alt={product.name}
                     height={120}
-                    src={product.url}
+                    src={product.url.startsWith('http') ? product.url : `${API_URL}${product.url}`}
                     width={100}
                 />
             </div>

@@ -14,12 +14,10 @@ const Features = ({ features }: {features: IFeature[]}): JSX.Element => {
                             <section className="card bg-white text-dark h-100">
                                 <StrapiImage
                                     alt={title}
-                                    blurDataURL={image.formats.thumbnail.url}
                                     className="card-img-top"
                                     height={198}
+                                    image={image}
                                     objectFit="cover"
-                                    placeholder="blur"
-                                    src={image.url}
                                     width={400}
                                 />
                                 <div className="card-body d-flex flex-column">

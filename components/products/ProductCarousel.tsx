@@ -2,6 +2,7 @@ import { FC } from 'react';
 
 import StrapiImage from '~/components/utils/StrapiImage';
 import { IStrapiImage } from '~/types';
+import cls from '~/utils/cls';
 import useBootstrap from '~/utils/useBootstrap';
 
 
@@ -18,18 +19,16 @@ const ProductCarousel: FC<Props> = ({ images }) => {
             <div className="carousel-inner">
                 {images.map((image, index) => (
                     <div
-                        className={`carousel-item${index === 0
-                            ? ' active'
-                            : ''}`} key={image.id}
+                        className={cls('carousel-item', index === 0 && 'active')}
+                        key={image.id}
                     >
                         <StrapiImage
                             alt={image.alternativeText || `carousel-image-${index + 1}`}
-                            blurDataURL={image.formats.thumbnail.url}
                             className="img-fluid"
                             height={720}
+                            image={image}
                             objectPosition="center"
                             placeholder="blur"
-                            src={image.url}
                             width={1200}
                         />
                     </div>

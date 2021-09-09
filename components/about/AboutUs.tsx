@@ -12,11 +12,9 @@ const AboutUs = ({ title, image, body }: AboutAsProps): JSX.Element => {
                 <div className="col-lg">
                     <StrapiImage
                         alt="about"
-                        blurDataURL={image.formats.thumbnail.url}
                         height={600}
+                        image={image}
                         objectFit="cover"
-                        placeholder="blur"
-                        src={image.url}
                         width={1000}
                     />
                 </div>

@@ -45,12 +45,10 @@ const ProductCard: FC<IProductPreview> = (product) => {
                 <div className="position-relative">
                     <StrapiImage
                         alt={name}
-                        blurDataURL={mainImage.formats.thumbnail.url}
                         className="card-img-top img-fluid"
                         height={220}
-                        layout="responsive"
+                        image={mainImage}
                         placeholder="blur"
-                        src={mainImage.url}
                         width={400}
                     />
                     <div className="position-absolute end-0 top-10 text-white">
