@@ -11,7 +11,6 @@ const Auth: FC<{isSignup?: boolean}> = ({ isSignup }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirm, setConfirm] = useState('');
-    const [username, setUsername] = useState('');
 
     const auth = useAuth();
 
@@ -20,7 +19,7 @@ const Auth: FC<{isSignup?: boolean}> = ({ isSignup }) => {
 
         try {
             if (isSignup) {
-                await auth.signup({ email, username, password });
+                await auth.signup({ email, username: email, password });
             } else {
                 await auth.login({ email, password });
             }
@@ -52,24 +51,10 @@ const Auth: FC<{isSignup?: boolean}> = ({ isSignup }) => {
                         onChange={(e) => setEmail(e.target.value)}
                     />
                 </div>
-                {isSignup && (
-                    <div className="mb-3">
-                        <input
-                            required
-                            autoComplete="username"
-                            className="form-control"
-                            pattern="^[a-zA-Z-']*$"
-                            placeholder="Username"
-                            type="text"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                        />
-                    </div>
-                )}
                 <div className="mb-3">
                     <input
                         required
-                        autoComplete="current-password"
+                        autoComplete={isSignup ? 'new-password' : 'current-password'}
                         className="form-control"
                         pattern="\S*"
                         placeholder="Password"
@@ -82,7 +67,7 @@ const Auth: FC<{isSignup?: boolean}> = ({ isSignup }) => {
                     <div className="mb-3">
                         <input
                             required
-                            autoComplete="current-password"
+                            autoComplete="new-password"
                             className="form-control"
                             pattern="\S*"
                             placeholder="Confirm password"

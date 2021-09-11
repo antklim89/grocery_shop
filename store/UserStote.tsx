@@ -9,7 +9,6 @@ export class UserStore implements User {
     constructor(args: User) {
         this.email = args.email;
         this.id = args.id;
-        this.username = args.username;
         this.name = args.name;
         this.surname = args.surname;
         this.phone = args.phone;
@@ -20,8 +19,6 @@ export class UserStore implements User {
     public email: string;
 
     readonly id: string;
-
-    public username: string;
 
     public name = '';
 
@@ -47,4 +44,9 @@ export class UserStore implements User {
     setSavingProfile(state = true): void {
         this.savingProfile = state;
     }
+
+    get username(): string {
+        return this.email.replace(/^(.*)@.*$/, '$1');
+    }
+
 }
