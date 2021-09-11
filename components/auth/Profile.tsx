@@ -1,5 +1,5 @@
 import { Observer } from 'mobx-react-lite';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 
 import { useAuth } from './AuthProvider';
 import ChangePassword from './ChangePassword';
@@ -99,4 +99,4 @@ const Profile: FC = () => {
     );
 };
 
-export default Profile;
+export default memo(Profile);

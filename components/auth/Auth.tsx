@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
-import { FC, FormEvent, useState } from 'react';
+import { FC, FormEvent, useEffect, useState } from 'react';
 
 import { useAuth } from '~/components/auth/AuthProvider';
 import Loading from '~/components/utils/Loading';
@@ -27,6 +27,10 @@ const Auth: FC<{isSignup?: boolean}> = ({ isSignup }) => {
             console.error(error);
         }
     };
+
+    useEffect(() => {
+        auth.setError('');
+    }, [isSignup, email, password, confirm]);
 
 
     return (

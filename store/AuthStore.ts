@@ -94,7 +94,7 @@ export default class AuthStore {
         this.loading = state;
     }
 
-    private setError(state: string|null = null): void {
+    public setError(state: string|null = null): void {
         this.error = state;
     }
 }

@@ -1,4 +1,4 @@
-import { Observer } from 'mobx-react-lite';
+import { observer } from 'mobx-react-lite';
 
 import { useAuth } from '~/components/auth/AuthProvider';
 import Profile from '~/components/auth/Profile';
@@ -11,12 +11,10 @@ const ProfilePage = (): JSX.Element => {
 
     return (
         <ProtectedComponent notFound>
-            <Observer>
-                {() => <Seo description={`${user?.username}' profile`} title={`${user?.username}' profile`} />}
-            </Observer>
+            <Seo description={`${user?.username}' profile`} title={`${user?.username}' profile`} />
             <Profile />
         </ProtectedComponent>
     );
 };
 
-export default ProfilePage;
+export default observer(ProfilePage);

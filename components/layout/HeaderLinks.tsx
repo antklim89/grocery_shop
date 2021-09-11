@@ -17,9 +17,7 @@ const HeaderLinks = (): JSX.Element => {
             <li className="nav-item">
                 <Link passHref href="/">
                     <a
-                        className={`nav-link ${route === '/'
-                            ? 'active'
-                            : ''}`}
+                        className={`nav-link ${route === '/' ? 'active' : ''}`}
                         data-bs-dismiss="offcanvas"
                     >
                         HOME
@@ -29,9 +27,7 @@ const HeaderLinks = (): JSX.Element => {
             <li className="nav-item">
                 <Link passHref href="/product">
                     <a
-                        className={`nav-link ${route === '/products'
-                            ? 'active'
-                            : ''}`}
+                        className={`nav-link ${route === '/products' ? 'active' : ''}`}
                         data-bs-dismiss="offcanvas"
                     >
                         PRODUCTS
@@ -41,9 +37,7 @@ const HeaderLinks = (): JSX.Element => {
             <li className="nav-item me-auto">
                 <Link passHref href="/about">
                     <a
-                        className={`nav-link ${route === '/about'
-                            ? 'active'
-                            : ''}`}
+                        className={`nav-link ${route === '/about' ? 'active' : ''}`}
                         data-bs-dismiss="offcanvas"
                     >
                         ABOUT
@@ -63,9 +57,7 @@ const HeaderLinks = (): JSX.Element => {
                         <li className="nav-item">
                             <Link passHref href="/signup">
                                 <a
-                                    className={`nav-link ${route === '/signup'
-                                        ? 'active'
-                                        : ''}`}
+                                    className={`nav-link ${route === '/signup' ? 'active' : ''}`}
                                     data-bs-dismiss="offcanvas"
                                 >
                                     Sign Up
@@ -75,9 +67,7 @@ const HeaderLinks = (): JSX.Element => {
                         <li className="nav-item me-5">
                             <Link passHref href="/login">
                                 <a
-                                    className={`nav-link ${route === '/login'
-                                        ? 'active'
-                                        : ''}`}
+                                    className={`nav-link ${route === '/login' ? 'active' : ''}`}
                                     data-bs-dismiss="offcanvas"
                                 >
                                     Log In
