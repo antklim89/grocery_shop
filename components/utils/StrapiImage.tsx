@@ -45,7 +45,8 @@ const StrapiImage: FC<Props> = ({
         }
     }, [image.url]);
 
-    const blurDataURL = `${image.url.startsWith('http') ? '' : API_URL}${image.formats.thumbnail.url}`;
+
+    const blurDataURL = image.url.startsWith('http') ? image.formats.thumbnail.url : `${API_URL}${image.formats.thumbnail.url}`;
     const src = image.url.startsWith('http') ? '' : API_URL;
 
     return (
