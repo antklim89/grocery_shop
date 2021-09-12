@@ -39,7 +39,7 @@ const UserOrders: FC = () => {
         <ul className="list-group">
             {orders.map((order) => (
                 <li className="list-group-item" key={order.id}>
-                    <Link href={`/order/${order.id}`}>
+                    <Link href={`/order/${order.uid}`}>
                         <a className="d-flex justify-content-between">
                             <h5>
                                 Order N: {order.uid}

@@ -8,10 +8,22 @@ import fetcher from '~/utils/fetcher';
 
 
 interface Props {
-    order: Order
+    order?: Order
+    error?: string
 }
 
-const OrderPage = ({ order }: Props): JSX.Element => {
+const OrderPage = ({ order, error }: Props): JSX.Element => {
+    if (!order) return (
+        <>
+            <Seo title="Confirm Order" />
+            <div className="position-absolute top-50 start-50 translate-middle">
+                <span className="h1">
+                    {error}
+                </span>
+            </div>
+        </>
+    );
+
     return (
         <>
             <Seo description="Your orders." title="Confirm Order" />
@@ -30,17 +42,22 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ params, re
         return { notFound: true };
     }
 
-    const { order } = await fetcher<{order: Order}>(
-        query.OrderQuery,
-        { id: params.id },
-        { headers: { Authorization: `Bearer ${token}` } },
-    );
+    try {
+        const { order } = await fetcher<{order: Order}>(
+            query.OrderQuery,
+            { id: params.id },
+            { headers: { Authorization: `Bearer ${token}` } },
+        );
 
-    if (!order) {
-        return { notFound: true };
+        if (!order) {
+            return { notFound: true };
+        }
+
+        return { props: { order } };
+    } catch (error) {
+        return { props: { error: error instanceof Error ? error.message : 'Unexpected error.Try again later.' } };
     }
 
-    return { props: { order } };
 };
 
 export default OrderPage;

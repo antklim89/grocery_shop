@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { useCart } from './CartProvider';
+import ConfirmTimer from './ConfirmTimer';
 
 import Alert from '~/components/utils/Alert';
 import Loading from '~/components/utils/Loading';
@@ -16,7 +17,7 @@ interface Props {
 }
 
 const ConfirmOrder: FC<Props> = ({ order }) => {
-    const { back } = useRouter();
+    const { back, replace } = useRouter();
     const cart = useCart();
 
     const [confirming, setConfirming] = useState(false);
@@ -50,11 +51,14 @@ const ConfirmOrder: FC<Props> = ({ order }) => {
 
     const totalPrice = getTotalPrice(order.orderedProducts);
 
+
     return (
         <div className="container">
             <h1 className="text-center text-primary mb-5">
                 Order
             </h1>
+
+            <ConfirmTimer startDate={new Date(order.createdAt)} text="Order expires in: " onExpire={() => replace('/')} />
 
             <div className="list-group mb-5">
                 <p className="list-group-item">
