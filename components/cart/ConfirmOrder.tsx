@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { FC, useEffect, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 
 import { useCart } from './CartProvider';
 import ConfirmTimer from './ConfirmTimer';
@@ -51,6 +51,7 @@ const ConfirmOrder: FC<Props> = ({ order }) => {
 
     const totalPrice = getTotalPrice(order.orderedProducts);
 
+    const handleExpire = useCallback(() => replace('/'), []);
 
     return (
         <div className="container">
@@ -58,7 +59,7 @@ const ConfirmOrder: FC<Props> = ({ order }) => {
                 Order
             </h1>
 
-            <ConfirmTimer startDate={new Date(order.createdAt)} text="Order expires in: " onExpire={() => replace('/')} />
+            <ConfirmTimer startDate={new Date(order.createdAt)} text="Order expires in: " onExpire={handleExpire} />
 
             <div className="list-group mb-5">
                 <p className="list-group-item">
