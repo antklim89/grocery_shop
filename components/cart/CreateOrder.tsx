@@ -8,6 +8,7 @@ import { useCart } from './CartProvider';
 import { useAuth } from '~/components/auth/AuthProvider';
 import Alert from '~/components/utils/Alert';
 import Loading from '~/components/utils/Loading';
+import { ORDER_EXPIRE_TIME } from '~/constants';
 import query from '~/queries/Order.gql';
 import fetcher from '~/utils/fetcher';
 
@@ -21,15 +22,12 @@ interface OrderResponse {
     };
 }
 
-const MINUTES_15 = 60 * 1000 * 1;
 const ORDER_STATE = 'ORDER_STATE';
 
 
 const CreateOrderModal = (): JSX.Element => {
     const auth = useAuth();
-    const user = auth.user || (() => {
-        throw new Error();
-    })();
+    const user = auth.getUser();
     const cart = useCart();
 
     const router = useRouter();
@@ -67,7 +65,7 @@ const CreateOrderModal = (): JSX.Element => {
                 { email, name, surname, phone, address },
             );
 
-            localStorage.setItem(ORDER_STATE, `${data.createOrder.order.uid}:${Date.now() + MINUTES_15}`);
+            localStorage.setItem(ORDER_STATE, `${data.createOrder.order.uid}:${Date.now() + ORDER_EXPIRE_TIME}`);
             setLoading(false);
             router.push(`/order/${data.createOrder.order.uid}`);
         } catch (error) {

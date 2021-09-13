@@ -1,5 +1,6 @@
+import { Observer } from 'mobx-react-lite';
 import { useRouter } from 'next/router';
-import { FC, useEffect, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 
 import { useCart } from './CartProvider';
 import ConfirmTimer from './ConfirmTimer';
@@ -23,10 +24,10 @@ const ConfirmOrder: FC<Props> = ({ order }) => {
     const [confirming, setConfirming] = useState(false);
     const [confirmMessage, setConfirmMessage] = useState<string|null>();
     const [confirmError, setConfirmError] = useState<string|null>();
-    const [isSuccess, setIsSuccess] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(order.status !== OrderStatus.DRAFT);
 
     const handleConfirm = async () => {
-        if (order.status !== OrderStatus.DRAFT) return;
+        if (isSuccess) return;
 
         setConfirmError(null);
         setConfirmMessage(null);
@@ -51,6 +52,7 @@ const ConfirmOrder: FC<Props> = ({ order }) => {
 
     const totalPrice = getTotalPrice(order.orderedProducts);
 
+    const handleExpire = useCallback(() => replace('/order'), []);
 
     return (
         <div className="container">
@@ -58,7 +60,16 @@ const ConfirmOrder: FC<Props> = ({ order }) => {
                 Order
             </h1>
 
-            <ConfirmTimer startDate={new Date(order.createdAt)} text="Order expires in: " onExpire={() => replace('/')} />
+            <Observer>
+                {() => (
+                    <ConfirmTimer
+                        show={!isSuccess}
+                        startDate={new Date(order.createdAt)}
+                        text="The Order expires after: "
+                        onExpire={handleExpire}
+                    />
+                )}
+            </Observer>
 
             <div className="list-group mb-5">
                 <p className="list-group-item">
