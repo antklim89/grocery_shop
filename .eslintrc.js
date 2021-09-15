@@ -114,6 +114,7 @@ module.exports = {
         'no-use-before-define': [0, { 'functions': false, 'classes': true }],
         'no-shadow': 0,
         'no-undef': 0,
+        'no-undefined': 0,
         'semi': 2,
         'comma-dangle': [1, 'always-multiline'],
         'quotes': [1, 'single'],

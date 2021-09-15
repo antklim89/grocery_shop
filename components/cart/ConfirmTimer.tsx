@@ -1,39 +1,49 @@
 import { FC, useEffect, useState } from 'react';
 
+import { ORDER_EXPIRE_TIME } from '~/constants';
+
 
 interface Props {
     startDate: Date;
     text: string;
     expireTime?: number
     onExpire?: () => void
+    show?: boolean
 }
 
 const ConfirmTimer: FC<Props> = ({
     startDate,
     text,
-    expireTime = 1000 * 60 * 15,
+    expireTime = ORDER_EXPIRE_TIME,
     onExpire,
+    show = false,
 }) => {
-    const [time, setTime] = useState('');
+    const [time, setTime] = useState<Date|null>();
 
     useEffect(() => {
+        if (!show) return () => undefined;
         const id = setInterval(() => {
-            const date = new Date(Math.abs(startDate.getTime() - Date.now() + expireTime));
+            const date = new Date(startDate.getTime() - Date.now() + expireTime);
             if (date.getTime() <= 0) {
-                onExpire?.();
                 clearInterval(id);
+                onExpire?.();
             }
-            const min = date.getMinutes();
-            const sec = `${date.getSeconds()}`.padStart(2, '0');
-            setTime(`${min}:${sec}`);
+            setTime(date);
         }, 1000);
         return () => clearInterval(id);
     }, []);
 
+    if (!show) return null;
+
+    if (!time) return <div className="p-2"><span>{text}</span></div>;
+
+    const min = time.getMinutes();
+    const sec = `${time.getSeconds()}`.padStart(2, '0');
+
     return (
-        <div>
+        <div className="p-2">
             <span>{text}</span>
-            <span>{time}</span>
+            <span>{min}:{sec}</span>
         </div>
     );
 };
