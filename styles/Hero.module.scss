@@ -1,13 +1,18 @@
 @import "./variables.scss";
 
 .section {
+    background-color: rgba(0, 0, 0, 0.2);
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
     margin-top: -1.5rem;
     overflow: hidden;
-    min-height: 320px;
+    min-height: 380px;
+
+    @media (max-width: 992px) {
+        min-height: 190px;
+    }
 }
 
 .image {
@@ -15,7 +20,7 @@
 }
 
 .text {
-    color: darken($color: $primary, $amount: 10);
+    color: white;
     top: 0;
     left: 0;
     display: flex;
@@ -24,6 +29,6 @@
     padding: 1rem;
 
     button {
-        color: $primary;
+        color: white;
     }
 }

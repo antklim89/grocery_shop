@@ -13,11 +13,11 @@ const Hero = ({ image, title, text }: HeroProps): JSX.Element => {
                 <StrapiImage
                     alt="hero"
                     className="d-block mx-auto absolute"
-                    height={720}
+                    height={1280}
                     image={image}
                     layout="fill"
                     objectFit="cover"
-                    width={1280}
+                    width={1920}
                 />
             </div>
             <div className={`${style.text} container`}>
