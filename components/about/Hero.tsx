@@ -15,6 +15,7 @@ const Hero = ({ image, title, text }: HeroProps): JSX.Element => {
                     className="d-block mx-auto absolute"
                     height={720}
                     image={image}
+                    layout="fill"
                     objectFit="cover"
                     width={1280}
                 />
