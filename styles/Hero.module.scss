@@ -1,9 +1,13 @@
 @import "./variables.scss";
 
 .section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
     margin-top: -1.5rem;
     overflow: hidden;
+    min-height: 320px;
 }
 
 .image {
@@ -11,7 +15,7 @@
 }
 
 .text {
-    color: lighten($color: $secondary, $amount: 10);
+    color: darken($color: $primary, $amount: 10);
     top: 0;
     left: 0;
     display: flex;
@@ -20,6 +24,6 @@
     padding: 1rem;
 
     button {
-        color: $secondary;
+        color: $primary;
     }
 }
