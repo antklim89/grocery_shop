@@ -1,0 +1,23 @@
+
+services:
+  server:
+    working_dir: /app
+    ports:
+      - ${CLIENT_PORT:-8000}:8080
+    volumes:
+      - ./server:/app
+
+  client:
+    build: 
+      dockerfile: Dockerfile.dev
+    develop:
+      watch:
+        - path: ./client
+          action: sync
+          ignore:
+            - package-lock.json
+            - yarn.lock
+          target: /app
+        - path: ./client/package.json
+          action: rebuild
+          target: /app/package.json
