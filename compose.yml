@@ -19,13 +19,8 @@ services:
       - ${CLIENT_PORT:-3000}:3000
     networks:
       - api
-    volumes:
-      - node_modules:/app/node_modules
     depends_on:
       - server
 
 networks:
   api:
-
-volumes:
-  node_modules:
