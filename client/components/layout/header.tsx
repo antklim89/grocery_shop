@@ -107,10 +107,9 @@ function Header() {
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem>Support</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Logout</DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/auth">Log-in</Link>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
