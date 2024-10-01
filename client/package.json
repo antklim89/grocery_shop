@@ -1,7 +1,7 @@
 {
   "name": "nextjs-template",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "Template",
   "scripts": {
@@ -11,15 +11,13 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit -w --preserveWatchOutput",
-    "lint": "eslint .",
-    "docker:dev": "docker compose -f docker-compose.dev.yml up",
-    "docker:prod": "docker compose up",
-    "docker:build": "docker compose build",
-    "docker:start": "docker compose start"
+    "lint": "eslint ."
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
+    "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -27,9 +25,11 @@
     "next": "14.2.11",
     "react": "18.3.1",
     "react-dom": "18.3.1",
+    "react-hook-form": "^7.53.0",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
-    "vaul": "^0.9.4"
+    "vaul": "^0.9.4",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.6.1",
