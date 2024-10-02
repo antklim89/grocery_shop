@@ -1,6 +1,7 @@
 'use client';
-import type { ReactNode } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import type { z } from 'zod';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -17,21 +18,34 @@ import { useForm } from 'react-hook-form';
 
 export function AuthForm({
   children,
-  isRegister,
+  isSignUp,
   onSubmit,
 }: {
-  children: ReactNode;
-  isRegister: boolean;
+  children?: ReactNode;
+  isSignUp: boolean;
   onSubmit: (data: z.infer<typeof loginSchema | typeof registerSchema>) => void;
 }) {
   const form = useForm<z.infer<typeof loginSchema | typeof registerSchema>>({
-    resolver: zodResolver(isRegister ? registerSchema : loginSchema),
+    resolver: zodResolver(isSignUp ? registerSchema : loginSchema),
     defaultValues: {
       email: '',
       password: '',
       confirm: '',
     },
   });
+
+  useEffect(() => {
+    const { unsubscribe } = form.watch(value => {
+      if (!form.formState.isSubmitted) return;
+      if ('confirm' in value && value.password !== value.confirm) {
+          form.setError('confirm', { message: 'Passwords do not match.' });
+      } else {
+        form.clearErrors('confirm');
+      }
+    })
+
+    return unsubscribe
+  }, []);
 
   return (
     <Form {...form}>
@@ -43,7 +57,11 @@ export function AuthForm({
             <FormItem>
               <FormLabel>E-mail</FormLabel>
               <FormControl>
-                <Input placeholder="E-mail..." {...field} />
+                <Input
+                  autoComplete="email"
+                  placeholder="E-mail..."
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -56,13 +74,18 @@ export function AuthForm({
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder="Password" {...field} />
+                <Input
+                  autoComplete={isSignUp ? 'new-password' : 'current-password'}
+                  placeholder="Password"
+                  type="password"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        {isRegister && (
+        {isSignUp && (
           <FormField
             control={form.control}
             name="confirm"
@@ -70,13 +93,19 @@ export function AuthForm({
               <FormItem>
                 <FormLabel>Confirm password</FormLabel>
                 <FormControl>
-                  <Input placeholder="Confirm password" {...field} />
+                  <Input
+                    autoComplete="new-password"
+                    placeholder="Confirm password"
+                    type="password"
+                    {...field}
+                  />
                 </FormControl>
-                <FormMessage />
+                <FormMessage  />
               </FormItem>
             )}
           />
         )}
+        <Button disabled={form.formState.isSubmitting} type="submit">Submit</Button>
         {children}
       </form>
     </Form>
