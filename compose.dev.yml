@@ -2,8 +2,6 @@
 services:
   server:
     working_dir: /app
-    ports:
-      - ${CLIENT_PORT:-8000}:8080
     volumes:
       - ./server:/app
 
