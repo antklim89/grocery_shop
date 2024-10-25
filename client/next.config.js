@@ -8,6 +8,7 @@ const nextConfig = {
   output: 'standalone',
   env: {
     URL: process.env.URL,
+    SERVER_URL: process.env.SERVER_URL,
   },
   eslint: {
     ignoreDuringBuilds: true,
@@ -24,7 +25,7 @@ const nextConfig = {
         destination: `${process.env.SERVER_URL}/api/:path*/`,
       },
     ];
-},
+  },
 };
 
 export default nextConfig;
