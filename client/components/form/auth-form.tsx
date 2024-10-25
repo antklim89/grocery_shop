@@ -1,5 +1,4 @@
 'use client';
-import { useEffect, type ReactNode } from 'react';
 import type { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,8 +10,9 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { loginSchema, registerSchema } from '@/lib/schemas';
+import { LoginSchema, SignupSchema } from '@/lib/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { type ReactNode, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 
@@ -23,10 +23,10 @@ export function AuthForm({
 }: {
   children?: ReactNode;
   isSignUp: boolean;
-  onSubmit: (data: z.infer<typeof loginSchema | typeof registerSchema>) => void;
+  onSubmit: (data: z.infer<typeof LoginSchema | typeof SignupSchema>) => void;
 }) {
-  const form = useForm<z.infer<typeof loginSchema | typeof registerSchema>>({
-    resolver: zodResolver(isSignUp ? registerSchema : loginSchema),
+  const form = useForm<z.infer<typeof LoginSchema | typeof SignupSchema>>({
+    resolver: zodResolver(isSignUp ? SignupSchema : LoginSchema),
     defaultValues: {
       email: '',
       password: '',
@@ -35,17 +35,14 @@ export function AuthForm({
   });
 
   useEffect(() => {
-    const { unsubscribe } = form.watch(value => {
-      if (!form.formState.isSubmitted) return;
-      if ('confirm' in value && value.password !== value.confirm) {
-          form.setError('confirm', { message: 'Passwords do not match.' });
-      } else {
-        form.clearErrors('confirm');
+    const { unsubscribe } = form.watch(async (value, { name }) => {
+      if (isSignUp && form.formState.isSubmitted && name === 'password') {
+        await form.trigger('confirm');
       }
-    })
+    });
 
-    return unsubscribe
-  }, []);
+    return unsubscribe;
+  }, [isSignUp, form]);
 
   return (
     <Form {...form}>
@@ -100,12 +97,14 @@ export function AuthForm({
                     {...field}
                   />
                 </FormControl>
-                <FormMessage  />
+                <FormMessage />
               </FormItem>
             )}
           />
         )}
-        <Button disabled={form.formState.isSubmitting} type="submit">Submit</Button>
+        <Button type="submit">
+          {isSignUp ? 'Sign up' : 'Log in'}
+        </Button>
         {children}
       </form>
     </Form>
