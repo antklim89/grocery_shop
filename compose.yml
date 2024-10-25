@@ -15,7 +15,6 @@ services:
       context: ./client
       dockerfile: Dockerfile
     environment:
-      URL: ${URL}
       SERVER_URL: http://server:8080
     restart: unless-stopped
     ports:
