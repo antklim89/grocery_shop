@@ -1,13 +1,19 @@
 'use server';
+import type { RecordAuthResponse, RecordModel } from 'pocketbase';
 import { handlePocketBaseError } from '@/lib/handlePocketbaseError';
-import { pb } from '@/lib/pocketbase';
+import { pb } from '@/lib/pocketbase/client';
 import { err, ok, type PromiseResult } from '@/lib/result';
+import { cookies } from 'next/headers';
 
 
-export async function login({ email, password }: { email: string; password: string }): PromiseResult<{ id: string }, string> {
+export async function login({ email, password }: { email: string; password: string }): PromiseResult<RecordAuthResponse<RecordModel>, string> {
   try {
     const result = await pb.collection('users').authWithPassword(email, password);
-    return ok({ id: result.record.id });
+
+    const cookie = pb.authStore.exportToCookie().split(';')[0]?.split('=')[1]?.trim();
+    cookies().set('pb_auth', cookie ?? '', { httpOnly: true, sameSite: 'strict', secure: true });
+
+    return ok(result);
   } catch (error) {
     return err(handlePocketBaseError(error));
   }

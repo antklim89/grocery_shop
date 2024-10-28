@@ -12,15 +12,15 @@ import { useLoginQuery, useSignupQuery } from '@/lib/queries/auth';
 import authImg from '@/public/auth.png';
 import Image from 'next/image';
 import Link from 'next/link';
-import { redirect, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 
 export function Auth() {
   const searchParams = useSearchParams();
   const isSignUp = searchParams.has('signup');
-
   const loginQuery = useLoginQuery();
   const signupQuery = useSignupQuery();
+
 
   return (
     <div className="container lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
@@ -44,7 +44,6 @@ export function Auth() {
                 } else {
                   await loginQuery.trigger({ email: data.email, password: data.password });
                 }
-                redirect('/');
               }}
             />
           </CardContent>
