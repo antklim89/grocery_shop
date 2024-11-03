@@ -11,7 +11,7 @@ export async function login({ email, password }: { email: string; password: stri
     const result = await pb.collection('users').authWithPassword(email, password);
 
     const cookie = pb.authStore.exportToCookie().split(';')[0]?.split('=')[1]?.trim();
-    cookies().set('pb_auth', cookie ?? '', { httpOnly: true, sameSite: 'strict', secure: true });
+    (await cookies()).set('pb_auth', cookie ?? '', { httpOnly: true, sameSite: 'strict', secure: true });
 
     return ok(result);
   } catch (error) {

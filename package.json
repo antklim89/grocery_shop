@@ -12,6 +12,6 @@
     "client:shell": "docker compose run --rm --no-deps client sh"
   },
   "devDependencies": {
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.3"
   }
 }
