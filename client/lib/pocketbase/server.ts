@@ -1,10 +1,11 @@
 import { cookies } from 'next/headers';
 import PocketBase from 'pocketbase';
+import { cache } from 'react';
 
 
 if (typeof window !== 'undefined') throw new Error('This file should be imported on the server only');
 
-export async function initPocketBase() {
+export const initPocketBase = cache(async () => {
   const pb = new PocketBase(process.env.SERVER_URL);
 
   const authCookie = (await cookies()).get('pb_auth');
@@ -19,4 +20,4 @@ export async function initPocketBase() {
   }
 
   return pb;
-}
+});
