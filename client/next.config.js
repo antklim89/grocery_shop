@@ -10,9 +10,6 @@ const nextConfig = {
     URL: process.env.URL,
     SERVER_URL: process.env.SERVER_URL,
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   trailingSlash: true,
   async rewrites() {
     return [
