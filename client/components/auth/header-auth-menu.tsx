@@ -1,5 +1,4 @@
 'use client';
-import { useAuth } from '@/components/feature/auth-provider';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -9,21 +8,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { pb } from '@/lib/pocketbase/client';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useLogoutQuery, useUserQuery } from '@/lib/queries/auth';
 import { CircleUser } from 'lucide-react';
 import Link from 'next/link';
 
 
 export default function HeaderAuthMenu() {
-  const isAuth = useAuth();
+  const { data: user, isLoading } = useUserQuery();
+  const { trigger: logout } = useLogoutQuery();
 
-  const handleLogout = () => {
-    pb.authStore.clear();
-    document.cookie = `pb_auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-    location.reload();
-  };
+  if (isLoading) {
+    return <Skeleton className="size-10 rounded-full" />;
+  }
 
-  if (isAuth) {
+  if (user != null) {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -36,7 +35,7 @@ export default function HeaderAuthMenu() {
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
-            <Button className="w-full" variant="ghost" onClick={handleLogout}>Log-out</Button>
+            <Button className="w-full" variant="ghost" onClick={async () => logout()}>Log-out</Button>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

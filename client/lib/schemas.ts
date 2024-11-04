@@ -21,3 +21,8 @@ export const SignupSchema = z.object({
     path: ['confirm'],
   });
 
+export const AuthUserSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  avatar: z.string(),
+});

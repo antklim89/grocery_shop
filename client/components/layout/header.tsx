@@ -1,10 +1,10 @@
+import HeaderAuthMenu from '@/components/auth/header-auth-menu';
 import Logo from '@/components/icons/logo';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, Search } from 'lucide-react';
 import Link from 'next/link';
-import HeaderAuthMenu from './header-auth-menu';
 
 
 const links = [

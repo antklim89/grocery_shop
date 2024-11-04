@@ -1,5 +1,5 @@
 'use client';
-import { AuthForm } from '@/components/form/auth-form';
+import { AuthForm } from '@/components/auth/auth-form';
 import {
   Card,
   CardContent,
@@ -40,9 +40,9 @@ export function Auth() {
               isSignUp={isSignUp}
               onSubmit={async (data) => {
                 if (isSignUp) {
-                  await signupQuery.trigger({ email: data.email, password: data.password });
+                  await signupQuery.trigger({ email: data.email, password: data.password }).catch(() => null);
                 } else {
-                  await loginQuery.trigger({ email: data.email, password: data.password });
+                  await loginQuery.trigger({ email: data.email, password: data.password }).catch(() => null);
                 }
               }}
             />

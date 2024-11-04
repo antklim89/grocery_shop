@@ -2,32 +2,35 @@
 import type { RecordAuthResponse, RecordModel } from 'pocketbase';
 import { handlePocketBaseError } from '@/lib/handlePocketbaseError';
 import { pb } from '@/lib/pocketbase/client';
-import { err, ok, type PromiseResult } from '@/lib/result';
 import { cookies } from 'next/headers';
 
 
-export async function login({ email, password }: { email: string; password: string }): PromiseResult<RecordAuthResponse<RecordModel>, string> {
+export async function login({ email, password }: { email: string; password: string }): Promise<RecordAuthResponse<RecordModel>> {
   try {
     const result = await pb.collection('users').authWithPassword(email, password);
 
     const cookie = pb.authStore.exportToCookie().split(';')[0]?.split('=')[1]?.trim();
     (await cookies()).set('pb_auth', cookie ?? '', { httpOnly: true, sameSite: 'strict', secure: true });
 
-    return ok(result);
+    return result;
   } catch (error) {
-    return err(handlePocketBaseError(error));
+    throw new Error(handlePocketBaseError(error));
   }
 }
 
-export async function signup({ email, password }: { email: string; password: string }): PromiseResult<{ id: string }, string> {
+export async function signup({ email, password }: { email: string; password: string }): Promise<{ id: string }> {
   try {
     const result = await pb.collection('users').create({
       email,
       password,
       passwordConfirm: password,
     });
-    return ok({ id: result.id });
+    return { id: result.id };
   } catch (error) {
-    return err(handlePocketBaseError(error));
+    throw new Error(handlePocketBaseError(error));
   }
+}
+
+export async function logout() {
+  (await cookies()).delete('pb_auth');
 }

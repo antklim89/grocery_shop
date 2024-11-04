@@ -1,66 +1,100 @@
+import type { AuthUser } from '@/lib/types';
 import { toast } from '@/hooks/use-toast';
-import { login, signup } from '@/lib/actions/auth';
+import { login, logout, signup } from '@/lib/actions/auth';
 import { pb } from '@/lib/pocketbase/client';
-import { useRouter } from 'next/navigation';
+import { AuthUserSchema } from '@/lib/schemas';
+import useSWR from 'swr';
 import useSWRMutation from 'swr/mutation';
 
 
-export function useLoginQuery() {
-  const router = useRouter();
+export function useUserQuery() {
+  return useSWR<AuthUser | null, Error, 'auth'>(
+    'auth',
+    async () => {
+      const model = pb.authStore.model;
+      if (model == null) return null;
+      const user = await AuthUserSchema.parseAsync(model).catch(() => null);
+      return user;
+    },
+    {
+      fallbackData: null,
+    },
+  );
+}
 
-  return useSWRMutation<any, Error, 'auth', { email: string; password: string }>(
+export function useLoginQuery() {
+  return useSWRMutation<AuthUser, Error, 'auth', { email: string; password: string }>(
     'auth',
     async (key, { arg }) => {
-      const [err, val] = await login(arg);
+      const model = await login(arg);
+      pb.authStore.save(model.token, model.record);
+      const user = await AuthUserSchema.parseAsync(model.record);
 
-      if (err == null) {
+      return user;
+    },
+    {
+      populateCache: newData => newData,
+      revalidate: false,
+
+      onSuccess() {
         toast({
           title: 'Login successful',
           description: 'You are now logged in.',
         });
-        pb.authStore.save(val.token, val.record);
-
-        router.back();
-        location.reload();
-      } else {
+      },
+      onError(err) {
         toast({
           variant: 'error',
           title: 'Signup failed',
-          description: err,
+          description: err.message,
         });
-      }
-      return [err, val];
+      },
     },
-    {},
   );
 }
 
 export function useSignupQuery() {
-  const router = useRouter();
-
-  return useSWRMutation<any, Error, 'auth', { email: string; password: string }>(
+  return useSWRMutation<AuthUser, Error, 'auth', { email: string; password: string }>(
     'auth',
     async (key, { arg }) => {
-      const [err, val] = await signup(arg);
+      await signup(arg);
+      const model = await login(arg);
+      pb.authStore.save(model.token, model.record);
+      const user = await AuthUserSchema.parseAsync(model);
 
-      if (err == null) {
-        await login(arg);
-
+      return user;
+    },
+    {
+      populateCache: newData => newData,
+      revalidate: false,
+      onSuccess() {
         toast({
           title: 'Signup successful',
           description: 'You are now logged in.',
         });
-
-        router.replace('/auth/?login');
-      } else {
+      },
+      onError(err) {
         toast({
           variant: 'error',
           title: 'Signup failed',
-          description: err,
+          description: err.message,
         });
-      }
-      return [err, val];
+      },
     },
-    {},
   );
 }
+
+export function useLogoutQuery() {
+  return useSWRMutation<void, Error, 'auth', void>(
+    'auth',
+    async () => {
+      await logout();
+      pb.authStore.clear();
+    },
+    {
+      populateCache: () => null,
+      revalidate: false,
+    },
+  );
+}
+
