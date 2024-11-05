@@ -8,6 +8,9 @@ services:
     restart: unless-stopped
     networks:
       - api
+    volumes:
+      - pb_data:/pb/pb_data
+      - ./server/pb_migrations:/pb/pb_migrations
 
   client:
     container_name: client
@@ -26,3 +29,6 @@ services:
 
 networks:
   api:
+
+volumes:
+  pb_data:
