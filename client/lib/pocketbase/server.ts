@@ -1,3 +1,4 @@
+import type { TypedPocketBase } from '@/lib/types';
 import { cookies } from 'next/headers';
 import PocketBase from 'pocketbase';
 import { cache } from 'react';
@@ -6,7 +7,7 @@ import { cache } from 'react';
 if (typeof window !== 'undefined') throw new Error('This file should be imported on the server only');
 
 export const initPocketBase = cache(async () => {
-  const pb = new PocketBase(process.env.SERVER_URL);
+  const pb = new PocketBase(process.env.SERVER_URL) as TypedPocketBase;
 
   const authCookie = (await cookies()).get('pb_auth');
 
