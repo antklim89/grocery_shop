@@ -6,6 +6,9 @@ import type { AuthUserSchema } from './schemas';
 
 export type AuthUser = z.infer<typeof AuthUserSchema>;
 
+
+export type Unit = 'gram' | 'kilogram' | 'milligram' | 'milliliter' | 'liter' | 'milliliter' | 'piece';
+
 export interface ProductType {
   id: string;
   name: string;
@@ -15,6 +18,7 @@ export interface ProductType {
   images: string[];
   category: string;
   country: string;
+  unit: Unit;
 }
 
 
