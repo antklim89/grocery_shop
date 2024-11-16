@@ -1,7 +1,7 @@
 import type { RecordService } from 'pocketbase';
 import type PocketBase from 'pocketbase';
 import type { z } from 'zod';
-import type { AuthUserSchema } from './schemas';
+import type { AuthUserSchema, CartItemSchema } from './schemas';
 
 
 export type AuthUser = z.infer<typeof AuthUserSchema>;
@@ -27,3 +27,5 @@ export interface TypedPocketBase extends PocketBase {
     ((idOrName: string) => RecordService) &
     ((idOrName: 'products') => RecordService<ProductType>);
 }
+
+export type CartItem = z.infer<typeof CartItemSchema>;

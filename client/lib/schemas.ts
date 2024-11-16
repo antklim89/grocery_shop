@@ -26,3 +26,12 @@ export const AuthUserSchema = z.object({
   name: z.string(),
   avatar: z.string(),
 });
+
+export const CartItemSchema = z.object({
+  qty: z.number().int().min(1),
+  product: z.object({
+    id: z.string().min(1),
+    name: z.string().min(1),
+    price: z.number().min(0),
+  }),
+});
