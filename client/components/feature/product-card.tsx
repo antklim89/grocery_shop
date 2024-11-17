@@ -11,6 +11,7 @@ import {
 import { Price } from '@/components/ui/price';
 import Image from 'next/image';
 import Link from 'next/link';
+import { CartPresence } from './cart-presence';
 
 
 export function ProductCard({ product }: { product: ProductType }) {
@@ -32,7 +33,9 @@ export function ProductCard({ product }: { product: ProductType }) {
         width={300}
       />
       <CardHeader>
-        <CardTitle>{name}</CardTitle>
+        <CardTitle>
+          {name}
+        </CardTitle>
         <CardDescription>
           <span className="capitalize">{category}</span>
           <span> from </span>
@@ -42,7 +45,11 @@ export function ProductCard({ product }: { product: ProductType }) {
       <CardContent>
         <Price discount={discount} price={price} />
       </CardContent>
-      <CardFooter className="flex justify-end mt-auto">
+      <CardFooter className="flex justify-between mt-auto">
+        <CartPresence
+          inCart={<Link className="text-primary text-lg" href="/cart">In Cart</Link>}
+          productId={id}
+        />
         <Button asChild>
           <Link href={`/products/${id}`}>View Details</Link>
         </Button>
