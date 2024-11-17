@@ -3,6 +3,7 @@ import { toast } from '@/hooks/use-toast';
 import { login, logout, signup } from '@/lib/actions/auth';
 import { pb } from '@/lib/pocketbase/client';
 import { AuthUserSchema } from '@/lib/schemas';
+import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
 import useSWRMutation from 'swr/mutation';
 
@@ -23,6 +24,8 @@ export function useUserQuery() {
 }
 
 export function useLoginQuery() {
+  const router = useRouter();
+
   return useSWRMutation<AuthUser, Error, 'auth', { email: string; password: string }>(
     'auth',
     async (key, { arg }) => {
@@ -37,6 +40,8 @@ export function useLoginQuery() {
       revalidate: false,
 
       onSuccess() {
+        router.replace('/');
+
         toast({
           title: 'Login successful',
           description: 'You are now logged in.',
@@ -54,6 +59,8 @@ export function useLoginQuery() {
 }
 
 export function useSignupQuery() {
+  const router = useRouter();
+
   return useSWRMutation<AuthUser, Error, 'auth', { email: string; password: string }>(
     'auth',
     async (key, { arg }) => {
@@ -68,6 +75,8 @@ export function useSignupQuery() {
       populateCache: newData => newData,
       revalidate: false,
       onSuccess() {
+        router.replace('/');
+
         toast({
           title: 'Signup successful',
           description: 'You are now logged in.',
