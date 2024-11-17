@@ -1,4 +1,5 @@
 import HeaderAuthMenu from '@/components/auth/header-auth-menu';
+import { CartListButton } from '@/components/feature/cart-list-button';
 import Logo from '@/components/icons/logo';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -88,6 +89,7 @@ function Header() {
             </div>
           </form>
           <HeaderAuthMenu />
+          <CartListButton />
         </div>
       </div>
     </header>
