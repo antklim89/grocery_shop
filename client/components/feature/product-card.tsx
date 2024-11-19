@@ -22,6 +22,9 @@ export function ProductCard({ product }: { product: ProductType }) {
     discount,
     name,
     price,
+    batch,
+    unit,
+    images,
   } = product;
   return (
     <Card className="flex flex-col">
@@ -29,7 +32,7 @@ export function ProductCard({ product }: { product: ProductType }) {
         alt={name}
         className="w-full h-64 object-cover"
         height={300}
-        src={`/server/api/files/products/${id}/${product.images[0] ?? ''}`}
+        src={`/server/api/files/products/${id}/${images[0] ?? ''}`}
         width={300}
       />
       <CardHeader>
@@ -42,8 +45,9 @@ export function ProductCard({ product }: { product: ProductType }) {
           <span className="capitalize">{country}</span>
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex gap-2 justify-between">
         <Price discount={discount} price={price} />
+        <p>for {batch} {unit}</p>
       </CardContent>
       <CardFooter className="flex justify-between mt-auto">
         <CartPresence
