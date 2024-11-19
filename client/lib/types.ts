@@ -1,13 +1,13 @@
 import type { RecordService } from 'pocketbase';
 import type PocketBase from 'pocketbase';
 import type { z } from 'zod';
+import type { units } from './constants';
 import type { AuthUserSchema, CartItemSchema } from './schemas';
 
 
 export type AuthUser = z.infer<typeof AuthUserSchema>;
-
-
-export type Unit = 'gram' | 'kilogram' | 'milligram' | 'milliliter' | 'liter' | 'milliliter' | 'piece';
+export type CartItem = z.infer<typeof CartItemSchema>;
+export type Unit = typeof units[number];
 
 export interface ProductType {
   id: string;
@@ -18,6 +18,7 @@ export interface ProductType {
   images: string[];
   category: string;
   country: string;
+  batch: number;
   unit: Unit;
 }
 
@@ -28,4 +29,3 @@ export interface TypedPocketBase extends PocketBase {
     ((idOrName: 'products') => RecordService<ProductType>);
 }
 
-export type CartItem = z.infer<typeof CartItemSchema>;
