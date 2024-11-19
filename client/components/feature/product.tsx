@@ -22,6 +22,8 @@ export async function Product({ id, options }: { id: string; options?: RecordOpt
     images,
     category,
     country,
+    batch,
+    unit,
   } = product;
 
   return (
@@ -59,8 +61,9 @@ export async function Product({ id, options }: { id: string; options?: RecordOpt
               <span className="capitalize">{country}</span>
             </p>
 
-            <div className="mt-4 sm:items-center sm:gap-4 sm:flex">
+            <div className="flex items-start mt-4 gap-4">
               <Price discount={discount} price={price} />
+              <p>for {batch} {unit}</p>
             </div>
 
             <CartAddButton product={product} />
