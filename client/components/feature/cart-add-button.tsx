@@ -25,8 +25,6 @@ function CartAddButtonForm({ cartItem, product }: { cartItem?: CartItem; product
   const {
     id,
     unit,
-    name,
-    price,
   } = product;
   const [qty, setQty] = useState(() => cartItem?.qty ?? 1);
 
@@ -42,7 +40,7 @@ function CartAddButtonForm({ cartItem, product }: { cartItem?: CartItem; product
   async function handleAddToCart(e: FormEvent<HTMLFormElement>): Promise<void> {
     e.preventDefault();
     if (cartItem) await removeCart({ cartProductId: id });
-    else await addCart({ cartItem: { product: { id, name, price }, qty } });
+    else await addCart({ cartItem: { product, qty } });
   }
 
   return (
@@ -58,7 +56,7 @@ function CartAddButtonForm({ cartItem, product }: { cartItem?: CartItem; product
       <div className="flex items-center gap-2">
         <Input
           required
-          className="min-w-48"
+          className="min-w-32"
           max={1000000}
           min={1}
           name="qte"
@@ -68,7 +66,7 @@ function CartAddButtonForm({ cartItem, product }: { cartItem?: CartItem; product
           onBlur={e => setQty(Number(e.target.value))}
           onChange={e => setQty(Number.parseInt(e.target.value, 10))}
         />
-        {unit}
+        <span>{unit}</span>
       </div>
     </form>
   );
