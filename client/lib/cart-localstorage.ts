@@ -11,14 +11,36 @@ export async function getCartFromLocalStorage(): Promise<CartItem[]> {
     const cart = await CartItemSchema.array().parseAsync(cartJson);
     return cart;
   } catch (error) {
+    localStorage.removeItem('cart');
     console.error(error);
     return [];
   }
 }
 
-export async function addCartToLocalStorage(cartItem: CartItem) {
+export async function addCartToLocalStorage({
+  qty,
+  product: {
+    batch,
+    id,
+    name,
+    price,
+    unit,
+  },
+}: CartItem) {
   const cart = await getCartFromLocalStorage();
-  const newCart = [...cart, cartItem];
+  const newCart = [
+    ...cart,
+    {
+      qty,
+      product: {
+        batch,
+        id,
+        name,
+        price,
+        unit,
+      },
+    },
+  ];
   localStorage.setItem('cart', JSON.stringify(newCart));
 }
 
