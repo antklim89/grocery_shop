@@ -1,4 +1,6 @@
+import type { Unit } from './types';
 import { z } from 'zod';
+import { units } from './constants';
 
 
 export const LoginSchema = z.object({
@@ -28,10 +30,12 @@ export const AuthUserSchema = z.object({
 });
 
 export const CartItemSchema = z.object({
-  qty: z.number().int().min(1),
+  qty: z.number().int().positive(),
   product: z.object({
     id: z.string().min(1),
     name: z.string().min(1),
-    price: z.number().min(0),
+    price: z.number().positive(),
+    unit: z.enum(units as [Unit]),
+    batch: z.number().min(1),
   }),
 });
