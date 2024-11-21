@@ -10,6 +10,7 @@ RUN apk add --no-cache libc6-compat
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 COPY . .
+ARG SERVER_URL
 RUN yarn run build
 
 

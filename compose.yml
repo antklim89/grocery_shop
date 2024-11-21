@@ -17,6 +17,8 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
+      args:
+        - SERVER_URL=${SERVER_URL}
     environment:
       SERVER_URL: http://server:8080
     restart: unless-stopped
