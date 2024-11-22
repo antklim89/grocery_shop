@@ -2,6 +2,7 @@
 import type { CartItem, ProductType } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Price } from '@/components/ui/price';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   useAddCart,
@@ -26,7 +27,7 @@ function CartAddButtonForm({ cartItem, product }: { cartItem?: CartItem; product
     id,
     unit,
   } = product;
-  const [qty, setQty] = useState(() => cartItem?.qty ?? 1);
+  const [qty, setQty] = useState(() => cartItem?.qty ?? product.batch);
 
   const { trigger: addCart } = useAddCart();
   const { trigger: removeCart } = useRemoveCart();
@@ -37,46 +38,65 @@ function CartAddButtonForm({ cartItem, product }: { cartItem?: CartItem; product
     void updateCart({ cartProductId: id, cartItemUpdate: { qty } });
   }, [qty, id, updateCart, cartItem]);
 
+
   async function handleAddToCart(e: FormEvent<HTMLFormElement>): Promise<void> {
     e.preventDefault();
     if (cartItem) await removeCart({ cartProductId: id });
     else await addCart({ cartItem: { product, qty } });
   }
+  const totalPrice = qty * (product.price / product.batch);
 
   return (
-    <form
-      className="flex flex-col-reverse sm:flex-row mt-6 gap-2 sm:gap-4 sm:items-center sm:mt-8"
-      onSubmit={handleAddToCart}
-    >
-      <Button className="space-x-2">
-        <ShoppingCart />
-        <span>{cartItem == null ? 'Add to cart' : 'Remove from cart'}</span>
-      </Button>
-
-      <div className="flex items-center gap-2">
-        <Input
-          required
-          className="min-w-32"
-          max={1000000}
-          min={1}
-          name="qte"
-          placeholder="Quantity"
-          type="number"
-          value={qty}
-          onBlur={e => setQty(Number(e.target.value))}
-          onChange={e => setQty(Number.parseInt(e.target.value, 10))}
-        />
-        <span>{unit}</span>
+    <div>
+      <div className="flex flex-col items-start">
+        <h3>Total Price: </h3>
+        <Price discount={product.discount} price={totalPrice} />
       </div>
-    </form>
+
+      <form
+        className="flex flex-col-reverse sm:flex-row mt-6 gap-2 sm:gap-4 sm:items-center sm:mt-8"
+        onSubmit={handleAddToCart}
+      >
+
+        <Button className="space-x-2">
+          <ShoppingCart />
+          <span>{cartItem == null ? 'Add to cart' : 'Remove from cart'}</span>
+        </Button>
+        <div className="flex items-center gap-2">
+          <Input
+            required
+            className="min-w-32"
+            max={1000000}
+            min={1}
+            name="qte"
+            placeholder="Quantity"
+            type="number"
+            value={qty}
+            onBlur={e => setQty(Number(e.target.value))}
+            onChange={e => setQty(Number.parseInt(e.target.value, 10))}
+          />
+          <span>{unit}</span>
+        </div>
+      </form>
+    </div>
   );
 }
 
+
 function CartAddButtonSkeleton() {
   return (
-    <div className="flex flex-col-reverse sm:flex-row mt-6 gap-2 sm:gap-4 sm:items-center sm:mt-8">
-      <Skeleton className="w-[150px] h-10" />
-      <Skeleton className="w-[150px] h-10" />
+    <div className="mt-8">
+      <div className="flex flex-col items-start gap-2">
+        <Skeleton className="h-8 w-[200px]" />
+        <Skeleton className="h-8 w-[200px]" />
+      </div>
+
+      <div
+        className="flex flex-col-reverse sm:flex-row mt-6 gap-2 sm:gap-4 sm:items-center sm:mt-8"
+      >
+        <Skeleton className="h-8 w-[200px]" />
+        <Skeleton className="h-8 w-[200px]" />
+      </div>
     </div>
   );
 }
