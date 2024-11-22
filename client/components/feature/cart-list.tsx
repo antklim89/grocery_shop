@@ -24,6 +24,13 @@ export default function CartList() {
   const { data: cart = [] } = useGetCart();
   const { trigger: removeCart } = useRemoveCart();
 
+  if (cart.length === 0) {
+    return (
+      <div className="text-center text-2xl my-36">
+        The cart is empty.
+      </div>
+    );
+  }
 
   const totalPrice = cart.reduce((total, { product, qty }) => total + product.price * (qty / product.batch), 0);
   return (
