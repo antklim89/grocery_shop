@@ -1,0 +1,7 @@
+{
+  "name": "server",
+  "license": "MIT",
+  "dependencies": {
+    "@faker-js/faker": "^9.2.0"
+  }
+}
