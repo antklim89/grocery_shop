@@ -8,6 +8,7 @@ if (typeof window !== 'undefined') throw new Error('This file should be imported
 
 export const initPocketBase = cache(async () => {
   const pb = new PocketBase(process.env.SERVER_URL) as TypedPocketBase;
+  pb.autoCancellation(false);
 
   const authCookie = (await cookies()).get('pb_auth');
 
