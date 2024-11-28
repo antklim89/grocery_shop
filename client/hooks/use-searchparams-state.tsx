@@ -1,4 +1,4 @@
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import {
   useEffect,
   useRef,
@@ -7,7 +7,8 @@ import {
 
 
 export function useSearchParamsState(key: string, initState: string = '') {
-  const [state, setState] = useState(() => new URLSearchParams(location.search).get(key) ?? initState);
+  const searchparams = useSearchParams();
+  const [state, setState] = useState(() => searchparams.get(key) ?? initState);
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
   const router = useRouter();
 
