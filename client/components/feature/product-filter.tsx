@@ -102,7 +102,6 @@ function ProductFilterForm(props: ComponentProps<'form'>) {
             placeholder="0"
             type="number"
             value={minPrice}
-            onBlur={e => setMinPrice(Math.min(Number(e.target.value), Number(maxPrice)).toString())}
             onChange={e => setMinPrice(e.target.value)}
           />
           <span>-</span>
@@ -111,7 +110,6 @@ function ProductFilterForm(props: ComponentProps<'form'>) {
             placeholder="10000"
             type="number"
             value={maxPrice}
-            onBlur={e => setMaxPrice(Math.max(Number(e.target.value), Number(minPrice)).toString())}
             onChange={e => setMaxPrice(e.target.value)}
           />
         </div>
