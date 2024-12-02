@@ -1,32 +1,40 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
   useEffect,
+  useReducer,
   useRef,
-  useState,
 } from 'react';
 
 
-export function useSearchParamsState(key: string, initState: string = '') {
+export function useSearchParamsState<T extends Record<string, string>>(initState: T) {
   const searchparams = useSearchParams();
-  const [state, setState] = useState(() => searchparams.get(key) ?? initState);
+  const [state, setState] = useReducer(
+    (oldState: T, newState: Partial<T>) => ({ ...oldState, ...newState }),
+    initState,
+    arg => ({ ...arg, ...Object.fromEntries(searchparams.entries()) }),
+  );
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
   const router = useRouter();
 
   useEffect(() => {
     const newSearchParams = new URLSearchParams(location.search);
-    if (state.length === 0) newSearchParams.delete(key);
-    else newSearchParams.set(key, state);
 
     if (timeoutId.current) clearTimeout(timeoutId.current);
     timeoutId.current = setTimeout(() => {
-      if (newSearchParams.toString() === new URLSearchParams(location.search).toString()) return;
+      Object.entries(state).forEach(([key, value]) => {
+        if (value.length === 0) newSearchParams.delete(key);
+        else newSearchParams.set(key, value);
+      });
+
+
+      if (newSearchParams.toString() === searchparams.toString()) return;
       router.replace(`?${newSearchParams.toString()}`);
     }, 700);
 
     return () => {
       if (timeoutId.current) clearTimeout(timeoutId.current);
     };
-  }, [state, router, key]);
+  }, [state, router, searchparams]);
 
   return [state, setState] as const;
 }

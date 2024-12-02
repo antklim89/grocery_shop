@@ -16,6 +16,14 @@ import { useSearchParamsState } from '@/hooks/use-searchparams-state';
 import { FilterIcon } from 'lucide-react';
 
 
+const initFilter = {
+  name: '',
+  country: '',
+  category: '',
+  minPrice: '',
+  maxPrice: '',
+};
+
 export default function ProductFilter() {
   return (
     <>
@@ -55,41 +63,34 @@ export default function ProductFilter() {
 }
 
 function ProductFilterForm(props: ComponentProps<'form'>) {
-  const [name, setName] = useSearchParamsState('name');
-  const [country, setCountry] = useSearchParamsState('country');
-  const [category, setCategory] = useSearchParamsState('category');
-  const [minPrice, setMinPrice] = useSearchParamsState('minPrice');
-  const [maxPrice, setMaxPrice] = useSearchParamsState('maxPrice');
+  const [filter, setFilter] = useSearchParamsState(initFilter);
 
   return (
     <form {...props}>
       <label>
         Name:
         <Input
-          required
           placeholder="Potato"
-          value={name}
-          onChange={e => setName(e.target.value)}
+          value={filter.name}
+          onChange={e => setFilter({ name: e.target.value })}
         />
       </label>
 
       <label>
         Country:
         <Input
-          required
           placeholder="Peru"
-          value={country}
-          onChange={e => setCountry(e.target.value)}
+          value={filter.country}
+          onChange={e => setFilter({ country: e.target.value })}
         />
       </label>
 
       <label>
         Category:
         <Input
-          required
           placeholder="Vegetables"
-          value={category}
-          onChange={e => setCategory(e.target.value)}
+          value={filter.category}
+          onChange={e => setFilter({ category: e.target.value })}
         />
       </label>
 
@@ -97,23 +98,27 @@ function ProductFilterForm(props: ComponentProps<'form'>) {
         Price:
         <div className="flex items-center gap-2">
           <Input
-            required
             max={100}
             placeholder="0"
             type="number"
-            value={minPrice}
-            onChange={e => setMinPrice(e.target.value)}
+            value={filter.minPrice}
+            onChange={e => setFilter({ minPrice: e.target.value })}
           />
           <span>-</span>
           <Input
-            required
             placeholder="10000"
             type="number"
-            value={maxPrice}
-            onChange={e => setMaxPrice(e.target.value)}
+            value={filter.maxPrice}
+            onChange={e => setFilter({ maxPrice: e.target.value })}
           />
         </div>
       </label>
+      <Button
+        type="button"
+        onClick={() => setFilter(initFilter)}
+      >
+        Clear
+      </Button>
     </form>
   );
 }
