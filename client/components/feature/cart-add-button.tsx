@@ -50,7 +50,7 @@ function CartAddButtonForm({ cartItem, product }: { cartItem?: CartItem; product
     <div>
       <div className="flex flex-col items-start">
         <h3>Total Price: </h3>
-        <Price discount={product.discount} price={totalPrice} />
+        <Price discount={product.discount} price={totalPrice} size="lg" />
       </div>
 
       <form
