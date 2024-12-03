@@ -63,7 +63,9 @@ export default function ProductFilter() {
 }
 
 function ProductFilterForm(props: ComponentProps<'form'>) {
-  const [filter, setFilter] = useSearchParamsState(initFilter);
+  const [filter, setFilter] = useSearchParamsState(initFilter, {
+    onChange: searchParams => searchParams.delete('page'),
+  });
 
   return (
     <form {...props}>
