@@ -26,3 +26,14 @@ export function calculatePrice({
 }: { price: number; discount?: number; qty?: number }): number {
   return (price - price * (discount / 100)) * qty;
 }
+
+export function getSearchParams(
+  searchParams: string[][] | Record<string, string> | string | URLSearchParams,
+  key: string,
+  value: string | number,
+): string {
+  const nextLink = new URLSearchParams(searchParams);
+  nextLink.set(key, value.toString());
+
+  return `?${nextLink.toString()}`;
+}
