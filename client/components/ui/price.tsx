@@ -24,15 +24,21 @@ const classes = {
 interface Props {
   price: number;
   discount?: number;
+  qty?: number;
   size?: keyof typeof classes.sizes;
 }
 
 
-export function Price({ price, discount = 0, size = 'md' }: Props) {
+export function Price({
+  price,
+  discount = 0,
+  qty,
+  size = 'md',
+}: Props) {
   return (
     <p className="flex flex-col items-end gap-1">
       <span className={cn('font-bold tracking-tight text-gray-900', classes.sizes[size].base)}>
-        {getPrice({ price, discount })}
+        {getPrice({ price, qty })}
       </span>
 
       {discount > 0 && (
@@ -42,7 +48,7 @@ export function Price({ price, discount = 0, size = 'md' }: Props) {
           </span>
 
           <span className={cn('line-through font-sans text-gray-500/70 text-nowrap', classes.sizes[size].withoutDiscount)}>
-            {getPrice({ price })}
+            {getPrice({ price, discount, qty })}
           </span>
         </>
       )}
