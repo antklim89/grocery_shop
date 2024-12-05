@@ -1,11 +1,12 @@
 'use server';
-import type { RecordAuthResponse, RecordModel } from 'pocketbase';
+import type { UserType } from '@/lib/types';
+import type { RecordAuthResponse } from 'pocketbase';
 import { handlePocketBaseError } from '@/lib/handlePocketbaseError';
 import { pb } from '@/lib/pocketbase/client';
 import { cookies } from 'next/headers';
 
 
-export async function login({ email, password }: { email: string; password: string }): Promise<RecordAuthResponse<RecordModel>> {
+export async function login({ email, password }: { email: string; password: string }): Promise<RecordAuthResponse<UserType>> {
   try {
     const result = await pb.collection('users').authWithPassword(email, password);
 
@@ -18,14 +19,15 @@ export async function login({ email, password }: { email: string; password: stri
   }
 }
 
-export async function signup({ email, password }: { email: string; password: string }): Promise<{ id: string }> {
+export async function signup({ email, password }: { email: string; password: string }): Promise<UserType> {
   try {
     const result = await pb.collection('users').create({
       email,
       password,
       passwordConfirm: password,
     });
-    return { id: result.id };
+
+    return result;
   } catch (error) {
     throw new Error(handlePocketBaseError(error));
   }

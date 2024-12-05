@@ -2,10 +2,9 @@ import type { RecordService } from 'pocketbase';
 import type PocketBase from 'pocketbase';
 import type { z } from 'zod';
 import type { units } from './constants';
-import type { AuthUserSchema, CartItemSchema } from './schemas';
+import type { CartItemSchema } from './schemas';
 
 
-export type AuthUser = z.infer<typeof AuthUserSchema>;
 export type CartItem = z.infer<typeof CartItemSchema>;
 export type Unit = typeof units[number];
 
@@ -22,10 +21,18 @@ export interface ProductType {
   unit: Unit;
 }
 
+export interface UserType {
+  id: string;
+  avatar: string;
+  created: string;
+  email: string;
+  name: string;
+}
+
 
 export interface TypedPocketBase extends PocketBase {
   collection:
-    ((idOrName: string) => RecordService) &
-    ((idOrName: 'products') => RecordService<ProductType>);
+    ((idOrName: 'products') => RecordService<ProductType>) &
+    ((idOrName: 'users') => RecordService<UserType>);
 }
 

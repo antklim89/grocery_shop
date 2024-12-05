@@ -23,12 +23,6 @@ export const SignupSchema = z.object({
     path: ['confirm'],
   });
 
-export const AuthUserSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  avatar: z.string(),
-});
-
 export const CartItemSchema = z.object({
   qty: z.number().int().positive(),
   product: z.object({

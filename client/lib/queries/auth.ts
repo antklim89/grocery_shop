@@ -1,20 +1,17 @@
-import type { AuthUser } from '@/lib/types';
+import type { UserType } from '@/lib/types';
 import { toast } from '@/hooks/use-toast';
 import { login, logout, signup } from '@/lib/actions/auth';
 import { pb } from '@/lib/pocketbase/client';
-import { AuthUserSchema } from '@/lib/schemas';
 import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
 import useSWRMutation from 'swr/mutation';
 
 
 export function useUserQuery() {
-  return useSWR<AuthUser | null, Error, 'auth'>(
+  return useSWR<UserType | null, Error, 'auth'>(
     'auth',
     async () => {
-      const model = pb.authStore.model;
-      if (model == null) return null;
-      const user = await AuthUserSchema.parseAsync(model).catch(() => null);
+      const user = pb.authStore.model as UserType;
       return user;
     },
     {
@@ -26,14 +23,13 @@ export function useUserQuery() {
 export function useLoginQuery() {
   const router = useRouter();
 
-  return useSWRMutation<AuthUser, Error, 'auth', { email: string; password: string }>(
+  return useSWRMutation<UserType, Error, 'auth', { email: string; password: string }>(
     'auth',
     async (key, { arg }) => {
-      const model = await login(arg);
-      pb.authStore.save(model.token, model.record);
-      const user = await AuthUserSchema.parseAsync(model.record);
+      const user = await login(arg);
+      pb.authStore.save(user.token, user.record);
 
-      return user;
+      return user.record;
     },
     {
       populateCache: newData => newData,
@@ -61,15 +57,14 @@ export function useLoginQuery() {
 export function useSignupQuery() {
   const router = useRouter();
 
-  return useSWRMutation<AuthUser, Error, 'auth', { email: string; password: string }>(
+  return useSWRMutation<UserType, Error, 'auth', { email: string; password: string }>(
     'auth',
     async (key, { arg }) => {
       await signup(arg);
-      const model = await login(arg);
-      pb.authStore.save(model.token, model.record);
-      const user = await AuthUserSchema.parseAsync(model);
+      const user = await login(arg);
+      pb.authStore.save(user.token, user.record);
 
-      return user;
+      return user.record;
     },
     {
       populateCache: newData => newData,
