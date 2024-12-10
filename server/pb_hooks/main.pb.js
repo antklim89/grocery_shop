@@ -7,13 +7,13 @@ $app.rootCmd.addCommand(new Command({
   use: 'fake-data',
   run: () => {
     const units = ['gram', 'kilogram', 'milligram', 'milliliter', 'liter', 'milliliter', 'piece'];
-    const collection = $app.dao().findCollectionByNameOrId('products');
+    const collection = $app.findCollectionByNameOrId('products');
 
     for (let index = 0; index < 20; index++) {
       const record = new Record(collection);
-      const form = new RecordUpsertForm($app, record);
+      const img = $filesystem.fileFromPath(`${__hooks}/img1.png`);
 
-      form.loadData({
+      record.load({
         name: faker.commerce.productName(),
         price: faker.commerce.price({min: 100, max: 1000, dec: 0}),
         discount: Math.random() < 0.5 ? faker.number.int({ min: 10, max: 90 }) : 0,
@@ -24,10 +24,8 @@ $app.rootCmd.addCommand(new Command({
         unit: units[Math.floor(Math.random() * units.length)],
       })
 
-      const img = $filesystem.fileFromPath(`${__hooks}/img1.png`);
-      form.addFiles('images', img)
-
-      form.submit();
+      record.set('images', [img])
+      $app.save(record)
     }
   }
 }))
