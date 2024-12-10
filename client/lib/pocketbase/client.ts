@@ -1,4 +1,4 @@
-import type { TypedPocketBase } from '@/lib/types';
+import type { TypedPocketBase } from '@/lib/pocketbase-types';
 import PocketBase from 'pocketbase';
 
 

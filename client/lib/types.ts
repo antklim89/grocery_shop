@@ -1,5 +1,3 @@
-import type { RecordService } from 'pocketbase';
-import type PocketBase from 'pocketbase';
 import type { z } from 'zod';
 import type { units } from './constants';
 import type { CartItemSchema } from './schemas';
@@ -28,11 +26,3 @@ export interface UserType {
   email: string;
   name: string;
 }
-
-
-export interface TypedPocketBase extends PocketBase {
-  collection:
-    ((idOrName: 'products') => RecordService<ProductType>) &
-    ((idOrName: 'users') => RecordService<UserType>);
-}
-

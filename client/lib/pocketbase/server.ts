@@ -1,4 +1,4 @@
-import type { TypedPocketBase } from '@/lib/types';
+import type { TypedPocketBase } from '@/lib/pocketbase-types';
 import { cookies } from 'next/headers';
 import PocketBase from 'pocketbase';
 import { cache } from 'react';
