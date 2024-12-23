@@ -24,6 +24,7 @@ export const SignupSchema = z.object({
   });
 
 export const CartItemSchema = z.object({
+  id: z.string().optional(),
   qty: z.number().int().positive(),
   product: z.object({
     id: z.string().min(1),
