@@ -1,14 +1,14 @@
-import type { CartItem } from './types';
+import type { CartItem, CartItemUpdate } from './types';
 import { CartItemSchema } from './schemas';
 
 
-export async function getCartFromLocalStorage(): Promise<CartItem[]> {
+export function getCartFromLocalStorage(): CartItem[] {
   const cartStr = localStorage.getItem('cart');
   if (cartStr == null) return [];
 
   try {
     const cartJson = JSON.parse(cartStr) as unknown;
-    const cart = await CartItemSchema.array().parseAsync(cartJson);
+    const cart = CartItemSchema.array().parse(cartJson);
     return cart;
   } catch (error) {
     localStorage.removeItem('cart');
@@ -17,42 +17,28 @@ export async function getCartFromLocalStorage(): Promise<CartItem[]> {
   }
 }
 
-export async function addCartToLocalStorage({
-  qty,
-  product: {
-    batch,
-    id,
-    name,
-    price,
-    unit,
-  },
-}: CartItem) {
-  const cart = await getCartFromLocalStorage();
-  const newCart = [
+export function addCartToLocalStorage(newCartItem: CartItem) {
+  const cart = getCartFromLocalStorage();
+  const newCart: CartItem[] = [
     ...cart,
-    {
-      qty,
-      product: {
-        batch,
-        id,
-        name,
-        price,
-        unit,
-      },
-    },
+    newCartItem,
   ];
   localStorage.setItem('cart', JSON.stringify(newCart));
 }
 
-export async function removeCartFromLocalStorage(cartProductId: string) {
-  const cart = await getCartFromLocalStorage();
+export function replaceCartToLocalStorage(newCart: CartItem[]) {
+  localStorage.setItem('cart', JSON.stringify(newCart));
+}
+
+export function removeCartFromLocalStorage(cartProductId: string) {
+  const cart = getCartFromLocalStorage();
   const newCart = cart.filter(item => item.product.id !== cartProductId);
 
   localStorage.setItem('cart', JSON.stringify(newCart));
 }
 
-export async function updateCartFromLocalStorage(cartProductId: string, cartItemUpdate: Partial<CartItem>) {
-  const cart = await getCartFromLocalStorage();
+export function updateCartFromLocalStorage(cartProductId: string, cartItemUpdate: CartItemUpdate) {
+  const cart = getCartFromLocalStorage();
   const updatedCart = cart.map(item => item.product.id === cartProductId ? { ...item, ...cartItemUpdate } : item);
 
   localStorage.setItem('cart', JSON.stringify(updatedCart));

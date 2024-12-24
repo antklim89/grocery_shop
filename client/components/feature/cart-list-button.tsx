@@ -1,12 +1,12 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { useGetCart } from '@/lib/queries/cart';
+import { useGetCarts } from '@/lib/queries/cart';
 import { ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
 
 
 export function CartListButton() {
-  const { data: cart = [] } = useGetCart();
+  const { data: cart = [] } = useGetCarts();
 
 
   return (

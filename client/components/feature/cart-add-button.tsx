@@ -4,18 +4,20 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Price } from '@/components/ui/price';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useUpdateEffect } from '@/hooks/use-update-effect';
 import {
   useAddCart,
-  useGetCart,
+  useGetCarts,
   useRemoveCart,
   useUpdateCart,
 } from '@/lib/queries/cart';
 import { ShoppingCart } from 'lucide-react';
-import { type FormEvent, useEffect, useState } from 'react';
+import { type FormEvent, useState } from 'react';
+import { z } from 'zod';
 
 
-function CartAddButton({ product }: { product: ProductType }) {
-  const { data: cart, isLoading } = useGetCart();
+export function CartAddButton({ product }: { product: ProductType }) {
+  const { data: cart, isLoading } = useGetCarts();
   const cartItem = cart?.find(item => item.product.id === product.id);
 
   if (isLoading) return <CartAddButtonSkeleton />;
@@ -23,27 +25,29 @@ function CartAddButton({ product }: { product: ProductType }) {
 }
 
 function CartAddButtonForm({ cartItem, product }: { cartItem?: CartItem; product: ProductType }) {
-  const {
-    id,
-    unit,
-  } = product;
-  const [qty, setQty] = useState(() => cartItem?.qty ?? product.batch);
+  const [qtyInput, setQtyInput] = useState<string>(() => String(cartItem?.qty ?? product.batch));
+  const qty = z.number().catch(1).parse(Number.parseFloat(qtyInput));
 
   const { trigger: addCart } = useAddCart();
-  const { trigger: removeCart } = useRemoveCart();
-  const { trigger: updateCart } = useUpdateCart();
+  const { trigger: removeCart } = useRemoveCart({ productId: product.id, cartId: cartItem?.id });
+  const { trigger: updateCart } = useUpdateCart({ productId: product.id, cartId: cartItem?.id });
 
-  useEffect(() => {
-    if (cartItem == null) return;
-    void updateCart({ cartProductId: id, cartItemUpdate: { qty } });
-  }, [qty, id, updateCart, cartItem]);
+
+  useUpdateEffect(() => {
+    const timeoutId = setTimeout(() => {
+      void updateCart({ qty });
+    }, 700);
+
+    return () => clearTimeout(timeoutId);
+  }, [qty, updateCart]);
 
 
   async function handleAddToCart(e: FormEvent<HTMLFormElement>): Promise<void> {
     e.preventDefault();
-    if (cartItem) await removeCart({ cartProductId: id });
+    if (cartItem != null) await removeCart();
     else await addCart({ cartItem: { product, qty } });
   }
+
   const totalPrice = qty * (product.price / product.batch);
 
   return (
@@ -71,11 +75,11 @@ function CartAddButtonForm({ cartItem, product }: { cartItem?: CartItem; product
             name="qte"
             placeholder="Quantity"
             type="number"
-            value={qty}
-            onBlur={e => setQty(Number(e.target.value))}
-            onChange={e => setQty(Number.parseInt(e.target.value, 10))}
+            value={qtyInput}
+            onBlur={() => setQtyInput(String(qty))}
+            onChange={e => setQtyInput(e.target.value)}
           />
-          <span>{unit}</span>
+          <span>{product.unit}</span>
         </div>
       </form>
     </div>
@@ -100,5 +104,3 @@ function CartAddButtonSkeleton() {
     </div>
   );
 }
-
-export { CartAddButton };
