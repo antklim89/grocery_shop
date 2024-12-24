@@ -1,6 +1,6 @@
 FROM alpine:3.20
 
-ARG PB_VERSION=0.22.21
+ARG PB_VERSION=0.23.12
 RUN apk add --no-cache unzip ca-certificates
 
 RUN PB_ARCH= && case $(uname -m) in\
