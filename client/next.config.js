@@ -14,12 +14,16 @@ const nextConfig = {
   async rewrites() {
     return [
       {
+        source: '/server/_/',
+        destination: `${process.env.SERVER_URL}/_/`,
+      },
+      {
         source: '/server/_/:path*',
-        destination: `${process.env.SERVER_URL}/_/:path*/`,
+        destination: `${process.env.SERVER_URL}/_/:path*`,
       },
       {
         source: '/server/api/:path*',
-        destination: `${process.env.SERVER_URL}/api/:path*/`,
+        destination: `${process.env.SERVER_URL}/api/:path*`,
       },
     ];
   },
