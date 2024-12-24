@@ -1,6 +1,6 @@
 'use client';
 import type { ReactNode } from 'react';
-import { useGetCarts } from '@/lib/queries/cart';
+import { useGetCarts } from '@/hooks/use-cart';
 
 
 export function CartPresence({ productId, inCart, notInCart }: { productId: string; notInCart?: ReactNode; inCart?: ReactNode }) {

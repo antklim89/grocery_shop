@@ -16,7 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useGetCarts, useRemoveCart } from '@/lib/queries/cart';
+import { useGetCarts, useRemoveCart } from '@/hooks/use-cart';
 import { Trash } from 'lucide-react';
 import Link from 'next/link';
 

@@ -10,7 +10,7 @@ import {
   useGetCarts,
   useRemoveCart,
   useUpdateCart,
-} from '@/lib/queries/cart';
+} from '@/hooks/use-cart';
 import { ShoppingCart } from 'lucide-react';
 import { type FormEvent, useState } from 'react';
 import { z } from 'zod';
