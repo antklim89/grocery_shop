@@ -6,6 +6,8 @@ services:
       context: ./server
       dockerfile: Dockerfile
     restart: unless-stopped
+    ports:
+      - ${SERVER_PORT:-4000}:8080
     networks:
       - api
     volumes:
