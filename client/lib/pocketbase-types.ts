@@ -110,7 +110,7 @@ export type ProductsRecord = {
 	country: string
 	created?: IsoDateString
 	description: string
-	discount: string
+	discount?: number
 	id: string
 	images: string[]
 	name: string
