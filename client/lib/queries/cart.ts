@@ -4,7 +4,7 @@ import {
   getCarts,
   removeCart,
   updateCart,
-} from '@/lib/actions/cart';
+} from '@/actions/cart';
 import {
   addCartToLocalStorage,
   getCartFromLocalStorage,

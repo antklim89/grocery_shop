@@ -7,7 +7,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { Price } from '@/components/ui/price';
-import { getProduct } from '@/lib/actions/product';
+import { getProduct } from '@/actions/product';
 import Image from 'next/image';
 import { CartAddButton } from './cart-add-button';
 

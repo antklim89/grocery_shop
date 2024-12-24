@@ -1,5 +1,5 @@
 import type { ListOptions } from 'pocketbase';
-import { getProducts } from '@/lib/actions/product';
+import { getProducts } from '@/actions/product';
 import { ProductCard } from './product-card';
 import { ProductListPagination } from './product-list-pagination';
 

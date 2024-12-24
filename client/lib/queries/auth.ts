@@ -1,6 +1,6 @@
 import type { UserType } from '@/lib/types';
 import { toast } from '@/hooks/use-toast';
-import { login, logout, signup } from '@/lib/actions/auth';
+import { login, logout, signup } from '@/actions/auth';
 import { pb } from '@/lib/pocketbase/client';
 import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
