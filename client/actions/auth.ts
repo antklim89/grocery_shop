@@ -1,8 +1,8 @@
 'use server';
 import type { UserType } from '@/lib/types';
 import type { RecordAuthResponse } from 'pocketbase';
-import { handlePocketBaseError } from '@/lib/handlePocketbaseError';
 import { pb } from '@/lib/pocketbase/client';
+import { isPocketBaseError } from '@/lib/utils';
 import { cookies } from 'next/headers';
 
 
@@ -22,8 +22,8 @@ export async function login({ email, password }: { email: string; password: stri
     });
 
     return result;
-  } catch (error) {
-    throw new Error(handlePocketBaseError(error));
+  } catch {
+    throw new Error('Failed to login. Email or password is invalid.');
   }
 }
 
@@ -37,7 +37,13 @@ export async function signup({ email, password }: { email: string; password: str
 
     return result;
   } catch (error) {
-    throw new Error(handlePocketBaseError(error));
+    if (isPocketBaseError(error)) {
+      if (error.response.data.email?.code === 'validation_not_unique') {
+        throw new Error('User with this email is already exists.');
+      }
+      throw new Error(error.response.message ?? 'Failed to sign up.');
+    }
+    throw new Error('Failed to sign up.');
   }
 }
 

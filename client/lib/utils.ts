@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { z } from 'zod';
 
 
 export function cn(...inputs: ClassValue[]) {
@@ -36,4 +37,20 @@ export function getSearchParams(
   nextLink.set(key, value.toString());
 
   return `?${nextLink.toString()}`;
+}
+
+
+const PocketBaseResponseSchema = z.object({
+  response: z.object({
+    status: z.number().optional(),
+    message: z.string().optional(),
+    data: z.record(z.string(), z.object({
+      code: z.string(),
+      message: z.string(),
+    }).optional()),
+  }),
+});
+
+export function isPocketBaseError(error: unknown): error is z.infer<typeof PocketBaseResponseSchema> {
+  return PocketBaseResponseSchema.safeParse(error).success;
 }

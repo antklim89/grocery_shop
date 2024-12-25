@@ -2,7 +2,6 @@
 import type { CartsRecord, CartsResponse, ProductsRecord } from '@/lib/pocketbase-types';
 import type { CartItem, CartItemUpdate } from '@/lib/types';
 import type { ListOptions, RecordOptions } from 'pocketbase';
-import { handlePocketBaseError } from '@/lib/handlePocketbaseError';
 import { initPocketBase } from '@/lib/pocketbase/server';
 
 
@@ -27,8 +26,8 @@ export async function getCarts(options: ListOptions = {}): Promise<CartItem[]> {
         },
       });
     });
-  } catch (error) {
-    throw new Error(handlePocketBaseError(error));
+  } catch {
+    throw new Error('Failed to fetch cart. Try again later.');
   }
 }
 
@@ -47,7 +46,7 @@ export async function addCart({
     const data: Partial<CartsRecord> = {
       qty,
       product: productId,
-      owner: pb.authStore.model.id as string,
+      owner: pb.authStore.record.id,
     };
     const record = await pb
       .collection<CartsResponse<{ product: ProductsRecord }>>('carts')
@@ -65,8 +64,8 @@ export async function addCart({
         unit: record.expand.product.unit,
       },
     };
-  } catch (error) {
-    throw new Error(handlePocketBaseError(error));
+  } catch {
+    throw new Error('Failed to add cart. Try again later.');
   }
 }
 
@@ -76,8 +75,8 @@ export async function removeCart({ cartId }: { cartId: string }): Promise<void> 
     if (!pb.authStore.isValid || !pb.authStore.model) throw new Error('You are not authenticated.');
 
     await pb.collection('carts').delete(cartId);
-  } catch (error) {
-    throw new Error(handlePocketBaseError(error));
+  } catch {
+    throw new Error('Failed to remove cart. Try again later.');
   }
 }
 
@@ -87,7 +86,7 @@ export async function updateCart({ cartId, data }: { cartId: string; data: CartI
     if (!pb.authStore.isValid || !pb.authStore.model) throw new Error('You are not authenticated.');
 
     await pb.collection('carts').update(cartId, data);
-  } catch (error) {
-    throw new Error(handlePocketBaseError(error));
+  } catch {
+    throw new Error('Failed to update cart. Try again later.');
   }
 }

@@ -15,7 +15,6 @@ export type TypedPocketBaseExtended = TypedPocketBase & {
 export type CartItem = z.infer<typeof CartItemSchema>;
 export type CartItemUpdate = Partial<Pick<CartItem, 'qty'>>;
 
-
 export type Unit = typeof units[number];
 
 export interface ProductType {
