@@ -12,6 +12,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { LoginSchema, SignupSchema } from '@/lib/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
 import { type ReactNode, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -102,8 +103,9 @@ export function AuthForm({
             )}
           />
         )}
-        <Button type="submit">
-          {isSignUp ? 'Sign up' : 'Log in'}
+        <Button className="space-x-2" disabled={form.formState.isSubmitting} type="submit">
+          {form.formState.isSubmitting && <Loader2 className="animate-spin size-6" />}
+          <span>{isSignUp ? 'Sign up' : 'Log in'}</span>
         </Button>
         {children}
       </form>
