@@ -1,7 +1,16 @@
+import type { BaseAuthStore, RecordModel } from 'pocketbase';
 import type { z } from 'zod';
 import type { units } from './constants';
+import type { TypedPocketBase } from './pocketbase-types';
 import type { CartItemSchema } from './schemas';
 
+
+export type TypedPocketBaseExtended = TypedPocketBase & {
+  authStore: BaseAuthStore & {
+    record: UserType;
+    save: (token: string, record: UserType) => void;
+  };
+};
 
 export type CartItem = z.infer<typeof CartItemSchema>;
 export type CartItemUpdate = Partial<Pick<CartItem, 'qty'>>;
@@ -22,7 +31,7 @@ export interface ProductType {
   unit: Unit;
 }
 
-export interface UserType {
+export interface UserType extends Omit<RecordModel, 'expand'> {
   id: string;
   avatar: string;
   created: string;

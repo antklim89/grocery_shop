@@ -1,6 +1,6 @@
 import type { UserType } from '@/lib/types';
-import { toast } from '@/hooks/use-toast';
 import { login, logout, signup } from '@/actions/auth';
+import { toast } from '@/hooks/use-toast';
 import { pb } from '@/lib/pocketbase/client';
 import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
@@ -11,8 +11,7 @@ export function useUserQuery() {
   return useSWR<UserType | null, Error, 'auth'>(
     'auth',
     async () => {
-      const user = pb.authStore.model as UserType;
-      return user;
+      return pb.authStore.record;
     },
     {
       fallbackData: null,
