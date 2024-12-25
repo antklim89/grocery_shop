@@ -6,7 +6,7 @@ export function useSearchParamsState<T extends Record<string, string>>(
   initState: T,
   { onChange }: { onChange?: (newSearchParams: URLSearchParams) => void } = {},
 ) {
-  const onChangeRef = useRef<typeof onChange>();
+  const onChangeRef = useRef<typeof onChange>(null);
   onChangeRef.current = onChange;
 
   const searchparams = useSearchParams();
