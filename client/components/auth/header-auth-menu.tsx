@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useLogoutQuery, useUserQuery } from '@/hooks/auth';
+import { useLogoutQuery, useUserQuery } from '@/hooks/use-auth';
 import { CircleUser } from 'lucide-react';
 import Link from 'next/link';
 

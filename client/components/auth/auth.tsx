@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { useLoginQuery, useSignupQuery } from '@/hooks/auth';
+import { useLoginQuery, useSignupQuery } from '@/hooks/use-auth';
 import authImg from '@/public/auth.png';
 import Image from 'next/image';
 import Link from 'next/link';
