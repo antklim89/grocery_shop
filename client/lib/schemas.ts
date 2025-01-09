@@ -1,4 +1,3 @@
-import type { Unit } from './types';
 import { z } from 'zod';
 import { units } from './constants';
 
@@ -30,7 +29,7 @@ export const CartItemSchema = z.object({
     id: z.string().min(1),
     name: z.string().min(1),
     price: z.number().positive(),
-    unit: z.enum(units as [Unit]),
+    unit: z.enum(units),
     batch: z.number().min(1),
   }),
 });
