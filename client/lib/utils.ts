@@ -1,3 +1,4 @@
+import type { CollectionRecords } from './pocketbase-types';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { z } from 'zod';
@@ -37,6 +38,10 @@ export function getSearchParams(
   nextLink.set(key, value.toString());
 
   return `?${nextLink.toString()}`;
+}
+
+export function getPbImageURL(collectionName: keyof CollectionRecords, collectionId: string, fileId: string) {
+  return `/pb/api/files/${collectionName}/${collectionId}/${fileId}`;
 }
 
 

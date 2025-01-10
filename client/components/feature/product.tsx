@@ -1,4 +1,3 @@
-import type { RecordOptions } from 'pocketbase';
 import { getProduct } from '@/actions/product';
 import {
   Carousel,
@@ -8,6 +7,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { Price } from '@/components/ui/price';
+import { getPbImageURL } from '@/lib/utils';
 import Image from 'next/image';
 import { CartAddButton } from './cart-add-button';
 
@@ -39,7 +39,7 @@ export async function Product({ id }: { id: string }) {
                       alt={name}
                       className="w-full h-64 object-cover"
                       height={300}
-                      src={`/server/api/files/products/${id}/${image}`}
+                      src={getPbImageURL('products', id, image)}
                       width={300}
                     />
                   </CarouselItem>

@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Price } from '@/components/ui/price';
+import { getPbImageURL } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import { CartPresence } from './cart-presence';
@@ -32,7 +33,7 @@ export function ProductCard({ product }: { product: ProductType }) {
         alt={name}
         className="w-full h-64 object-cover"
         height={300}
-        src={`/server/api/files/products/${id}/${images[0] ?? ''}`}
+        src={getPbImageURL('products', id, images[0] ?? '')}
         width={300}
       />
       <CardHeader>
