@@ -1,4 +1,5 @@
 import type { RecordOptions } from 'pocketbase';
+import { getProduct } from '@/actions/product';
 import {
   Carousel,
   CarouselContent,
@@ -7,13 +8,12 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { Price } from '@/components/ui/price';
-import { getProduct } from '@/actions/product';
 import Image from 'next/image';
 import { CartAddButton } from './cart-add-button';
 
 
-export async function Product({ id, options }: { id: string; options?: RecordOptions }) {
-  const product = await getProduct({ id, options });
+export async function Product({ id }: { id: string }) {
+  const product = await getProduct({ id });
   const {
     name,
     price,
