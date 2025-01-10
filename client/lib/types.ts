@@ -1,9 +1,17 @@
 import type { BaseAuthStore, RecordModel } from 'pocketbase';
 import type { z } from 'zod';
 import type { units } from './constants';
+import type { EnvSchema } from './env';
 import type { TypedPocketBase } from './pocketbase-types';
 import type { CartItemSchema } from './schemas';
 
+
+declare global {
+  // eslint-disable-next-line ts/no-namespace
+  namespace NodeJS {
+    interface ProcessEnv extends z.infer<typeof EnvSchema> {}
+  }
+}
 
 export type TypedPocketBaseExtended = TypedPocketBase & {
   authStore: BaseAuthStore & {
