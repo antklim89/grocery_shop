@@ -1,7 +1,7 @@
 import type { CollectionRecords } from './pocketbase-types';
 import { type ClassValue, clsx } from 'clsx';
+import { ClientResponseError } from 'pocketbase';
 import { twMerge } from 'tailwind-merge';
-import { z } from 'zod';
 
 
 export function cn(...inputs: ClassValue[]) {
@@ -45,17 +45,15 @@ export function getPbImageURL(collectionName: keyof CollectionRecords, collectio
 }
 
 
-const PocketBaseResponseSchema = z.object({
-  response: z.object({
-    status: z.number().optional(),
-    message: z.string().optional(),
-    data: z.record(z.string(), z.object({
-      code: z.string(),
-      message: z.string(),
-    }).optional()),
-  }),
-});
-
-export function isPocketBaseError(error: unknown): error is z.infer<typeof PocketBaseResponseSchema> {
-  return PocketBaseResponseSchema.safeParse(error).success;
+export function isPocketBaseError(error: unknown): error is {
+  response: {
+    data: Record<string, {
+      code: string;
+      message: string;
+    } | undefined>;
+    message?: string | undefined;
+    status?: number | undefined;
+  };
+} {
+  return error instanceof ClientResponseError;
 }
