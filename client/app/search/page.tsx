@@ -1,3 +1,4 @@
+import { getProducts } from '@/actions/product';
 import { ProductList } from '@/components/feature/product-list';
 
 
@@ -6,16 +7,18 @@ interface SearchParams {
 }
 
 async function Page({ searchParams }: { searchParams: Promise<SearchParams> }) {
-  const { name = '' } = await searchParams;
-  const filter = `name ~ "${name}"`;
+  const filter = await searchParams;
+
+  const { items: products } = await getProducts({
+    skipTotal: true,
+    perPage: 10,
+    sort: '-created,id',
+    filter,
+  });
 
   return (
     <section className="my-8">
-      <ProductList
-        skipTotal
-        filter={filter}
-        perPage={10}
-      />
+      <ProductList products={products} />
     </section>
   );
 }

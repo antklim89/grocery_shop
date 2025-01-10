@@ -1,21 +1,13 @@
-import type { ListOptions } from 'pocketbase';
-import { getProducts } from '@/actions/product';
+import type { ProductType } from '@/lib/types';
 import { ProductCard } from './product-card';
-import { ProductListPagination } from './product-list-pagination';
 
 
-export async function ProductList(props: ListOptions & { page?: number; perPage?: number }) {
-  const { items, page, totalPages } = await getProducts(props);
-
+export async function ProductList({ products }: { products: ProductType[] }) {
   return (
-    <section>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {items.map(product => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
-
-      <ProductListPagination page={page} totalPages={totalPages} />
+    <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {products.map(product => (
+        <ProductCard key={product.id} product={product} />
+      ))}
     </section>
   );
 }
