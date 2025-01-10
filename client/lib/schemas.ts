@@ -23,13 +23,11 @@ export const SignupSchema = z.object({
   });
 
 export const CartItemSchema = z.object({
-  id: z.string().optional(),
+  cartId: z.string().optional(),
+  productId: z.string().min(1),
   qty: z.number().int().positive(),
-  product: z.object({
-    id: z.string().min(1),
-    name: z.string().min(1),
-    price: z.number().positive(),
-    unit: z.enum(units),
-    batch: z.number().min(1),
-  }),
+  name: z.string().min(1),
+  price: z.number().positive(),
+  unit: z.enum(units),
+  batch: z.number().min(1),
 });

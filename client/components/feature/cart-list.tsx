@@ -26,7 +26,7 @@ export default function CartList() {
 
   if (cart.length === 0) return <CartListEmpty />;
 
-  const totalPrice = cart.reduce((total, { product, qty }) => total + product.price * (qty / product.batch), 0);
+  const totalPrice = cart.reduce((total, { price, batch, qty }) => total + price * (qty / batch), 0);
 
   return (
     <section className="container grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-8 my-8">
@@ -41,7 +41,7 @@ export default function CartList() {
         </TableHeader>
         <TableBody>
           {cart.map(cartItem => (
-            <CartListItem cartItem={cartItem} key={cartItem.product.id} />
+            <CartListItem cartItem={cartItem} key={cartItem.productId} />
           ))}
         </TableBody>
       </Table>
@@ -70,20 +70,28 @@ function CartListEmpty() {
 }
 
 function CartListItem({ cartItem }: { cartItem: CartItem }) {
-  const { product, qty, id } = cartItem;
-  const { trigger: removeCart } = useRemoveCart({ productId: product.id, cartId: id });
+  const {
+    productId,
+    qty,
+    cartId,
+    batch,
+    name,
+    unit,
+    price,
+  } = cartItem;
+  const { trigger: removeCart } = useRemoveCart({ productId, cartId });
 
   return (
-    <TableRow key={product.id}>
+    <TableRow key={productId}>
       <TableCell className="w-full min-w-32 font-bold">
-        <Link href={`/products/${product.id}`}>
-          {product.name}
+        <Link href={`/products/${productId}`}>
+          {name}
         </Link>
       </TableCell>
       <TableCell>
-        <span>{product.price}$</span>
+        <span>{price}$</span>
         {' '}
-        <span className="text-nowrap">for {product.batch} {product.unit}</span>
+        <span className="text-nowrap">for {batch} {unit}</span>
       </TableCell>
       <TableCell className="text-center">{qty}</TableCell>
       <TableCell className="text-center">

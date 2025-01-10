@@ -5,7 +5,7 @@ import { useGetCarts } from '@/hooks/use-cart';
 
 export function CartPresence({ productId, inCart, notInCart }: { productId: string; notInCart?: ReactNode; inCart?: ReactNode }) {
   const { data: cart = [] } = useGetCarts();
-  const idCartItemExists = cart?.findIndex(item => item.product.id === productId) >= 0;
+  const idCartItemExists = cart?.findIndex(item => item.productId === productId) >= 0;
 
   return (
     <div>

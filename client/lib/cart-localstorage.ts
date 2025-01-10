@@ -32,14 +32,14 @@ export function replaceCartToLocalStorage(newCart: CartItem[]) {
 
 export function removeCartFromLocalStorage(cartProductId: string) {
   const cart = getCartFromLocalStorage();
-  const newCart = cart.filter(item => item.product.id !== cartProductId);
+  const newCart = cart.filter(item => item.productId !== cartProductId);
 
   localStorage.setItem('cart', JSON.stringify(newCart));
 }
 
 export function updateCartFromLocalStorage(cartProductId: string, cartItemUpdate: CartItemUpdate) {
   const cart = getCartFromLocalStorage();
-  const updatedCart = cart.map(item => item.product.id === cartProductId ? { ...item, ...cartItemUpdate } : item);
+  const updatedCart = cart.map(item => item.productId === cartProductId ? { ...item, ...cartItemUpdate } : item);
 
   localStorage.setItem('cart', JSON.stringify(updatedCart));
 }

@@ -15,15 +15,13 @@ export async function getCarts(options: ListOptions = {}): Promise<CartItem[]> {
     return result.map((i) => {
       if (!i.expand?.product) throw new Error('expand.product is not defined.');
       return ({
-        id: i.id,
+        cartId: i.id,
         qty: i.qty,
-        product: {
-          batch: i.expand.product.batch,
-          id: i.expand.product.id,
-          name: i.expand.product.name,
-          price: i.expand.product.price,
-          unit: i.expand.product.unit,
-        },
+        batch: i.expand.product.batch,
+        productId: i.expand.product.id,
+        name: i.expand.product.name,
+        price: i.expand.product.price,
+        unit: i.expand.product.unit,
       });
     });
   } catch {
@@ -54,15 +52,13 @@ export async function addCart({
 
     if (!record.expand?.product) throw new Error('expand.product is not defined.');
     return {
-      id: record.id,
+      cartId: record.id,
       qty: record.qty,
-      product: {
-        batch: record.expand.product.batch,
-        id: record.expand.product.id,
-        name: record.expand.product.name,
-        price: record.expand.product.price,
-        unit: record.expand.product.unit,
-      },
+      batch: record.expand.product.batch,
+      productId: record.expand.product.id,
+      name: record.expand.product.name,
+      price: record.expand.product.price,
+      unit: record.expand.product.unit,
     };
   } catch {
     throw new Error('Failed to add cart. Try again later.');

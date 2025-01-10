@@ -31,7 +31,7 @@ export function useGetCarts() {
       const localRemains = new Set(localCart);
       serverCart.forEach((serverCartItem) => {
         try {
-          const localCartItem = localCart.find(i => i.product.id === serverCartItem.product.id);
+          const localCartItem = localCart.find(i => i.productId === serverCartItem.productId);
 
           if (localCartItem == null) {
             addCartToLocalStorage(serverCartItem);
@@ -39,14 +39,14 @@ export function useGetCarts() {
             localRemains.delete(localCartItem);
           }
         } catch (error) {
-          console.error('🚀 ~ error: \n', error);
+          console.error(error);
         }
       });
 
       await Promise.all(Array.from(localRemains, async (i) => {
         const newCartItem = await addCart({
           qty: i.qty,
-          productId: i.product.id,
+          productId: i.productId,
         });
         if (newCartItem == null) return;
         serverCart.push(newCartItem);
@@ -67,7 +67,8 @@ export function useAddCart() {
     'cart',
     async (_, { arg: { cartItem } }) => {
       if (pb.authStore.isValid) {
-        const serverCart = await addCart({ qty: cartItem.qty, productId: cartItem.product.id });
+        const { productId, qty } = cartItem;
+        const serverCart = await addCart({ qty, productId });
         addCartToLocalStorage(serverCart);
         return serverCart;
       }
@@ -97,7 +98,7 @@ export function useRemoveCart({ cartId, productId }: { cartId?: string; productI
       revalidate: false,
       populateCache(_, currentData) {
         if (!currentData) return [];
-        return currentData.filter(item => item.product.id !== productId);
+        return currentData.filter(item => item.productId !== productId);
       },
     },
   );
@@ -117,7 +118,7 @@ export function useUpdateCart({ cartId, productId }: { cartId?: string; productI
       revalidate: false,
       populateCache(cartItemUpdate, currentData) {
         if (!currentData) return [];
-        return currentData.map(item => item.product.id === productId ? { ...item, ...cartItemUpdate } : item);
+        return currentData.map(item => item.productId === productId ? { ...item, ...cartItemUpdate } : item);
       },
     },
   );
