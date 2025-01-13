@@ -1,20 +1,22 @@
 'use server';
 import type { UserType } from '@/lib/types';
 import type { RecordAuthResponse } from 'pocketbase';
-import { pb } from '@/lib/pocketbase/client';
+import { initPocketBase } from '@/lib/pocketbase/server';
 import { isPocketBaseError } from '@/lib/utils';
 import { cookies } from 'next/headers';
+import { cookieParse } from 'pocketbase';
 
 
 export async function login({ email, password }: { email: string; password: string }): Promise<RecordAuthResponse<UserType>> {
   try {
+    const pb = await initPocketBase();
     const result = await pb.collection('users').authWithPassword(email, password);
+    const cookie = cookieParse(pb.authStore.exportToCookie()).pb_auth as string | undefined;
 
-    const cookie = pb.authStore.exportToCookie().split(';')[0]?.split('=')[1]?.trim();
-
+    if (cookie == null) throw new Error('No cookie');
     const expires = new Date();
     expires.setMonth(expires.getMonth() + 1);
-    (await cookies()).set('pb_auth', cookie ?? '', {
+    (await cookies()).set('pb_auth', cookie, {
       expires,
       httpOnly: true,
       sameSite: 'strict',
@@ -29,6 +31,7 @@ export async function login({ email, password }: { email: string; password: stri
 
 export async function signup({ email, password }: { email: string; password: string }): Promise<UserType> {
   try {
+    const pb = await initPocketBase();
     const result = await pb.collection('users').create({
       email,
       password,
