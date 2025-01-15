@@ -1,5 +1,4 @@
 'use client';
-import type { ComponentProps } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -12,17 +11,21 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { useSearchParamsState } from '@/hooks/use-searchparams-state';
 import { FilterIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import {
+  type Options,
+  parseAsString,
+  useQueryState,
+} from 'nuqs';
+import { type ComponentProps, useEffect } from 'react';
 
 
-const initFilter = {
-  name: '',
-  country: '',
-  category: '',
-  minPrice: '',
-  maxPrice: '',
+const parseOptions: Options = {
+  shallow: false,
+  throttleMs: 700,
 };
+
 
 export default function ProductFilter() {
   return (
@@ -63,9 +66,19 @@ export default function ProductFilter() {
 }
 
 function ProductFilterForm(props: ComponentProps<'form'>) {
-  const [filter, setFilter] = useSearchParamsState(initFilter, {
-    onChange: searchParams => searchParams.delete('page'),
-  });
+  const router = useRouter();
+  const [name, setName] = useQueryState('name', parseAsString.withOptions(parseOptions).withDefault(''));
+  const [country, setCountry] = useQueryState('country', parseAsString.withOptions(parseOptions).withDefault(''));
+  const [category, setCategory] = useQueryState('category', parseAsString.withOptions(parseOptions).withDefault(''));
+  const [minPrice, setMinPrice] = useQueryState('minPrice', parseAsString.withOptions(parseOptions).withDefault(''));
+  const [maxPrice, setMaxPrice] = useQueryState('maxPrice', parseAsString.withOptions(parseOptions).withDefault(''));
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.delete('page');
+    router.replace(`?${searchParams}`);
+  }, [router, name, country, category, minPrice, maxPrice]);
+
 
   return (
     <form {...props}>
@@ -73,8 +86,8 @@ function ProductFilterForm(props: ComponentProps<'form'>) {
         Name:
         <Input
           placeholder="Potato"
-          value={filter.name}
-          onChange={e => setFilter({ name: e.target.value })}
+          value={name}
+          onChange={async e => setName(e.target.value)}
         />
       </label>
 
@@ -82,8 +95,8 @@ function ProductFilterForm(props: ComponentProps<'form'>) {
         Country:
         <Input
           placeholder="Peru"
-          value={filter.country}
-          onChange={e => setFilter({ country: e.target.value })}
+          value={country}
+          onChange={async e => setCountry(e.target.value)}
         />
       </label>
 
@@ -91,8 +104,8 @@ function ProductFilterForm(props: ComponentProps<'form'>) {
         Category:
         <Input
           placeholder="Vegetables"
-          value={filter.category}
-          onChange={e => setFilter({ category: e.target.value })}
+          value={category}
+          onChange={async e => setCategory(e.target.value)}
         />
       </label>
 
@@ -103,21 +116,23 @@ function ProductFilterForm(props: ComponentProps<'form'>) {
             max={100}
             placeholder="0"
             type="number"
-            value={filter.minPrice}
-            onChange={e => setFilter({ minPrice: e.target.value })}
+            value={minPrice}
+            onChange={async e => setMinPrice(e.target.value)}
           />
           <span>-</span>
           <Input
             placeholder="10000"
             type="number"
-            value={filter.maxPrice}
-            onChange={e => setFilter({ maxPrice: e.target.value })}
+            value={maxPrice}
+            onChange={async e => setMaxPrice(e.target.value)}
           />
         </div>
       </label>
       <Button
         type="button"
-        onClick={() => setFilter(initFilter)}
+        onClick={() => {
+          router.replace('?');
+        }}
       >
         Clear
       </Button>
