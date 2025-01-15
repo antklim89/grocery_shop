@@ -30,38 +30,61 @@ const parseOptions: Options = {
 export default function ProductFilter() {
   return (
     <>
-      <aside className="hidden lg:block">
-        <h2 className="text-2xl font-bold mb-8">Filter</h2>
-        <ProductFilterForm className="flex flex-col gap-8" />
-      </aside>
-
-      <Dialog>
-        <div className="flex lg:hidden justify-end">
-          <DialogTrigger asChild aria-label="Filter products">
-            <Button>
-              <span className="text-lg mr-4">Filter</span>
-              <FilterIcon />
-            </Button>
-          </DialogTrigger>
-        </div>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>
-              Filter
-            </DialogTitle>
-            <DialogDescription>
-              Products filter.
-            </DialogDescription>
-          </DialogHeader>
-          <ProductFilterForm className="flex flex-col gap-8" />
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button>Close</Button>
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <ProductFilterAside />
+      <ProductFilterDialog />
     </>
+  );
+}
+
+function ProductFilterAside() {
+  const router = useRouter();
+
+  return (
+    <aside className="hidden lg:block">
+      <h2 className="text-2xl font-bold mb-8">Filter</h2>
+      <ProductFilterForm className="flex flex-col gap-8" />
+      <Button className="my-4 w-full" type="button" onClick={() => router.replace('?')}>
+        Clear
+      </Button>
+    </aside>
+  );
+}
+
+function ProductFilterDialog() {
+  const router = useRouter();
+
+  return (
+    <Dialog>
+      <div className="flex lg:hidden justify-end">
+        <DialogTrigger asChild aria-label="Filter products">
+          <Button>
+            <span className="text-lg mr-4">Filter</span>
+            <FilterIcon />
+          </Button>
+        </DialogTrigger>
+      </div>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>
+            Filter
+          </DialogTitle>
+          <DialogDescription>
+            Products filter.
+          </DialogDescription>
+        </DialogHeader>
+        <ProductFilterForm className="flex flex-col gap-8" />
+        <DialogFooter className="flex justify-end flex-row gap-2">
+          <DialogClose asChild>
+            <Button variant="outline">
+              Close
+            </Button>
+          </DialogClose>
+          <Button type="button" onClick={() => router.replace('?')}>
+            Clear
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
 
@@ -128,14 +151,6 @@ function ProductFilterForm(props: ComponentProps<'form'>) {
           />
         </div>
       </label>
-      <Button
-        type="button"
-        onClick={() => {
-          router.replace('?');
-        }}
-      >
-        Clear
-      </Button>
     </form>
   );
 }
