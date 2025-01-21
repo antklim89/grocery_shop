@@ -6,6 +6,7 @@ import { isPocketBaseError } from '@/lib/utils';
 
 
 const GET_PRODUCTS_FILTER_QUERY = 'name ~ {:name} && country ~ {:country} && category ~ {:category} && price >= {:minPrice} && price <= {:maxPrice}';
+const GET_PRODUCTS_SEARCH_QUERY = 'name ~ {:search} || country ~ {:search} || category ~ {:search}';
 
 interface GetProductsArguments {
   page?: number;
@@ -19,6 +20,7 @@ interface GetProductsArguments {
     minPrice?: string;
     maxPrice?: string;
     page?: string;
+    search?: string;
   };
 }
 
@@ -33,19 +35,23 @@ export async function getProducts({
     category = '',
     minPrice = '0',
     maxPrice = '',
+    search,
   } = {},
 }: GetProductsArguments): Promise<ListResult<ProductsResponse<unknown>>> {
   try {
     const pb = await initPocketBase();
 
-    const filter = pb.filter(GET_PRODUCTS_FILTER_QUERY, {
-      name,
-      country,
-      category,
-      page,
-      minPrice,
-      maxPrice,
-    });
+    const filter = search != null
+      ? pb.filter(GET_PRODUCTS_SEARCH_QUERY, { search })
+      : pb.filter(GET_PRODUCTS_FILTER_QUERY, {
+          name,
+          country,
+          category,
+          page,
+          minPrice,
+          maxPrice,
+        });
+
     const result = await pb
       .collection('products')
       .getList(page, Math.min(perPage, 100), { sort, skipTotal, filter });
