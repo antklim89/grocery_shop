@@ -98,8 +98,9 @@ function ProductFilterForm(props: ComponentProps<'form'>) {
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
+    if (!searchParams.has('page')) return;
     searchParams.delete('page');
-    router.replace(`?${searchParams}`);
+    router.replace(`?${searchParams}`, { scroll: false });
   }, [router, name, country, category, minPrice, maxPrice]);
 
 
